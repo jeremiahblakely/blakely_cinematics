@@ -833,6 +833,54 @@ footer {
     transform: translateY(-5px);
 }
 
+.helpful-links {
+    margin: 3rem 0;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.02);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.helpful-links h3 {
+    font-size: 1.3rem;
+    font-weight: 400;
+    letter-spacing: 0.2rem;
+    margin-bottom: 1.5rem;
+    color: var(--light);
+    text-transform: uppercase;
+}
+
+.links-grid {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.links-grid a {
+    padding: 12px 24px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 25px;
+    color: rgba(255, 255, 255, 0.9);
+    transition: all 0.3s ease;
+    cursor: none;
+    font-size: 0.95rem;
+    letter-spacing: 0.1rem;
+    font-weight: 400;
+    min-width: 140px;
+    display: inline-block;
+}
+
+.links-grid a:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--light);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
+}
+
 .copyright {
     color: rgba(255, 255, 255, 0.5);
     font-size: 0.9rem;
@@ -945,8 +993,30 @@ footer {
     .testimonial-dot,
     .form-group input,
     .form-group textarea,
-    .social-links a {
+    .social-links a,
+    .links-grid a {
         cursor: pointer;
+    }
+
+    .helpful-links {
+        padding: 2rem 1rem;
+        margin: 2rem 0;
+    }
+
+    .helpful-links h3 {
+        font-size: 1.1rem;
+    }
+
+    .links-grid {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .links-grid a {
+        width: 100%;
+        max-width: 250px;
+        text-align: center;
     }
 
     .section-title {

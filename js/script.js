@@ -119,8 +119,104 @@ function initNavigation() {
 /* 5. HERO SLIDER                              */
 /* ============================================ */
 function initHeroSlider() {
+    const heroSlider = document.querySelector('.hero-slider');
+    if (!heroSlider) return;// Hero image data with S3 URLs (expanded selection)
+    const heroImages = [
+        {
+            name: 'Art Portrait',
+            slug: 'art1',
+            alt: 'Dramatic Artistic Portrait with Cinematic Lighting'
+        },
+        {
+            name: 'Jan Portrait 1',
+            slug: 'jan1',
+            alt: 'Professional Cinematic Portrait'
+        },
+        {
+            name: 'Jan Portrait 2',
+            slug: 'jan2',
+            alt: 'Dramatic Light Study Portrait'
+        },
+        {
+            name: 'Jan Portrait 3',
+            slug: 'jan3',
+            alt: 'Creative Portrait Photography'
+        },
+        {
+            name: 'Wolf Portrait 1',
+            slug: 'wolf1',
+            alt: 'Intense Character Portrait'
+        },
+        {
+            name: 'Wolf Portrait 2',
+            slug: 'wolf2',
+            alt: 'Moody Cinematic Portrait'
+        },
+        {
+            name: 'Bruno & Jan',
+            slug: 'brono&jan',
+            alt: 'Dynamic Duo Portrait Session'
+        },
+        {
+            name: 'Rod & Sus',
+            slug: 'rod&sus',
+            alt: 'Couple Portrait Session'
+        }
+    ];
+    
+    function getImageUrl(imageName) {
+const urls = {
+'art1': 'https://blakely-cinematics.s3.us-east-1.amazonaws.com/images/hero/4k/hero%3Aart1-bg-4k.jpg',
+'jan1': 'https://blakely-cinematics.s3.us-east-1.amazonaws.com/images/hero/4k/hero%3Ajan1-bg-4k.jpg',
+'jan2': 'https://blakely-cinematics.s3.us-east-1.amazonaws.com/images/hero/4k/hero%3Ajan2-bg-4k.jpg',
+'jan3': 'https://blakely-cinematics.s3.us-east-1.amazonaws.com/images/hero/4k/hero%3Ajan3-bg-4k.jpg',
+'wolf1': 'https://blakely-cinematics.s3.us-east-1.amazonaws.com/images/hero/4k/hero%3Awolf1-bg-4k.jpg',
+'wolf2': 'https://blakely-cinematics.s3.us-east-1.amazonaws.com/images/hero/4k/hero%3Awolf2-bg-4k.jpg',
+'brono&jan': 'https://blakely-cinematics.s3.us-east-1.amazonaws.com/images/hero/4k/hero%3Abrono%26jan-bg-4k.jpg',
+'rod&sus': 'https://blakely-cinematics.s3.us-east-1.amazonaws.com/images/hero/4k/hero%3Arod%26sus-bg-4k.jpg'
+};
+return urls[imageName];
+}
+    
+    // Create slide elements
+    function createSlides() {
+        heroSlider.innerHTML = ''; // Clear existing slides
+        
+        heroImages.forEach((image, index) => {
+            const slide = document.createElement('div');
+            slide.className = index === 0 ? 'slide active' : 'slide';
+            
+            const img = document.createElement('img');
+            img.src = getImageUrl(image.slug);
+            img.alt = image.alt;
+            img.loading = index === 0 ? 'eager' : 'lazy'; // Load first image immediately
+            
+            // Handle image load errors
+            img.onerror = function() {
+                console.warn(`Failed to load hero image: ${image.name}`);
+            };
+            
+            slide.appendChild(img);
+            heroSlider.appendChild(slide);
+        });
+    }
+    
+    // Initialize slides
+    createSlides();
+    
     const slides = document.querySelectorAll('.slide');
     if (slides.length === 0) return;
+    
+    // Preload next few images
+    function preloadImages() {
+        const preloadCount = Math.min(2, heroImages.length - 1); // Reduced preload count
+        
+        for (let i = 1; i <= preloadCount; i++) {
+            const nextIndex = (currentSlide + i) % heroImages.length;
+            const img = new Image();
+            img.src = getImageUrl(heroImages[nextIndex].slug);
+        }
+    }
     
     function nextSlide() {
         // Remove active class from current slide
@@ -131,10 +227,28 @@ function initHeroSlider() {
         
         // Add active class to new slide
         slides[currentSlide].classList.add('active');
+        
+        // Preload upcoming images
+        preloadImages();
     }
     
-    // Change slide every 5 seconds
-    setInterval(nextSlide, 5000);
+    // Start preloading after initial load
+    setTimeout(preloadImages, 1000);
+    
+    // Change slide every 6 seconds (slightly longer for better viewing)
+    const slideInterval = setInterval(nextSlide, 6000);
+    
+    // Pause on hover (optional)
+    heroSlider.addEventListener('mouseenter', () => {
+        clearInterval(slideInterval);
+    });
+    
+    let resumeInterval;
+    heroSlider.addEventListener('mouseleave', () => {
+        resumeInterval = setInterval(nextSlide, 6000);
+    });
+    
+    // No need for resize handling since we're using consistent 1080p images
 }
 
 /* ============================================ */
