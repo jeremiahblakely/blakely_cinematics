@@ -346,46 +346,9 @@ function initSmoothScrolling() {
 }
 
 /* ============================================ */
-/* 9. FORM HANDLING                            */
+/* 9. FORM HANDLING - MOVED TO DOMContentLoaded */
 /* ============================================ */
-function initFormHandling() {
-    const contactForm = document.getElementById('contactForm');
-    
-    if (!contactForm) return;
-    
-    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Get form data
-        const formData = {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            service: document.getElementById('service').value,
-            message: document.getElementById('message').value
-        };
-        
-        // Log form data (replace with actual form submission)
-        console.log('Form submitted:', formData);
-        
-        // Show success message
-        const button = this.querySelector('button[type="submit"]');
-        const originalText = button.textContent;
-        button.textContent = 'MESSAGE SENT!';
-        button.style.background = '#D4AF37'; // Gold color
-        
-        // Reset form
-        this.reset();
-        
-        // Reset button after 3 seconds
-        setTimeout(() => {
-            button.textContent = originalText;
-            button.style.background = '';
-        }, 3000);
-        
-        // TODO: Add actual form submission logic here
-        // You can use services like Formspree, EmailJS, or Netlify Forms
-    });
-}
+/* Contact form handler is now inline within DOMContentLoaded */
 
 /* ============================================ */
 /* 10. SCROLL ANIMATIONS                       */
@@ -423,6 +386,7 @@ function initScrollAnimations() {
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Blakely Cinematics website initialized');
+    console.log('🔧 DEBUGGING: Starting contact form setup...');
     
     // Initialize all components
     initCustomCursor();
@@ -432,8 +396,127 @@ document.addEventListener('DOMContentLoaded', function() {
     initPortfolioFilter();
     initTestimonialSlider();
     initSmoothScrolling();
-    initFormHandling();
     initScrollAnimations();
+    
+    // Contact Form Handler - WORKING VERSION
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: '',
+                service: document.getElementById('service').value,
+                message: document.getElementById('message').value
+            };
+            
+            console.log('Sending to AWS:', formData);
+            
+            const submitBtn = contactForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+            
+            try {
+                const response = await fetch('https://hhk9mnddq4.execute-api.us-east-1.amazonaws.com/prod/contact', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(formData)
+                });
+                const result = await response.json();
+                console.log('Success:', result);
+                
+                // Create overlay for success animation
+                const overlay = document.createElement('div');
+                overlay.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(0, 0, 0, 0.8);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 9999;
+                    backdrop-filter: blur(5px);
+                    animation: fadeIn 0.3s ease;
+                `;
+
+                const successCard = document.createElement('div');
+                successCard.style.cssText = `
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    color: white;
+                    padding: 40px;
+                    border-radius: 20px;
+                    text-align: center;
+                    max-width: 400px;
+                    animation: slideUp 0.5s ease, pulse 2s infinite;
+                    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+                `;
+
+                successCard.innerHTML = `
+                    <div style="font-size: 60px; margin-bottom: 20px; animation: checkmark 0.8s ease;">✓</div>
+                    <h2 style="margin: 0 0 10px 0; font-size: 28px;">Message Sent!</h2>
+                    <p style="margin: 0; opacity: 0.9; font-size: 16px;">Thank you for reaching out. I'll get back to you soon!</p>
+                `;
+
+                overlay.appendChild(successCard);
+                document.body.appendChild(overlay);
+
+                // Add animations
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes fadeIn {
+                        from { opacity: 0; }
+                        to { opacity: 1; }
+                    }
+                    @keyframes fadeOut {
+                        from { opacity: 1; }
+                        to { opacity: 0; }
+                    }
+                    @keyframes slideUp {
+                        from { transform: translateY(30px); opacity: 0; }
+                        to { transform: translateY(0); opacity: 1; }
+                    }
+                    @keyframes checkmark {
+                        0% { transform: scale(0) rotate(45deg); }
+                        50% { transform: scale(1.2) rotate(45deg); }
+                        100% { transform: scale(1) rotate(0); }
+                    }
+                    @keyframes pulse {
+                        0%, 100% { transform: scale(1); }
+                        50% { transform: scale(1.02); }
+                    }
+                `;
+                document.head.appendChild(style);
+
+                // Remove overlay after 3 seconds
+                setTimeout(() => {
+                    overlay.style.animation = 'fadeOut 0.5s ease';
+                    setTimeout(() => overlay.remove(), 500);
+                }, 3000);
+
+                // Clear and reset form
+                contactForm.reset();
+            } catch (error) {
+                console.error('Error:', error);
+                
+                const errorMessage = document.createElement('div');
+                errorMessage.className = 'form-error-message';
+                errorMessage.textContent = 'Sorry, there was an error. Please try again.';
+                errorMessage.style.cssText = 'color: #f44336; margin-top: 10px; font-weight: 500;';
+                contactForm.appendChild(errorMessage);
+                setTimeout(() => errorMessage.remove(), 5000);
+            } finally {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+        console.log('Contact form handler attached successfully!');
+    }
 });
 
 // Handle window resize
