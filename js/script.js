@@ -257,6 +257,7 @@ return urls[imageName];
 function initPortfolioFilter() {
     const filterButtons = document.querySelectorAll('.filter-btn');
     const portfolioItems = document.querySelectorAll('.portfolio-item');
+    const portfolioGrid = document.querySelector('.portfolio-grid');
     
     if (filterButtons.length === 0) return;
     
@@ -267,6 +268,16 @@ function initPortfolioFilter() {
             // Update active button
             filterButtons.forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
+            
+            // Update grid classes for layout changes
+            portfolioGrid.classList.remove('creative-active', 'cinematic-active', 'headshots-active');
+            if (filter === 'creative') {
+                portfolioGrid.classList.add('creative-active');
+            } else if (filter === 'cinematic') {
+                portfolioGrid.classList.add('cinematic-active');
+            } else if (filter === 'headshots') {
+                portfolioGrid.classList.add('headshots-active');
+            }
             
             // Filter portfolio items
             portfolioItems.forEach(item => {

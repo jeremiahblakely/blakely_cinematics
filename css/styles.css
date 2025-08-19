@@ -566,7 +566,7 @@ nav.scrolled {
 
 .portfolio-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    grid-template-columns: repeat(12, 1fr);
     gap: 2rem;
     max-width: 1400px;
     margin: 0 auto;
@@ -575,10 +575,41 @@ nav.scrolled {
 .portfolio-item {
     position: relative;
     overflow: hidden;
-    height: 500px;
     cursor: none;
     opacity: 0;
     animation: fadeInUp 0.8s ease forwards;
+}
+
+/* Desktop Layout Rules */
+@media (min-width: 1024px) {
+    /* Headshots: 3 per row (always) */
+    .portfolio-item.headshots {
+        grid-column: span 4; /* 12÷3 = 4 columns each */
+        height: 600px; /* Taller for 5:7 aspect ratio */
+    }
+    
+    /* Creative: always 2 per row (16:9 aspect ratio) */
+    .portfolio-item.creative {
+        grid-column: span 6; /* 12÷2 = 6 columns each (2 per row always) */
+        height: 450px; /* Height for 16:9 aspect ratio */
+    }
+    
+    /* Cinematic: always 2 per row (16:9 aspect ratio) */
+    .portfolio-item.cinematic {
+        grid-column: span 6; /* 12÷2 = 6 columns each (2 per row always) */
+        height: 450px; /* Height for 16:9 aspect ratio */
+    }
+}
+
+/* Default mobile/tablet layout */
+@media (max-width: 1023px) {
+    .portfolio-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .portfolio-item {
+        height: 400px;
+    }
 }
 
 .portfolio-item:nth-child(1) { animation-delay: 0.1s; }
@@ -593,6 +624,18 @@ nav.scrolled {
     height: 100%;
     object-fit: cover;
     transition: transform 0.8s ease;
+}
+
+/* Aspect Ratio Enforcement */
+.portfolio-item.headshots img {
+    object-fit: cover;
+    object-position: center top; /* Focus on face/upper body for headshots */
+}
+
+.portfolio-item.creative img,
+.portfolio-item.cinematic img {
+    object-fit: cover;
+    object-position: center center; /* Center focus for creative/cinematic */
 }
 
 .portfolio-overlay {
