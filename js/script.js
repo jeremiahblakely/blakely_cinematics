@@ -517,6 +517,55 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         console.log('Contact form handler attached successfully!');
     }
+    
+    // Show/hide custom project field
+    const serviceSelect = document.getElementById('service');
+    if (serviceSelect) {
+        serviceSelect.addEventListener('change', function() {
+            const customDiv = document.getElementById('custom-project-details');
+            if (customDiv) {
+                customDiv.style.display = this.value === 'custom' ? 'block' : 'none';
+            }
+        });
+    }
+    
+    // Character counter for textareas
+    const textareas = document.querySelectorAll('textarea[maxlength]');
+    textareas.forEach(textarea => {
+        const counter = textarea.nextElementSibling;
+        if (counter && counter.classList.contains('char-counter')) {
+            textarea.addEventListener('input', function() {
+                counter.textContent = `${this.value.length}/${this.maxLength} characters`;
+            });
+        }
+    });
+    
+    // Instagram @ auto-add functionality
+    const instagramInput = document.getElementById('instagram');
+    if (instagramInput) {
+        instagramInput.addEventListener('focus', function() {
+            if (!this.value) {
+                this.value = '@';
+            }
+        });
+        
+        instagramInput.addEventListener('input', function() {
+            if (!this.value.startsWith('@') && this.value.length > 0) {
+                this.value = '@' + this.value;
+            }
+            if (this.value === '@') {
+                // Allow user to clear the field completely
+            }
+        });
+        
+        instagramInput.addEventListener('keydown', function(e) {
+            // Prevent deleting the @ sign
+            if (e.key === 'Backspace' && this.selectionStart <= 1) {
+                e.preventDefault();
+                this.value = '';
+            }
+        });
+    }
 });
 
 // Handle window resize

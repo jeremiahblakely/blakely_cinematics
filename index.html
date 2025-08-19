@@ -112,35 +112,41 @@
             <h2 class="section-title">PREMIUM SERVICES</h2>
         </div>
         <div class="services-grid">
-            <article class="service-card">
-                <div class="service-icon">📸</div>
-                <h3 class="service-title">Cinematic Portraits</h3>
-                <p class="service-description">
-                    Transform your vision into Hollywood-quality imagery with dramatic lighting, 
-                    professional direction, and cinematic post-processing that tells your story.
-                </p>
-                <div class="service-price">FROM $599</div>
-            </article>
+            <a href="services.html" class="service-card-link" style="text-decoration: none; color: inherit;">
+                <article class="service-card">
+                    <div class="service-icon">📸</div>
+                    <h3 class="service-title">Signature Cinematic</h3>
+                    <p class="service-description">
+                        Transform your vision into Hollywood-quality imagery with dramatic lighting, 
+                        professional direction, and cinematic post-processing that tells your story.
+                    </p>
+                    <div class="service-price">FROM $450</div>
+                </article>
+            </a>
             
-            <article class="service-card">
-                <div class="service-icon">🎬</div>
-                <h3 class="service-title">Professional Headshots</h3>
-                <p class="service-description">
-                    Make a lasting impression with executive headshots that capture your professional 
-                    essence. Perfect for LinkedIn, corporate websites, and marketing materials.
-                </p>
-                <div class="service-price">FROM $399</div>
-            </article>
+            <a href="services.html" class="service-card-link" style="text-decoration: none; color: inherit;">
+                <article class="service-card">
+                    <div class="service-icon">🎬</div>
+                    <h3 class="service-title">Essential</h3>
+                    <p class="service-description">
+                        Make a lasting impression with executive headshots that capture your professional 
+                        essence. Perfect for LinkedIn, corporate websites, and marketing materials.
+                    </p>
+                    <div class="service-price">FROM $250</div>
+                </article>
+            </a>
             
-            <article class="service-card">
-                <div class="service-icon">✨</div>
-                <h3 class="service-title">Creative Sessions</h3>
-                <p class="service-description">
-                    Unleash your creativity with conceptual photography sessions. From fashion editorials 
-                    to artistic portraits, we bring your wildest ideas to life.
-                </p>
-                <div class="service-price">FROM $799</div>
-            </article>
+            <a href="services.html" class="service-card-link" style="text-decoration: none; color: inherit;">
+                <article class="service-card">
+                    <div class="service-icon">✨</div>
+                    <h3 class="service-title">Creative</h3>
+                    <p class="service-description">
+                        Unleash your creativity with conceptual photography sessions. From fashion editorials 
+                        to artistic portraits, we bring your wildest ideas to life.
+                    </p>
+                    <div class="service-price">FROM $575</div>
+                </article>
+            </a>
         </div>
     </section>
     
@@ -299,14 +305,41 @@
                     <label for="email">Email Address</label>
                 </div>
                 
+                <!-- Add after email field -->
                 <div class="form-group">
-                    <input type="text" id="service" placeholder=" " required>
-                    <label for="service">Service Interest</label>
+                    <input type="text" 
+                           id="instagram" 
+                           name="instagram" 
+                           placeholder=" "
+                           pattern="^@[a-zA-Z0-9._]{1,30}$"
+                           maxlength="31">
+                    <label for="instagram">Instagram</label>
                 </div>
                 
                 <div class="form-group">
-                    <textarea id="message" rows="5" placeholder=" " required></textarea>
-                    <label for="message">Tell Me Your Vision</label>
+                    <select id="service" name="service" required>
+                        <option value="">Select a Service...</option>
+                        <option value="essential">Essential - $250</option>
+                        <option value="signature">Signature Cinematic - $450</option>
+                        <option value="creative">Creative - $575</option>
+                        <option value="custom">Custom Project (explain below)</option>
+                    </select>
+                </div>
+                
+                <div id="custom-project-details" style="display: none; margin-top: 15px;">
+                    <label for="custom-details">Describe Your Custom Project</label>
+                    <textarea 
+                        id="custom-details" 
+                        name="custom_details" 
+                        placeholder="Tell me about your vision..."
+                        maxlength="500"
+                        rows="3"></textarea>
+                    <small class="char-counter">0/500 characters</small>
+                </div>
+                
+                <div class="form-group">
+                    <textarea id="message" name="message" rows="5" required maxlength="1000" placeholder="Tell me about your vision..."></textarea>
+                    <small class="char-counter">0/1000 characters</small>
                 </div>
                 
                 <button type="submit" class="btn btn-primary">SEND MESSAGE</button>
@@ -315,30 +348,55 @@
     </section>
     
     <!-- Footer -->
-    <footer>
-        <div class="social-links">
-            <!-- Business Instagram -->
-            <a href="https://instagram.com/blakely_cinematics" target="_blank" aria-label="Blakely Cinematics Instagram">📷</a>
-            <!-- Personal Instagram -->
-            <a href="https://instagram.com/jeremiahblakely" target="_blank" aria-label="Jeremiah Blakely Instagram">👤</a>
-            <!-- Other social links commented out until available -->
-            <!-- <a href="#" aria-label="YouTube">🎬</a> -->
-            <!-- <a href="#" aria-label="LinkedIn">💼</a> -->
-        </div>
-        
-        <!-- Helpful Links -->
-        <div class="helpful-links">
-            <h3>Helpful Links</h3>
-            <div class="links-grid">
-                <a href="preparation.html">Preparation Guide</a>
-                <a href="vendors.html">Makeup Artists & Stylists</a>
-                <a href="faq.html">FAQ</a>
+    <footer class="elegant-footer">
+        <div class="footer-container">
+            <div class="footer-social">
+                <p>Follow My Journey</p>
+                <div class="social-icons">
+                    <a href="https://instagram.com/jeremiahblakely" aria-label="Personal Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://instagram.com/blakely_cinematics" aria-label="Business Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://facebook.com/blakelycinematic" aria-label="Facebook">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="https://tiktok.com/@blakelycinematic" aria-label="TikTok">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                </div>
+                <p class="social-handle">@jeremiahblakely | @blakely_cinematics</p>
+            </div>
+            
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <a href="#portfolio">Portfolio</a>
+                    <a href="services.html">Services</a>
+                    <a href="#about">About</a>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Get Prepared</h4>
+                    <a href="preparation.html">Preparation Guide</a>
+                    <a href="vendors.html">Recommended Vendors</a>
+                    <a href="faq.html">FAQ</a>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Contact</h4>
+                    <p>323.555.0100</p>
+                    <a href="mailto:jeremiah.blakely@gmail.com">hello@blakelycinematic.com</a>
+                    <p>Los Angeles, CA</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <hr class="footer-divider">
+                <p>© 2024 Blakely Cinematics. All rights reserved.</p>
             </div>
         </div>
-        
-        <p class="copyright">
-            © 2024 BLAKELY CINEMATICS | CRAFTING VISUAL EXCELLENCE
-        </p>
     </footer>
     
     <!-- JavaScript -->
