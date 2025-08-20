@@ -392,6 +392,30 @@ function initScrollAnimations() {
 }
 
 /* ============================================ */
+/* 10. VIP LOGIN FORM                          */
+/* ============================================ */
+function initVIPForm() {
+    const vipForm = document.getElementById('vip-login-form');
+    
+    if (vipForm) {
+        vipForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const galleryCode = document.getElementById('gallery-code').value;
+            const password = document.getElementById('vip-password').value;
+            
+            console.log('🔐 VIP Login Attempt:');
+            console.log('Gallery Code:', galleryCode);
+            console.log('Password:', password);
+            console.log('-------------------');
+            
+            // TODO: Connect to backend authentication
+            alert('VIP login functionality will be connected to backend soon!');
+        });
+    }
+}
+
+/* ============================================ */
 /* 11. INITIALIZATION                          */
 /* ============================================ */
 // Wait for DOM to be fully loaded
@@ -406,6 +430,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initHeroSlider();
     initPortfolioFilter();
     initTestimonialSlider();
+    initVIPForm();
     initSmoothScrolling();
     initScrollAnimations();
     

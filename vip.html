@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIP Client Access - Blakely Cinematics</title>
+    <meta name="description" content="Exclusive VIP client gallery access for Blakely Cinematics">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- AWS CloudWatch RUM Analytics -->
+    <script>
+      (function(n,i,v,r,s,c,x,z){x=window.AwsRumClient={q:[],n:i,i:i,v:v,r:r,c:c};window[n]=function(c,p){x.q.push({c:c,p:p});};z=document.createElement('script');z.async=true;z.src=s;document.head.insertBefore(z,document.head.getElementsByTagName('script')[0]);})(
+        'cwr',
+        '1a163e06-eb6a-4131-bdb1-6e27fbb0799c',
+        '1.0.0',
+        'us-east-1',
+        'https://client.rum.us-east-1.amazonaws.com/1.19.0/cwr.js',
+        {
+          sessionSampleRate: 1 ,
+          endpoint: "https://dataplane.rum.us-east-1.amazonaws.com" ,
+          telemetries: ["performance","errors","http"] ,
+          allowCookies: true ,
+          enableXRay: false ,
+          signing: true
+        }
+      );
+    </script>
+</head>
+<body class="vip-page">
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+    
+    <!-- Minimal Navigation -->
+    <nav class="vip-nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo">BLAKELY</a>
+            <a href="index.html" class="back-link">← Back to Main Site</a>
+        </div>
+    </nav>
+    
+    <!-- VIP Client Access Section -->
+    <section class="vip-access-page" id="vip">
+        <div class="vip-content">
+            <div class="vip-header">
+                <h1 class="vip-title">VIP CLIENT ACCESS</h1>
+                <p class="vip-subtitle">Enter your exclusive gallery</p>
+            </div>
+            
+            <div class="vip-container">
+                <form id="vip-login-form" class="vip-form">
+                    <div class="form-group">
+                        <input type="text" id="gallery-code" name="gallery_code" placeholder=" " required>
+                        <label for="gallery-code">Gallery Code</label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="password" id="vip-password" name="password" placeholder=" " required>
+                        <label for="vip-password">Password</label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary vip-btn">ACCESS GALLERY</button>
+                </form>
+                
+                <div class="vip-info">
+                    <p>Don't have access codes? <a href="index.html#contact">Contact us</a> to inquire about VIP gallery access.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Minimal Footer -->
+    <footer class="vip-footer">
+        <div class="footer-container">
+            <p>&copy; 2024 Blakely Cinematics. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <!-- JavaScript -->
+    <script>
+        // VIP Login Authentication - AWS API Integration
+        document.addEventListener('DOMContentLoaded', function() {
+            const vipForm = document.getElementById('vip-login-form');
+            const API_URL = 'https://0n42z2wsrj.execute-api.us-east-1.amazonaws.com/prod/authenticate';
+            
+            function showMessage(message, type) {
+                let messageEl = document.querySelector('.vip-message');
+                if (!messageEl) {
+                    messageEl = document.createElement('div');
+                    messageEl.className = 'vip-message';
+                    messageEl.style.textAlign = 'center';
+                    messageEl.style.marginTop = '1rem';
+                    messageEl.style.fontSize = '0.9rem';
+                    vipForm.appendChild(messageEl);
+                }
+                
+                messageEl.textContent = message;
+                messageEl.style.color = type === 'error' ? '#ef4444' : 
+                                       type === 'loading' ? '#f59e0b' : '#10b981';
+            }
+            
+            async function handleLogin(e) {
+                e.preventDefault();
+                
+                const galleryCode = document.getElementById('gallery-code').value.trim();
+                const password = document.getElementById('vip-password').value.trim();
+                const submitBtn = document.querySelector('.vip-btn');
+                const originalText = submitBtn.textContent;
+                
+                console.log('🔐 VIP Login Attempt:', galleryCode, password);
+                
+                // Show loading message
+                showMessage('Authenticating...', 'loading');
+                submitBtn.textContent = 'Authenticating...';
+                submitBtn.disabled = true;
+                
+                try {
+                    const response = await fetch(API_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            galleryCode: galleryCode,
+                            password: password
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    console.log('📡 API Response:', data);
+                    
+                    if (data.success) {
+                        console.log('✅ Authentication successful - storing gallery info');
+                        
+                        // Store gallery info for the gallery page
+                        sessionStorage.setItem('galleryInfo', JSON.stringify(data.gallery));
+                        sessionStorage.setItem('authenticated', 'true');
+                        
+                        showMessage('Success! Redirecting to gallery...', 'success');
+                        
+                        // Redirect to gallery
+                        setTimeout(() => {
+                            window.location.href = 'gallery.html';
+                        }, 500);
+                    } else {
+                        console.log('❌ Authentication failed - invalid credentials');
+                        showMessage('Invalid credentials', 'error');
+                        vipForm.reset();
+                        
+                        // Reset button
+                        submitBtn.textContent = originalText;
+                        submitBtn.disabled = false;
+                        
+                        // Focus back to first input
+                        document.getElementById('gallery-code').focus();
+                    }
+                } catch (error) {
+                    console.error('🚨 Login error:', error);
+                    showMessage('Connection error. Please try again.', 'error');
+                    
+                    // Reset button
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                }
+            }
+            
+            vipForm.addEventListener('submit', handleLogin);
+            
+            // Initialize custom cursor if available
+            if (typeof initCustomCursor === 'function') {
+                initCustomCursor();
+            }
+        });
+    </script>
+    <script src="js/script.js"></script>
+</body>
+</html>

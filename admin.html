@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Blakely Cinematics</title>
+    <meta name="description" content="Admin control center for Blakely Cinematics gallery management">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- AWS CloudWatch RUM Analytics -->
+    <script>
+      (function(n,i,v,r,s,c,x,z){x=window.AwsRumClient={q:[],n:i,i:i,v:v,r:r,c:c};window[n]=function(c,p){x.q.push({c:c,p:p});};z=document.createElement('script');z.async=true;z.src=s;document.head.insertBefore(z,document.head.getElementsByTagName('script')[0]);})(
+        'cwr',
+        '1a163e06-eb6a-4131-bdb1-6e27fbb0799c',
+        '1.0.0',
+        'us-east-1',
+        'https://client.rum.us-east-1.amazonaws.com/1.19.0/cwr.js',
+        {
+          sessionSampleRate: 1 ,
+          endpoint: "https://dataplane.rum.us-east-1.amazonaws.com" ,
+          telemetries: ["performance","errors","http"] ,
+          allowCookies: true ,
+          enableXRay: false ,
+          signing: true
+        }
+      );
+    </script>
+</head>
+<body class="admin-page">
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+    
+    <!-- Admin Header -->
+    <nav class="admin-nav">
+        <div class="nav-container">
+            <h1 class="admin-logo">BLAKELY ADMIN</h1>
+            <a href="index.html" class="admin-sign-out">Sign Out</a>
+        </div>
+    </nav>
+    
+    <!-- Admin Dashboard -->
+    <main class="admin-dashboard">
+        
+        <!-- Section 1: Active Galleries -->
+        <section class="admin-section active-galleries">
+            <div class="section-header">
+                <h2 class="section-title">Active Galleries</h2>
+                <span class="section-count">3 galleries</span>
+            </div>
+            
+            <div class="galleries-table">
+                <div class="table-header">
+                    <span>Client Name</span>
+                    <span>Session Type</span>
+                    <span>Upload Date</span>
+                    <span>Images</span>
+                    <span>Actions</span>
+                </div>
+                
+                <div class="table-row" data-gallery-id="1">
+                    <span class="client-name">Sarah Johnson</span>
+                    <span class="session-type">Headshots</span>
+                    <span class="upload-date">Aug 15, 2024</span>
+                    <span class="image-count">24 images</span>
+                    <div class="table-actions">
+                        <button class="action-btn view-btn" data-action="view">View</button>
+                        <button class="action-btn edit-btn" data-action="edit">Edit</button>
+                        <button class="action-btn delete-btn" data-action="delete">Delete</button>
+                    </div>
+                </div>
+                
+                <div class="table-row" data-gallery-id="2">
+                    <span class="client-name">Marcus Rodriguez</span>
+                    <span class="session-type">Creative</span>
+                    <span class="upload-date">Aug 12, 2024</span>
+                    <span class="image-count">18 images</span>
+                    <div class="table-actions">
+                        <button class="action-btn view-btn" data-action="view">View</button>
+                        <button class="action-btn edit-btn" data-action="edit">Edit</button>
+                        <button class="action-btn delete-btn" data-action="delete">Delete</button>
+                    </div>
+                </div>
+                
+                <div class="table-row" data-gallery-id="3">
+                    <span class="client-name">Emma Chen</span>
+                    <span class="session-type">Portrait</span>
+                    <span class="upload-date">Aug 10, 2024</span>
+                    <span class="image-count">32 images</span>
+                    <div class="table-actions">
+                        <button class="action-btn view-btn" data-action="view">View</button>
+                        <button class="action-btn edit-btn" data-action="edit">Edit</button>
+                        <button class="action-btn delete-btn" data-action="delete">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Section 2: Create New Gallery -->
+        <section class="admin-section create-gallery">
+            <div class="section-header">
+                <h2 class="section-title">Create New Gallery</h2>
+            </div>
+            
+            <div class="create-gallery-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="client-name">Client Name</label>
+                        <input type="text" id="client-name" name="client_name" placeholder="Enter client full name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="session-type">Session Type</label>
+                        <select id="session-type" name="session_type" required>
+                            <option value="">Select session type</option>
+                            <option value="headshots">Headshots</option>
+                            <option value="creative">Creative</option>
+                            <option value="portrait">Portrait</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="gallery-code">Gallery Code</label>
+                        <input type="text" id="gallery-code" name="gallery_code" placeholder="Auto-generated" readonly>
+                        <button type="button" class="generate-code-btn">Generate New</button>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="gallery-password">Gallery Password</label>
+                        <input type="text" id="gallery-password" name="password" placeholder="Enter secure password" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="expiration-date">Expiration Date</label>
+                        <input type="date" id="expiration-date" name="expiration_date" required>
+                    </div>
+                </div>
+                
+                <div class="upload-section">
+                    <div class="upload-zone" id="upload-zone">
+                        <div class="upload-icon">📁</div>
+                        <h3>Drag & Drop Images Here</h3>
+                        <p>Or click to browse files</p>
+                        <input type="file" id="file-input" multiple accept="image/*" style="display: none;">
+                    </div>
+                    <div class="upload-status" id="upload-status"></div>
+                </div>
+                
+                <button type="submit" class="create-gallery-btn admin-btn-primary" id="create-gallery-btn">
+                    Create Gallery
+                </button>
+            </div>
+        </section>
+        
+        <!-- Section 3: Quick Stats -->
+        <section class="admin-section quick-stats">
+            <div class="section-header">
+                <h2 class="section-title">Quick Stats</h2>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">Active Galleries</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">487</div>
+                    <div class="stat-label">Total Images</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">2.3 GB</div>
+                    <div class="stat-label">Storage Used</div>
+                </div>
+            </div>
+            
+            <div class="recent-activity">
+                <h3>Recent Activity</h3>
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <span class="activity-time">2 hours ago</span>
+                        <span class="activity-text">Sarah Johnson viewed gallery (3 images downloaded)</span>
+                    </div>
+                    <div class="activity-item">
+                        <span class="activity-time">5 hours ago</span>
+                        <span class="activity-text">Marcus Rodriguez viewed gallery</span>
+                    </div>
+                    <div class="activity-item">
+                        <span class="activity-time">1 day ago</span>
+                        <span class="activity-text">Emma Chen gallery created</span>
+                    </div>
+                    <div class="activity-item">
+                        <span class="activity-time">2 days ago</span>
+                        <span class="activity-text">Alex Turner viewed gallery (12 images downloaded)</span>
+                    </div>
+                    <div class="activity-item">
+                        <span class="activity-time">3 days ago</span>
+                        <span class="activity-text">Lisa Wang gallery expired and archived</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+    
+    <!-- Admin Footer -->
+    <footer class="admin-footer">
+        <div class="footer-container">
+            <p>&copy; 2024 Blakely Cinematics Admin Panel | Secure gallery management system</p>
+        </div>
+    </footer>
+    
+    <!-- JavaScript -->
+    <script>
+        class AdminDashboard {
+            constructor() {
+                this.init();
+            }
+            
+            init() {
+                this.bindEvents();
+                this.generateDefaultCode();
+                this.setDefaultExpirationDate();
+            }
+            
+            bindEvents() {
+                // Gallery actions
+                document.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('action-btn')) {
+                        this.handleGalleryAction(e.target);
+                    }
+                });
+                
+                // Client name input - auto-generate gallery code
+                document.getElementById('client-name').addEventListener('input', (e) => {
+                    this.generateGalleryCode(e.target.value);
+                });
+                
+                // Generate new code button
+                document.querySelector('.generate-code-btn').addEventListener('click', () => {
+                    const clientName = document.getElementById('client-name').value;
+                    this.generateGalleryCode(clientName, true);
+                });
+                
+                // File upload drag and drop
+                this.initDragDrop();
+                
+                // Create gallery form
+                document.getElementById('create-gallery-btn').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.createGallery();
+                });
+            }
+            
+            handleGalleryAction(button) {
+                const action = button.dataset.action;
+                const row = button.closest('.table-row');
+                const galleryId = row.dataset.galleryId;
+                const clientName = row.querySelector('.client-name').textContent;
+                
+                console.log(`🔧 Admin Action: ${action.toUpperCase()} - Gallery ID: ${galleryId} (${clientName})`);
+                
+                switch(action) {
+                    case 'view':
+                        alert(`Opening gallery view for ${clientName}`);
+                        break;
+                    case 'edit':
+                        alert(`Opening gallery editor for ${clientName}`);
+                        break;
+                    case 'delete':
+                        if (confirm(`Are you sure you want to delete ${clientName}'s gallery? This action cannot be undone.`)) {
+                            console.log(`🗑️ Deleting gallery for ${clientName}`);
+                            alert(`Gallery for ${clientName} has been deleted.`);
+                        }
+                        break;
+                }
+            }
+            
+            generateGalleryCode(clientName, forceNew = false) {
+                if (!clientName.trim()) return;
+                
+                // Create code from client name + current date
+                const cleanName = clientName.trim().replace(/\s+/g, '').toLowerCase();
+                const date = new Date();
+                const dateStr = date.getFullYear().toString().slice(-2) + 
+                              String(date.getMonth() + 1).padStart(2, '0') + 
+                              String(date.getDate()).padStart(2, '0');
+                
+                const baseCode = cleanName.slice(0, 4) + dateStr;
+                const randomSuffix = forceNew ? Math.random().toString(36).substring(2, 4) : '';
+                
+                const galleryCode = (baseCode + randomSuffix).toUpperCase();
+                document.getElementById('gallery-code').value = galleryCode;
+                
+                console.log(`🔑 Generated gallery code: ${galleryCode}`);
+            }
+            
+            setDefaultExpirationDate() {
+                const date = new Date();
+                date.setDate(date.getDate() + 90); // 90 days from today
+                const formattedDate = date.toISOString().split('T')[0];
+                document.getElementById('expiration-date').value = formattedDate;
+            }
+            
+            initDragDrop() {
+                const uploadZone = document.getElementById('upload-zone');
+                const fileInput = document.getElementById('file-input');
+                const uploadStatus = document.getElementById('upload-status');
+                
+                // Click to upload
+                uploadZone.addEventListener('click', () => {
+                    fileInput.click();
+                });
+                
+                // File selection
+                fileInput.addEventListener('change', (e) => {
+                    this.handleFiles(e.target.files);
+                });
+                
+                // Drag and drop events
+                uploadZone.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    uploadZone.classList.add('drag-over');
+                });
+                
+                uploadZone.addEventListener('dragleave', (e) => {
+                    e.preventDefault();
+                    uploadZone.classList.remove('drag-over');
+                });
+                
+                uploadZone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    uploadZone.classList.remove('drag-over');
+                    this.handleFiles(e.dataTransfer.files);
+                });
+            }
+            
+            handleFiles(files) {
+                const uploadStatus = document.getElementById('upload-status');
+                const imageFiles = Array.from(files).filter(file => file.type.startsWith('image/'));
+                
+                if (imageFiles.length === 0) {
+                    uploadStatus.innerHTML = '<p class="error">Please select only image files.</p>';
+                    return;
+                }
+                
+                console.log(`📤 Files selected for upload: ${imageFiles.length} images`);
+                imageFiles.forEach(file => {
+                    console.log(`  - ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`);
+                });
+                
+                uploadStatus.innerHTML = `
+                    <p class="success">${imageFiles.length} images ready for upload</p>
+                    <div class="file-list">
+                        ${imageFiles.map(file => `<span class="file-name">${file.name}</span>`).join('')}
+                    </div>
+                `;
+            }
+            
+            createGallery() {
+                const formData = {
+                    clientName: document.getElementById('client-name').value,
+                    sessionType: document.getElementById('session-type').value,
+                    galleryCode: document.getElementById('gallery-code').value,
+                    password: document.getElementById('gallery-password').value,
+                    expirationDate: document.getElementById('expiration-date').value
+                };
+                
+                // Basic validation
+                if (!formData.clientName || !formData.sessionType || !formData.password) {
+                    alert('Please fill in all required fields.');
+                    return;
+                }
+                
+                console.log('🚀 Creating new gallery with data:', formData);
+                alert(`Gallery created successfully for ${formData.clientName}!\n\nGallery Code: ${formData.galleryCode}\nPassword: ${formData.password}\n\nShare these credentials with your client.`);
+                
+                // Reset form
+                document.getElementById('client-name').value = '';
+                document.getElementById('session-type').value = '';
+                document.getElementById('gallery-code').value = '';
+                document.getElementById('gallery-password').value = '';
+                document.getElementById('upload-status').innerHTML = '';
+                this.setDefaultExpirationDate();
+            }
+            
+            generateDefaultCode() {
+                // Generate a default code for demo
+                this.generateGalleryCode('Sample Client');
+            }
+        }
+        
+        // Initialize admin dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize custom cursor and other components
+            if (typeof initCustomCursor === 'function') {
+                initCustomCursor();
+            }
+            
+            // Initialize admin dashboard
+            new AdminDashboard();
+        });
+    </script>
+    
+    <!-- Load main script for shared functionality -->
+    <script src="js/script.js"></script>
+</body>
+</html>
