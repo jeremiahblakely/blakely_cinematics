@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blakely Cinematics | Project Documentation</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #8B5CF6;
+            --primary-dark: #7C3AED;
+            --bg-primary: #0f0f0f;
+            --bg-secondary: #1a1a1a;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --border: rgba(255, 255, 255, 0.1);
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            font-weight: 300;
+        }
+        
+        .docs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .doc-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 30px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .doc-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+        
+        .doc-card:hover::before {
+            transform: translateX(100%);
+        }
+        
+        .doc-card:hover {
+            transform: translateY(-10px);
+            background: rgba(139, 92, 246, 0.1);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .doc-card .icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .doc-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+        
+        .doc-card p {
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+        
+        .doc-card .status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .status-active {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        
+        .status-coming {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+        
+        .status-planned {
+            background: rgba(139, 92, 246, 0.2);
+            color: var(--primary);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+        
+        .project-info {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .project-info h2 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .info-item {
+            text-align: center;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .info-item .value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .info-item .label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .quick-links {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .quick-links h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .links-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .links-list li {
+            margin: 12px 0;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .links-list li:hover {
+            background: rgba(139, 92, 246, 0.1);
+            transform: translateX(10px);
+        }
+        
+        .links-list a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .links-list a:hover {
+            text-decoration: underline;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .docs-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Blakely Cinematics</h1>
+            <p>Professional Portfolio Website - Documentation Hub</p>
+        </div>
+        
+        <div class="project-info">
+            <h2>🎬 Website Overview</h2>
+            <p>Professional cinematography portfolio showcasing premium headshot and creative photography services with integrated client gallery management.</p>
+            
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="value">11</div>
+                    <div class="label">Website Pages</div>
+                </div>
+                <div class="info-item">
+                    <div class="value">75%</div>
+                    <div class="label">SEO Score</div>
+                </div>
+                <div class="info-item">
+                    <div class="value">85%</div>
+                    <div class="label">Performance</div>
+                </div>
+                <div class="info-item">
+                    <div class="value">85%</div>
+                    <div class="label">Complete</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="docs-grid">
+            <a href="dashboard/website-dashboard.html" class="doc-card">
+                <span class="icon">📊</span>
+                <h3>Website Dashboard</h3>
+                <p>Track website performance, page completion status, SEO metrics, and content progress.</p>
+                <span class="status status-active">✅ ACTIVE</span>
+            </a>
+            
+            <a href="content/" class="doc-card">
+                <span class="icon">📝</span>
+                <h3>Content Management</h3>
+                <p>Content planning, copywriting guidelines, and content update workflows.</p>
+                <span class="status status-planned">📋 PLANNED</span>
+            </a>
+            
+            <a href="analytics/" class="doc-card">
+                <span class="icon">📈</span>
+                <h3>Analytics & Metrics</h3>
+                <p>Traffic analysis, conversion tracking, and performance monitoring reports.</p>
+                <span class="status status-planned">📋 PLANNED</span>
+            </a>
+            
+            <a href="scripts/update-website.js" class="doc-card">
+                <span class="icon">⚙️</span>
+                <h3>Update Scripts</h3>
+                <p>Automated scripts for updating website status, metrics, and content tracking.</p>
+                <span class="status status-active">✅ ACTIVE</span>
+            </a>
+        </div>
+        
+        <div class="quick-links">
+            <h2>🔗 Quick Access</h2>
+            <p>Essential website files and documentation:</p>
+            <ul class="links-list">
+                <li>🏠 <strong>Homepage:</strong> <code><a href="../index.html">index.html</a></code></li>
+                <li>🎨 <strong>Styles:</strong> <code><a href="../css/styles.css">css/styles.css</a></code></li>
+                <li>⚡ <strong>JavaScript:</strong> <code><a href="../js/script.js">js/script.js</a></code></li>
+                <li>🔐 <strong>Admin Panel:</strong> <code><a href="../admin.html">admin.html</a></code></li>
+                <li>📱 <strong>VIP Access:</strong> <code><a href="../vip.html">vip.html</a></code></li>
+                <li>📊 <strong>Website Status:</strong> <a href="data/website-status.json">Data File</a></li>
+                <li>📋 <strong>Update Guide:</strong> <a href="how-to-update.md">how-to-update.md</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer">
+            <p>&copy; 2024 Blakely Cinematics Documentation | Last Updated: December 20, 2024</p>
+        </div>
+    </div>
+
+    <script>
+        // Add subtle animations on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.doc-card, .project-info, .quick-links');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>
