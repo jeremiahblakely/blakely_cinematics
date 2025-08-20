@@ -1,0 +1,63 @@
+name: Update Website Metrics
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  update-metrics:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Count HTML Files
+      run: |
+        echo "HTML files: $(find . -name '*.html' -type f | wc -l)"
+        echo "HTML_FILES=$(find . -name '*.html' -type f | wc -l)" >> $GITHUB_ENV
+    
+    - name: Count CSS Files
+      run: |
+        echo "CSS files: $(find . -name '*.css' -type f | wc -l)"
+        echo "CSS_FILES=$(find . -name '*.css' -type f | wc -l)" >> $GITHUB_ENV
+    
+    - name: Count JS Files
+      run: |
+        echo "JS files: $(find . -name '*.js' -type f | wc -l)"
+        echo "JS_FILES=$(find . -name '*.js' -type f | wc -l)" >> $GITHUB_ENV
+    
+    - name: Count TODOs
+      run: |
+        echo "TODOs: $(grep -r 'TODO\|FIXME' --include='*.html' --include='*.css' --include='*.js' . | wc -l)"
+        echo "TODOS=$(grep -r 'TODO\|FIXME' --include='*.html' --include='*.css' --include='*.js' . | wc -l)" >> $GITHUB_ENV
+    
+    - name: Count Images
+      run: |
+        echo "Images: $(find . \( -name '*.jpg' -o -name '*.jpeg' -o -name '*.png' -o -name '*.svg' -o -name '*.webp' \) -type f | wc -l)"
+        echo "IMAGES=$(find . \( -name '*.jpg' -o -name '*.jpeg' -o -name '*.png' -o -name '*.svg' -o -name '*.webp' \) -type f | wc -l)" >> $GITHUB_ENV
+    
+    - name: Update Dashboard Data
+      run: |
+        echo "Metrics collected:"
+        echo "- HTML Files: $HTML_FILES"
+        echo "- CSS Files: $CSS_FILES"
+        echo "- JS Files: $JS_FILES"
+        echo "- TODOs: $TODOS"
+        echo "- Images: $IMAGES"
+        
+        # Create metrics file
+        echo "{
+          \"html_files\": $HTML_FILES,
+          \"css_files\": $CSS_FILES,
+          \"js_files\": $JS_FILES,
+          \"todos\": $TODOS,
+          \"images\": $IMAGES,
+          \"last_updated\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"
+        }" > project-docs/data/github-metrics.json
+    
+    - name: Commit Updates
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add project-docs/data/github-metrics.json
+        git diff --quiet && git diff --staged --quiet || (git commit -m "🤖 Auto-update website metrics" && git push)
