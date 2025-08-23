@@ -240,6 +240,7 @@ nav.scrolled {
     color: var(--primary) !important;
 }
 
+
 .mobile-menu-toggle {
     display: none;
     flex-direction: column;
@@ -1371,6 +1372,38 @@ select option:hover {
     justify-content: center;
 }
 
+/* Real Image Container */
+.image-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.gallery-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.gallery-image:hover .gallery-img {
+    transform: scale(1.05);
+}
+
+/* Loading State */
+.loading-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1.2rem;
+    padding: 4rem 2rem;
+    background: rgba(255, 107, 53, 0.1);
+    border-radius: 12px;
+    border: 1px dashed rgba(255, 107, 53, 0.3);
+}
+
 .image-overlay {
     position: absolute;
     bottom: 0;
@@ -1493,11 +1526,205 @@ select option:hover {
 }
 
 /* ============================================ */
-/* 15. ADMIN DASHBOARD                         */
+/* 15. ADMIN LOGIN PAGE                        */
+/* ============================================ */
+.admin-login-page {
+    background: var(--dark);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-login-section {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 4rem;
+    background: linear-gradient(
+        135deg,
+        var(--dark) 0%,
+        rgba(0, 102, 204, 0.05) 50%,
+        var(--dark) 100%
+    );
+    position: relative;
+}
+
+.admin-login-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 30% 20%, rgba(0, 102, 204, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 70% 80%, rgba(0, 102, 204, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.admin-login-content {
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+.admin-login-header {
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+.admin-login-title {
+    font-size: 2.5rem;
+    font-weight: 100;
+    letter-spacing: 0.3rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--light) 0%, var(--admin-primary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.admin-login-subtitle {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 300;
+    letter-spacing: 0.1rem;
+}
+
+.admin-login-container {
+    opacity: 0;
+    animation: fadeInUp 0.8s ease forwards;
+    animation-delay: 0.3s;
+}
+
+.admin-login-form {
+    display: grid;
+    gap: 2rem;
+}
+
+.admin-login-form .form-group {
+    position: relative;
+}
+
+.admin-login-form input {
+    width: 100%;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(0, 102, 204, 0.3);
+    color: var(--light);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    cursor: none;
+    font-family: inherit;
+    border-radius: 5px;
+}
+
+.admin-login-form input:focus {
+    outline: none;
+    border-color: var(--admin-primary);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 20px rgba(0, 102, 204, 0.2);
+}
+
+.admin-login-form label {
+    position: absolute;
+    left: 1.5rem;
+    top: 1.5rem;
+    color: rgba(255, 255, 255, 0.5);
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.admin-login-form input:focus + label,
+.admin-login-form input:not(:placeholder-shown) + label {
+    top: -0.5rem;
+    left: 0.5rem;
+    font-size: 0.8rem;
+    background: var(--dark);
+    padding: 0 0.5rem;
+    color: var(--admin-primary);
+}
+
+.admin-login-btn {
+    margin-top: 1rem;
+    padding: 1.2rem 3rem;
+    font-size: 1rem;
+    letter-spacing: 0.2rem;
+    font-weight: 400;
+    background: linear-gradient(135deg, var(--admin-primary) 0%, var(--admin-secondary) 100%);
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.admin-login-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--admin-secondary) 0%, var(--admin-primary) 100%);
+    transition: left 0.3s ease;
+}
+
+.admin-login-btn:hover::before {
+    left: 0;
+}
+
+.admin-login-btn:hover {
+    box-shadow: 0 8px 25px rgba(0, 102, 204, 0.4);
+    transform: translateY(-2px);
+}
+
+.admin-login-info {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.admin-login-info a {
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.admin-login-info a:hover {
+    color: var(--admin-primary);
+}
+
+/* Admin Message Styles */
+.admin-message {
+    padding: 1rem;
+    border-radius: 6px;
+    margin-top: 1rem;
+    font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .admin-login-section {
+        padding: 2rem;
+    }
+    
+    .admin-login-title {
+        font-size: 2rem;
+    }
+}
+
+/* ============================================ */
+/* 16. ADMIN DASHBOARD                         */
 /* ============================================ */
 :root {
-    --admin-primary: #8B5CF6; /* Purple accent */
-    --admin-secondary: #A855F7; 
+    --admin-primary: #0066CC; /* Professional blue */
+    --admin-secondary: #4A90E2; /* Lighter blue */
+    --admin-hover: #0052A3; /* Darker blue for hovers */
     --admin-danger: #EF4444; /* Red for delete actions */
     --admin-dark: #0F0F0F;
     --admin-card: #1A1A1A;
@@ -1518,7 +1745,7 @@ select option:hover {
     top: 0;
     z-index: 1000;
     border-bottom: 1px solid var(--admin-primary);
-    box-shadow: 0 4px 20px rgba(139, 92, 246, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 102, 204, 0.1);
 }
 
 .admin-nav .nav-container {
@@ -1543,15 +1770,15 @@ select option:hover {
     font-size: 0.9rem;
     transition: all 0.3s ease;
     padding: 0.6rem 1.2rem;
-    border: 1px solid rgba(139, 92, 246, 0.3);
+    border: 1px solid rgba(0, 102, 204, 0.3);
     border-radius: 20px;
-    background: rgba(139, 92, 246, 0.1);
+    background: rgba(0, 102, 204, 0.1);
 }
 
 .admin-sign-out:hover {
     color: var(--admin-primary);
     border-color: var(--admin-primary);
-    background: rgba(139, 92, 246, 0.2);
+    background: rgba(0, 102, 204, 0.2);
 }
 
 .admin-dashboard {
@@ -1566,7 +1793,7 @@ select option:hover {
     background: var(--admin-card);
     border-radius: 12px;
     padding: 2rem;
-    border: 1px solid rgba(139, 92, 246, 0.2);
+    border: 1px solid rgba(0, 102, 204, 0.2);
     position: relative;
     overflow: hidden;
 }
@@ -1581,7 +1808,8 @@ select option:hover {
     background: linear-gradient(90deg, var(--admin-primary), var(--admin-secondary));
 }
 
-.section-header {
+/* Admin Dashboard Section Header */
+.admin-section .section-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1590,7 +1818,7 @@ select option:hover {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.section-title {
+.admin-section .section-title {
     font-size: 1.4rem;
     font-weight: 300;
     letter-spacing: 0.1rem;
@@ -1598,13 +1826,75 @@ select option:hover {
     margin: 0;
 }
 
+.section-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
 .section-count {
     font-size: 0.9rem;
     color: var(--admin-primary);
-    background: rgba(139, 92, 246, 0.1);
+    background: rgba(0, 102, 204, 0.1);
     padding: 0.4rem 1rem;
     border-radius: 20px;
-    border: 1px solid rgba(139, 92, 246, 0.3);
+    border: 1px solid rgba(0, 102, 204, 0.3);
+}
+
+.refresh-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.8);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.refresh-btn:hover {
+    background: rgba(0, 102, 204, 0.1);
+    border-color: var(--admin-primary);
+    color: var(--admin-primary);
+}
+
+.refresh-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.refresh-btn.loading {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes slideInRight {
+    from { 
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to { 
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutRight {
+    from { 
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to { 
+        transform: translateX(100%);
+        opacity: 0;
+    }
 }
 
 /* Active Galleries Table */
@@ -1621,7 +1911,7 @@ select option:hover {
     grid-template-columns: 2fr 1fr 1fr 1fr 2fr;
     gap: 1rem;
     padding: 1rem 1.5rem;
-    background: rgba(139, 92, 246, 0.1);
+    background: rgba(0, 102, 204, 0.1);
     font-weight: 500;
     font-size: 0.9rem;
     color: var(--admin-primary);
@@ -1641,7 +1931,7 @@ select option:hover {
 }
 
 .table-row:hover {
-    background: rgba(139, 92, 246, 0.05);
+    background: rgba(0, 102, 204, 0.05);
 }
 
 .table-row:last-child {
@@ -1695,13 +1985,13 @@ select option:hover {
 }
 
 .edit-btn {
-    background: rgba(139, 92, 246, 0.2);
+    background: rgba(0, 102, 204, 0.2);
     color: var(--admin-primary);
-    border: 1px solid rgba(139, 92, 246, 0.3);
+    border: 1px solid rgba(0, 102, 204, 0.3);
 }
 
 .edit-btn:hover {
-    background: rgba(139, 92, 246, 0.3);
+    background: rgba(0, 102, 204, 0.3);
 }
 
 .delete-btn {
@@ -1730,49 +2020,81 @@ select option:hover {
     position: relative;
 }
 
-.create-gallery .form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 0.9rem;
-    font-weight: 500;
+/* Gallery code group with button */
+.gallery-code-group {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.gallery-code-group input {
+    flex: 1;
 }
 
 .create-gallery .form-group input,
 .create-gallery .form-group select {
     width: 100%;
-    padding: 0.8rem 1rem;
+    padding: 1rem;
     background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(139, 92, 246, 0.3);
+    border: 1px solid rgba(0, 102, 204, 0.3);
     border-radius: 6px;
     color: var(--light);
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     transition: all 0.3s ease;
+    height: 48px;
+    display: flex;
+    align-items: center;
 }
 
 .create-gallery .form-group input:focus,
 .create-gallery .form-group select:focus {
     outline: none;
     border-color: var(--admin-primary);
-    box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+    box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.2);
 }
 
 .generate-code-btn {
-    position: absolute;
-    right: 8px;
-    top: 32px;
-    padding: 0.4rem 0.8rem;
+    padding: 0.6rem 1rem;
     background: var(--admin-primary);
     color: white;
     border: none;
-    border-radius: 4px;
-    font-size: 0.7rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
     cursor: pointer;
     transition: background 0.3s ease;
+    height: 48px;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .generate-code-btn:hover {
-    background: var(--admin-secondary);
+    background: var(--admin-hover);
+}
+
+/* Placeholder styling */
+.create-gallery .form-group input::placeholder,
+.create-gallery .form-group select option[value=""] {
+    color: rgba(255, 255, 255, 0.5);
+    font-style: italic;
+}
+
+/* Date input specific styling */
+.create-gallery .form-group input[type="date"] {
+    color: var(--light);
+}
+
+.create-gallery .form-group input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}
+
+/* Select styling */
+.create-gallery .form-group select {
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill="white" d="M6 8L2 4h8z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    cursor: pointer;
 }
 
 /* Upload Section */
@@ -1781,23 +2103,23 @@ select option:hover {
 }
 
 .upload-zone {
-    border: 2px dashed rgba(139, 92, 246, 0.4);
+    border: 2px dashed rgba(0, 102, 204, 0.4);
     border-radius: 12px;
     padding: 3rem 2rem;
     text-align: center;
-    background: rgba(139, 92, 246, 0.05);
+    background: rgba(0, 102, 204, 0.05);
     transition: all 0.3s ease;
     cursor: pointer;
 }
 
 .upload-zone:hover {
     border-color: var(--admin-primary);
-    background: rgba(139, 92, 246, 0.1);
+    background: rgba(0, 102, 204, 0.1);
 }
 
 .upload-zone.drag-over {
     border-color: var(--admin-primary);
-    background: rgba(139, 92, 246, 0.15);
+    background: rgba(0, 102, 204, 0.15);
     transform: scale(1.02);
 }
 
@@ -1836,8 +2158,113 @@ select option:hover {
     margin-top: 1rem;
 }
 
+/* Upload Progress Styles */
+.upload-progress {
+    padding: 1.5rem;
+    background: rgba(0, 102, 204, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(0, 102, 204, 0.3);
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    margin: 1rem 0;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--admin-primary), var(--admin-secondary));
+    transition: width 0.3s ease;
+    border-radius: 4px;
+}
+
+.upload-details {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+/* Upload Results Styles */
+.upload-success {
+    padding: 1.5rem;
+    background: rgba(34, 197, 94, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.upload-success .success {
+    color: #22C55E;
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.upload-results {
+    margin: 1rem 0;
+}
+
+.upload-results p {
+    margin: 0.5rem 0;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.upload-results strong {
+    color: #22C55E;
+}
+
+.detailed-results {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.result-item {
+    padding: 0.5rem;
+    margin: 0.3rem 0;
+    border-radius: 4px;
+    font-size: 0.85rem;
+}
+
+.result-item.success {
+    background: rgba(34, 197, 94, 0.1);
+    color: #22C55E;
+    border-left: 3px solid #22C55E;
+}
+
+.result-item.error {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--admin-danger);
+    border-left: 3px solid var(--admin-danger);
+}
+
+/* Upload Error Styles */
+.upload-error {
+    padding: 1.5rem;
+    background: rgba(239, 68, 68, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.upload-error .error {
+    color: var(--admin-danger);
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.upload-error p {
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0.5rem 0;
+}
+
 .file-name {
-    background: rgba(139, 92, 246, 0.2);
+    background: rgba(0, 102, 204, 0.2);
     color: var(--admin-primary);
     padding: 0.3rem 0.8rem;
     border-radius: 15px;
@@ -1860,7 +2287,7 @@ select option:hover {
 
 .admin-btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+    box-shadow: 0 8px 25px rgba(0, 102, 204, 0.4);
 }
 
 /* Quick Stats */
@@ -1872,11 +2299,11 @@ select option:hover {
 }
 
 .stat-card {
-    background: rgba(139, 92, 246, 0.1);
+    background: rgba(0, 102, 204, 0.1);
     padding: 1.5rem;
     border-radius: 8px;
     text-align: center;
-    border: 1px solid rgba(139, 92, 246, 0.2);
+    border: 1px solid rgba(0, 102, 204, 0.2);
 }
 
 .stat-number {
@@ -1930,7 +2357,7 @@ select option:hover {
     background: rgba(0, 0, 0, 0.8);
     padding: 2rem 4rem;
     text-align: center;
-    border-top: 1px solid rgba(139, 92, 246, 0.2);
+    border-top: 1px solid rgba(0, 102, 204, 0.2);
     margin-top: 4rem;
 }
 
@@ -2057,6 +2484,7 @@ footer {
     font-size: 0.9rem;
     letter-spacing: 0.1rem;
 }
+
 
 /* ============================================ */
 /* 14. ANIMATIONS                              */

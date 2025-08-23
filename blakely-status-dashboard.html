@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blakely Cinematics - Project Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0A0A0A;
+            color: #E0E0E0;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #FF6B35;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff8c5a;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #FF6B35, transparent);
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3em;
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #FFFFFF 0%, #999999 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            color: #999999;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: linear-gradient(145deg, #141414, #0f0f0f);
+            border: 1px solid #1a1a1a;
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #FF6B35, transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: #FF6B35;
+            box-shadow: 0 20px 40px rgba(255, 107, 53, 0.1);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .card-icon {
+            font-size: 1.8em;
+            margin-right: 15px;
+            filter: grayscale(20%);
+        }
+
+        .card-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #FFFFFF;
+            letter-spacing: -0.5px;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-left: auto;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid;
+        }
+
+        .status-complete { 
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+        
+        .status-progress { 
+            background: rgba(255, 107, 53, 0.1);
+            color: #FF6B35;
+            border-color: rgba(255, 107, 53, 0.3);
+        }
+        
+        .status-pending { 
+            background: rgba(107, 114, 128, 0.1);
+            color: #9CA3AF;
+            border-color: rgba(107, 114, 128, 0.3);
+        }
+        
+        .status-urgent { 
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FF6B35, #ff8c5a);
+            border-radius: 10px;
+            position: relative;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .progress-fill::after {
+            content: attr(data-percent);
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 0.7em;
+            font-weight: 600;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            background: rgba(255, 107, 53, 0.05);
+            border-color: rgba(255, 107, 53, 0.2);
+        }
+
+        .stat-label {
+            font-size: 0.85em;
+            color: #999999;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: #FFFFFF;
+        }
+
+        .task-list {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .task-item {
+            padding: 14px 16px;
+            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .task-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: #FF6B35;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .task-item:hover {
+            background: rgba(255, 107, 53, 0.05);
+            border-color: rgba(255, 107, 53, 0.2);
+            transform: translateX(5px);
+        }
+
+        .task-item:hover::before {
+            transform: translateX(0);
+        }
+
+        .task-item.completed {
+            opacity: 0.5;
+        }
+
+        .task-item.completed span {
+            text-decoration: line-through;
+            color: #666;
+        }
+
+        .task-checkbox {
+            width: 20px;
+            height: 20px;
+            margin-right: 14px;
+            cursor: pointer;
+            accent-color: #FF6B35;
+        }
+
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .quick-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            text-decoration: none;
+            color: #E0E0E0;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9em;
+        }
+
+        .quick-link:hover {
+            background: rgba(255, 107, 53, 0.1);
+            border-color: #FF6B35;
+            color: #FF6B35;
+            transform: translateY(-2px);
+        }
+
+        .quick-link-icon {
+            margin-right: 8px;
+            font-size: 1.2em;
+        }
+
+        .credentials-box {
+            background: linear-gradient(145deg, rgba(255, 107, 53, 0.05), rgba(255, 107, 53, 0.02));
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .credentials-box h4 {
+            color: #FF6B35;
+            margin-bottom: 15px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .credential-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .credential-item:last-child {
+            border-bottom: none;
+        }
+
+        .credential-item strong {
+            color: #999999;
+            font-weight: 500;
+            font-size: 0.9em;
+        }
+
+        .credential-item span {
+            color: #E0E0E0;
+            font-family: 'Monaco', 'Courier New', monospace;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            user-select: all;
+        }
+
+        .credential-item span:hover {
+            color: #FF6B35;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 5px;
+            border-radius: 10px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 10px 16px;
+            background: transparent;
+            border: none;
+            color: #999999;
+            font-size: 0.9em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .tab:hover {
+            color: #E0E0E0;
+        }
+
+        .tab.active {
+            background: #FF6B35;
+            color: #FFFFFF;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 35px;
+            margin-top: 20px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 12px;
+            top: 10px;
+            bottom: 10px;
+            width: 1px;
+            background: linear-gradient(180deg, #FF6B35, transparent);
+            opacity: 0.3;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding: 18px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:hover {
+            background: rgba(255, 107, 53, 0.05);
+            border-color: rgba(255, 107, 53, 0.2);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -28px;
+            top: 24px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #FF6B35;
+            border: 2px solid #0A0A0A;
+            box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.2);
+        }
+
+        .timeline-item.completed::before {
+            background: #10b981;
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2);
+        }
+
+        .timeline-date {
+            font-size: 0.8em;
+            color: #FF6B35;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            color: #FFFFFF;
+            margin-bottom: 5px;
+            font-size: 1.05em;
+        }
+
+        .timeline-desc {
+            color: #999999;
+            font-size: 0.9em;
+        }
+
+        .code-block {
+            background: #000000;
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            border-radius: 10px;
+            padding: 18px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.85em;
+            margin: 15px 0;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block::before {
+            content: 'BASH';
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            font-size: 0.7em;
+            color: #FF6B35;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .code-line {
+            color: #10b981;
+            line-height: 1.6;
+        }
+
+        .code-comment {
+            color: #666;
+        }
+
+        /* Full width card */
+        .card.full-width {
+            grid-column: 1 / -1;
+        }
+
+        /* Pulse animation for urgent items */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Copy feedback */
+        .copy-feedback {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #FF6B35;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            transform: translateY(100px);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .copy-feedback.show {
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>BLAKELY CINEMATICS</h1>
+            <p class="subtitle">Project Status Dashboard</p>
+        </header>
+
+        <!-- Main Progress Card -->
+        <div class="card full-width">
+            <div class="card-header">
+                <span class="card-icon">📊</span>
+                <h2 class="card-title">Project Overview</h2>
+                <span class="status-badge status-progress">85% Complete</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 85%" data-percent="85%"></div>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-label">UI/UX Design</div>
+                    <div class="stat-value">95%</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Backend</div>
+                    <div class="stat-value">80%</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Features</div>
+                    <div class="stat-value">85%</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Production</div>
+                    <div class="stat-value">70%</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard">
+            <!-- Completed Features Card -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">✅</span>
+                    <h2 class="card-title">Completed Features</h2>
+                    <span class="status-badge status-complete">Live</span>
+                </div>
+                <ul class="task-list">
+                    <li class="task-item completed">
+                        <input type="checkbox" class="task-checkbox" checked disabled>
+                        <span>Photography portfolio website</span>
+                    </li>
+                    <li class="task-item completed">
+                        <input type="checkbox" class="task-checkbox" checked disabled>
+                        <span>VIP client portal system</span>
+                    </li>
+                    <li class="task-item completed">
+                        <input type="checkbox" class="task-checkbox" checked disabled>
+                        <span>Admin dashboard & uploads</span>
+                    </li>
+                    <li class="task-item completed">
+                        <input type="checkbox" class="task-checkbox" checked disabled>
+                        <span>Gallery deletion ✨</span>
+                    </li>
+                    <li class="task-item completed">
+                        <input type="checkbox" class="task-checkbox" checked disabled>
+                        <span>AWS S3 integration</span>
+                    </li>
+                    <li class="task-item completed">
+                        <input type="checkbox" class="task-checkbox" checked disabled>
+                        <span>90-day auto-cleanup</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Priority Tasks Card -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">🎯</span>
+                    <h2 class="card-title">Priority Tasks</h2>
+                    <span class="status-badge status-urgent pulse">Next Up</span>
+                </div>
+                <div class="tabs">
+                    <button class="tab active" onclick="switchTab(event, 'priority')">Priority</button>
+                    <button class="tab" onclick="switchTab(event, 'quick')">Quick Wins</button>
+                    <button class="tab" onclick="switchTab(event, 'future')">Future</button>
+                </div>
+                <div id="priority" class="tab-content active">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-date">2-3 Hours</div>
+                            <div class="timeline-title">Show Real Gallery Data</div>
+                            <div class="timeline-desc">Connect admin table to DynamoDB</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">3-4 Hours</div>
+                            <div class="timeline-title">Download System</div>
+                            <div class="timeline-desc">Enable photo downloads for clients</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">1 Day</div>
+                            <div class="timeline-title">Production Deploy</div>
+                            <div class="timeline-desc">Launch with custom domain & SSL</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="quick" class="tab-content">
+                    <ul class="task-list">
+                        <li class="task-item">
+                            <input type="checkbox" class="task-checkbox">
+                            <span>Email notifications</span>
+                        </li>
+                        <li class="task-item">
+                            <input type="checkbox" class="task-checkbox">
+                            <span>Fix content alignment</span>
+                        </li>
+                        <li class="task-item">
+                            <input type="checkbox" class="task-checkbox">
+                            <span>Gallery expiry notice</span>
+                        </li>
+                        <li class="task-item">
+                            <input type="checkbox" class="task-checkbox">
+                            <span>Mobile admin panel</span>
+                        </li>
+                    </ul>
+                </div>
+                <div id="future" class="tab-content">
+                    <ul class="task-list">
+                        <li class="task-item">
+                            <input type="checkbox" class="task-checkbox">
+                            <span>Favorites system</span>
+                        </li>
+                        <li class="task-item">
+                            <input type="checkbox" class="task-checkbox">
+                            <span>Photo comments</span>
+                        </li>
+                        <li class="task-item">
+                            <input type="checkbox" class="task-checkbox">
+                            <span>Print ordering</span>
+                        </li>
+                        <li class="task-item">
+                            <input type="checkbox" class="task-checkbox">
+                            <span>Booking calendar</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Quick Access Card -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">⚡</span>
+                    <h2 class="card-title">Quick Access</h2>
+                </div>
+                <div class="quick-links">
+                    <a href="http://localhost:8000" class="quick-link">
+                        <span class="quick-link-icon">🏠</span>
+                        Website
+                    </a>
+                    <a href="http://localhost:8000/vip.html" class="quick-link">
+                        <span class="quick-link-icon">👑</span>
+                        VIP Portal
+                    </a>
+                    <a href="http://localhost:8000/admin-login.html" class="quick-link">
+                        <span class="quick-link-icon">🔐</span>
+                        Admin
+                    </a>
+                    <a href="https://s3.console.aws.amazon.com/s3/buckets/blakely-cinematics" class="quick-link">
+                        <span class="quick-link-icon">☁️</span>
+                        S3 Bucket
+                    </a>
+                    <a href="https://console.aws.amazon.com/dynamodbv2/" class="quick-link">
+                        <span class="quick-link-icon">🗄️</span>
+                        DynamoDB
+                    </a>
+                    <a href="https://console.aws.amazon.com/lambda/" class="quick-link">
+                        <span class="quick-link-icon">⚡</span>
+                        Lambda
+                    </a>
+                </div>
+                <div class="credentials-box">
+                    <h4>🔑 Access Credentials</h4>
+                    <div class="credential-item">
+                        <strong>Admin Shortcut</strong>
+                        <span onclick="copyText(this)">Cmd/Ctrl + Shift + \</span>
+                    </div>
+                    <div class="credential-item">
+                        <strong>Admin Password</strong>
+                        <span onclick="copyText(this)">BCadmin2025!</span>
+                    </div>
+                    <div class="credential-item">
+                        <strong>Test Gallery</strong>
+                        <span onclick="copyText(this)">DEMO2025</span>
+                    </div>
+                    <div class="credential-item">
+                        <strong>Test Password</strong>
+                        <span onclick="copyText(this)">preview</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AWS Infrastructure Card -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">☁️</span>
+                    <h2 class="card-title">AWS Infrastructure</h2>
+                    <span class="status-badge status-complete">Active</span>
+                </div>
+                <div style="margin-bottom: 20px; color: #999;">
+                    <strong style="color: #E0E0E0;">Region:</strong> us-east-1<br>
+                    <strong style="color: #E0E0E0;">Bucket:</strong> blakely-cinematics
+                </div>
+                <h4 style="margin: 20px 0 15px 0; color: #E0E0E0; font-family: 'Montserrat', sans-serif; font-size: 1em;">Lambda Functions</h4>
+                <ul class="task-list">
+                    <li class="task-item completed">
+                        <span>contact-handler</span>
+                    </li>
+                    <li class="task-item completed">
+                        <span>authenticate</span>
+                    </li>
+                    <li class="task-item completed">
+                        <span>getImages</span>
+                    </li>
+                    <li class="task-item completed">
+                        <span>uploadImages</span>
+                    </li>
+                    <li class="task-item completed">
+                        <span>deleteGallery ✨</span>
+                    </li>
+                    <li class="task-item completed">
+                        <span>cleanupGalleries</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Commands Card -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">💻</span>
+                    <h2 class="card-title">Development</h2>
+                </div>
+                <h4 style="margin-bottom: 10px; color: #E0E0E0; font-family: 'Montserrat', sans-serif; font-size: 0.95em;">Local Server</h4>
+                <div class="code-block">
+                    <div class="code-line">cd ~/Documents/Jeremiah's\ Work/Blakely\ Cinematics\ Website/</div>
+                    <div class="code-line">python3 -m http.server 8000</div>
+                </div>
+                <h4 style="margin: 20px 0 10px 0; color: #E0E0E0; font-family: 'Montserrat', sans-serif; font-size: 0.95em;">Deploy to Netlify</h4>
+                <div class="code-block">
+                    <div class="code-line">netlify deploy</div>
+                    <div class="code-comment"># OR drag to app.netlify.com/drop</div>
+                </div>
+                <h4 style="margin: 20px 0 10px 0; color: #E0E0E0; font-family: 'Montserrat', sans-serif; font-size: 0.95em;">Hard Refresh</h4>
+                <div class="code-block">
+                    <div class="code-line">Cmd + Shift + R <span class="code-comment"># Mac</span></div>
+                    <div class="code-line">Ctrl + Shift + R <span class="code-comment"># Windows</span></div>
+                </div>
+            </div>
+
+            <!-- Known Issues Card -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">🐛</span>
+                    <h2 class="card-title">Known Issues</h2>
+                    <span class="status-badge status-pending">5 Items</span>
+                </div>
+                <ul class="task-list">
+                    <li class="task-item">
+                        <span>Gallery table shows placeholder data</span>
+                    </li>
+                    <li class="task-item">
+                        <span>Edit buttons not functional</span>
+                    </li>
+                    <li class="task-item">
+                        <span>No email notifications</span>
+                    </li>
+                    <li class="task-item">
+                        <span>Content alignment issue</span>
+                    </li>
+                    <li class="task-item">
+                        <span>Admin not mobile-friendly</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Copy Feedback -->
+    <div class="copy-feedback" id="copyFeedback">Copied to clipboard!</div>
+
+    <script>
+        // Tab switching
+        function switchTab(event, tabName) {
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        // Copy text function
+        function copyText(element) {
+            navigator.clipboard.writeText(element.textContent);
+            const feedback = document.getElementById('copyFeedback');
+            feedback.classList.add('show');
+            setTimeout(() => {
+                feedback.classList.remove('show');
+            }, 2000);
+        }
+
+        // Task checkboxes
+        const checkboxes = document.querySelectorAll('.task-checkbox:not([disabled])');
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const taskItem = this.parentElement;
+                if (this.checked) {
+                    taskItem.classList.add('completed');
+                } else {
+                    taskItem.classList.remove('completed');
+                }
+                const taskText = taskItem.querySelector('span').textContent;
+                localStorage.setItem(`bc-task-${taskText}`, this.checked);
+            });
+            
+            // Load saved state
+            const taskText = checkbox.parentElement.querySelector('span').textContent;
+            const savedState = localStorage.getItem(`bc-task-${taskText}`);
+            if (savedState === 'true') {
+                checkbox.checked = true;
+                checkbox.parentElement.classList.add('completed');
+            }
+        });
+
+        // Add smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

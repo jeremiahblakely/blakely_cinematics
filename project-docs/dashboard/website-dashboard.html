@@ -369,6 +369,286 @@
             }
         }
 
+        /* Context Generation Section */
+        .context-section {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .context-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .context-section p {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .context-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .context-btn {
+            padding: 16px 32px;
+            border: none;
+            border-radius: 15px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            min-width: 220px;
+        }
+
+        .context-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .context-btn:hover::before {
+            left: 100%;
+        }
+
+        .blakely-context-btn {
+            background: linear-gradient(135deg, #FF6B35 0%, #F97316 100%);
+            color: white;
+            border: 2px solid #FF6B35;
+        }
+
+        .blakely-context-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(255, 107, 53, 0.4);
+        }
+
+        .master-context-btn {
+            background: linear-gradient(135deg, #8B5CF6 0%, #FF6B35 100%);
+            color: white;
+            border: 2px solid transparent;
+        }
+
+        .master-context-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(139, 92, 246, 0.4);
+        }
+
+        /* Context Output Area */
+        .context-output {
+            background: #000000;
+            border: 2px solid #333;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            color: #10b981;
+            display: none;
+        }
+
+        .context-output.show {
+            display: block;
+            animation: slideDown 0.4s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .copy-context-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .copy-context-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        /* Task Management Section */
+        .task-management {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+
+        .task-management h2 {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: var(--primary);
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 5px;
+            border-radius: 10px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 10px 16px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 0.9em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .tab:hover {
+            color: #E0E0E0;
+        }
+
+        .tab.active {
+            background: var(--primary);
+            color: #FFFFFF;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .task-list {
+            list-style: none;
+            margin-top: 20px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .task-item {
+            padding: 14px 16px;
+            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .task-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--primary);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .task-item:hover {
+            background: rgba(255, 107, 53, 0.05);
+            border-color: rgba(255, 107, 53, 0.2);
+            transform: translateX(5px);
+        }
+
+        .task-item:hover::before {
+            transform: translateX(0);
+        }
+
+        .task-item.completed {
+            opacity: 0.5;
+        }
+
+        .task-item.completed span {
+            text-decoration: line-through;
+            color: #666;
+        }
+
+        .task-checkbox {
+            width: 20px;
+            height: 20px;
+            margin-right: 14px;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+
+        .task-category {
+            background: rgba(255, 107, 53, 0.1);
+            color: var(--primary);
+            padding: 15px 20px;
+            margin: 20px 0 10px 0;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .priority-high {
+            border-left-color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+
+        .priority-medium {
+            border-left-color: #f59e0b;
+            background: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+        }
+
+        .priority-low {
+            border-left-color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+        }
+
         /* Animation for page load */
         .dashboard-card, .stat-card {
             opacity: 0;
@@ -425,6 +705,163 @@
                 <span class="icon">🐛</span>
                 <div class="value">10</div>
                 <div class="label">Debug Statements</div>
+            </div>
+        </div>
+
+        <!-- Context Generation Section -->
+        <div class="context-section">
+            <h2>🎯 Blakely Cinematics Context Generation</h2>
+            <p>Generate comprehensive project context for efficient AI development assistance</p>
+            
+            <div class="context-buttons">
+                <button class="context-btn blakely-context-btn" onclick="generateBlakelyContext()">
+                    🌐 Generate Blakely Context
+                </button>
+                <button class="context-btn master-context-btn" onclick="goToMaster()">
+                    🎯 Go to Master Hub
+                </button>
+            </div>
+            
+            <!-- Context Output Area -->
+            <div id="contextOutput" class="context-output"></div>
+        </div>
+
+        <!-- Comprehensive Task Management -->
+        <div class="task-management">
+            <h2>📋 Comprehensive Task Checklist</h2>
+            <div class="tabs">
+                <button class="tab active" onclick="switchTaskTab(event, 'high-priority')">High Priority</button>
+                <button class="tab" onclick="switchTaskTab(event, 'medium-priority')">Medium Priority</button>
+                <button class="tab" onclick="switchTaskTab(event, 'low-priority')">Low Priority</button>
+                <button class="tab" onclick="switchTaskTab(event, 'completed')">Completed</button>
+            </div>
+            
+            <!-- High Priority Tasks -->
+            <div id="high-priority" class="tab-content active">
+                <div class="task-category priority-high">🚨 High Priority - Critical Tasks</div>
+                <ul class="task-list">
+                    <li class="task-item">
+                        <input type="checkbox" class="task-checkbox" data-task="blakely-s3-portfolio">
+                        <span>Upload portfolio images to S3 and update URLs</span>
+                    </li>
+                    <li class="task-item">
+                        <input type="checkbox" class="task-checkbox" data-task="blakely-contact-form">
+                        <span>Connect contact form to backend service (Formspree)</span>
+                    </li>
+                    <li class="task-item">
+                        <input type="checkbox" class="task-checkbox" data-task="blakely-seo-completion">
+                        <span>Complete SEO optimization (sitemap, structured data)</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Medium Priority Tasks -->
+            <div id="medium-priority" class="tab-content">
+                <div class="task-category priority-medium">⚠️ Medium Priority Tasks</div>
+                <ul class="task-list">
+                    <li class="task-item">
+                        <input type="checkbox" class="task-checkbox" data-task="blakely-console-cleanup">
+                        <span>Remove console.log statements for production</span>
+                    </li>
+                    <li class="task-item">
+                        <input type="checkbox" class="task-checkbox" data-task="blakely-social-links">
+                        <span>Update social media links from placeholders</span>
+                    </li>
+                    <li class="task-item">
+                        <input type="checkbox" class="task-checkbox" data-task="blakely-analytics">
+                        <span>Implement Google Analytics tracking</span>
+                    </li>
+                    <li class="task-item">
+                        <input type="checkbox" class="task-checkbox" data-task="blakely-performance">
+                        <span>Optimize images and loading performance</span>
+                    </li>
+                    <li class="task-item">
+                        <input type="checkbox" class="task-checkbox" data-task="blakely-mobile-optimization">
+                        <span>Fine-tune mobile responsiveness</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Low Priority Tasks -->
+            <div id="low-priority" class="tab-content">
+                <div class="task-category priority-low">ℹ️ Low Priority Tasks</div>
+                <ul class="task-list">
+                    <li class="task-item">
+                        <input type="checkbox" class="task-checkbox" data-task="blakely-favicon">
+                        <span>Add favicon implementation</span>
+                    </li>
+                    <li class="task-item">
+                        <input type="checkbox" class="task-checkbox" data-task="blakely-email-notifications">
+                        <span>Set up email notifications for form submissions</span>
+                    </li>
+                    <li class="task-item">
+                        <input type="checkbox" class="task-checkbox" data-task="blakely-loading-optimization">
+                        <span>Implement lazy loading for all images</span>
+                    </li>
+                    <li class="task-item">
+                        <input type="checkbox" class="task-checkbox" data-task="blakely-accessibility">
+                        <span>Add accessibility improvements (ARIA labels, alt text)</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Completed Tasks -->
+            <div id="completed" class="tab-content">
+                <div class="task-category">✅ Completed Tasks</div>
+                <ul class="task-list">
+                    <li class="task-item completed">
+                        <input type="checkbox" class="task-checkbox" checked disabled>
+                        <span>Responsive design implementation</span>
+                    </li>
+                    <li class="task-item completed">
+                        <input type="checkbox" class="task-checkbox" checked disabled>
+                        <span>AWS S3 integration setup</span>
+                    </li>
+                    <li class="task-item completed">
+                        <input type="checkbox" class="task-checkbox" checked disabled>
+                        <span>VIP client portal system</span>
+                    </li>
+                    <li class="task-item completed">
+                        <input type="checkbox" class="task-checkbox" checked disabled>
+                        <span>Admin dashboard for uploads</span>
+                    </li>
+                    <li class="task-item completed">
+                        <input type="checkbox" class="task-checkbox" checked disabled>
+                        <span>Gallery deletion functionality</span>
+                    </li>
+                    <li class="task-item completed">
+                        <input type="checkbox" class="task-checkbox" checked disabled>
+                        <span>90-day auto-cleanup system</span>
+                    </li>
+                    <li class="task-item completed">
+                        <input type="checkbox" class="task-checkbox" checked disabled>
+                        <span>Hero slider with AWS S3 images</span>
+                    </li>
+                    <li class="task-item completed">
+                        <input type="checkbox" class="task-checkbox" checked disabled>
+                        <span>Custom cursor with hover effects</span>
+                    </li>
+                    <li class="task-item completed">
+                        <input type="checkbox" class="task-checkbox" checked disabled>
+                        <span>Loading screen with progress bar</span>
+                    </li>
+                    <li class="task-item completed">
+                        <input type="checkbox" class="task-checkbox" checked disabled>
+                        <span>Navigation system with mobile hamburger</span>
+                    </li>
+                    <li class="task-item completed">
+                        <input type="checkbox" class="task-checkbox" checked disabled>
+                        <span>Testimonials carousel</span>
+                    </li>
+                    <li class="task-item completed">
+                        <input type="checkbox" class="task-checkbox" checked disabled>
+                        <span>Documentation system created</span>
+                    </li>
+                    <li class="task-item completed">
+                        <input type="checkbox" class="task-checkbox" checked disabled>
+                        <span>GitHub Actions workflow deployed</span>
+                    </li>
+                </ul>
             </div>
         </div>
 
@@ -598,8 +1035,159 @@
     </div>
 
     <script>
+        // Context Generation Data
+        const projectData = {
+            name: "Blakely Cinematics Portfolio Website",
+            description: "Professional cinematography portfolio with client gallery management",
+            status: "85% complete - Content upload and deployment preparation", 
+            keyFeatures: [
+                "Fully responsive design",
+                "AWS S3 image hosting",
+                "VIP client portal system",
+                "Admin dashboard for uploads",
+                "Automatic gallery cleanup (90-day)",
+                "Contact form integration",
+                "SEO optimization"
+            ],
+            pendingTasks: [
+                "Upload portfolio images to S3",
+                "Connect contact form backend",
+                "Complete SEO optimization",
+                "Remove debug statements",
+                "Final content review"
+            ],
+            techStack: "HTML5, CSS3, JavaScript, AWS S3, Lambda",
+            priority: "MEDIUM - Launch target: February 2025"
+        };
+
+        // Generate Blakely Cinematics context
+        async function generateBlakelyContext() {
+            const output = document.getElementById('contextOutput');
+            output.innerHTML = 'Generating context...';
+            output.classList.add('show');
+
+            // Simulate processing time
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            const timestamp = new Date().toLocaleString();
+            const context = `# BLAKELY CINEMATICS WEBSITE - PROJECT CONTEXT  
+Generated: ${timestamp}
+
+## 🌐 PROJECT OVERVIEW
+**${projectData.name}**
+${projectData.description}
+
+**Current Status**: ${projectData.status}
+**Priority Level**: ${projectData.priority}
+
+## 🔧 TECHNICAL STACK
+${projectData.techStack}
+
+## ✅ COMPLETED FEATURES
+${projectData.keyFeatures.map(feature => `- ${feature}`).join('\n')}
+
+## 🎯 PENDING TASKS (Priority Order)
+${projectData.pendingTasks.map((task, index) => `${index + 1}. ${task}`).join('\n')}
+
+## 📊 DEVELOPMENT NOTES
+- Website is 85% complete with all core functionality working
+- Fully responsive design tested across devices
+- AWS S3 integration configured for image hosting
+- VIP client portal system operational
+- Admin dashboard allows easy photo uploads
+- Automatic 90-day gallery cleanup implemented
+
+## 🚨 IMMEDIATE FOCUS
+1. Upload real portfolio images to S3 bucket
+2. Connect contact form to Formspree backend
+3. Complete SEO optimization (sitemap, structured data)
+4. Remove console.log statements for production
+5. Final content review and testing
+
+## 💡 TECHNICAL NOTES
+- Uses AWS Lambda for backend functionality
+- S3 bucket configured with proper permissions
+- Contact form needs backend service integration
+- SEO score currently at 75% - needs completion
+- Performance optimized with lazy loading
+- Mobile-first responsive design approach
+
+---
+*Use this context when working specifically on Blakely Cinematics website development*`;
+
+            output.innerHTML = context + `
+            
+<button class="copy-context-btn" onclick="copyContextToClipboard()">📋 Copy Context to Clipboard</button>`;
+        }
+
+        async function copyContextToClipboard() {
+            const output = document.getElementById('contextOutput');
+            const contextText = output.textContent.replace('📋 Copy Context to Clipboard', '').trim();
+            
+            try {
+                await navigator.clipboard.writeText(contextText);
+                showCopyFeedback('Context copied to clipboard!');
+            } catch (err) {
+                console.error('Failed to copy: ', err);
+                showCopyFeedback('Failed to copy context');
+            }
+        }
+
+        function goToMaster() {
+            window.location.href = '../../master-dashboard.html';
+        }
+
+        function showCopyFeedback(message) {
+            // Simple alert for now - can be enhanced with toast notification
+            alert(message);
+        }
+
+        // Tab switching for tasks
+        function switchTaskTab(event, tabName) {
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        // Task checkbox functionality with persistence
+        function initializeTaskCheckboxes() {
+            const checkboxes = document.querySelectorAll('.task-checkbox:not([disabled])');
+            checkboxes.forEach(checkbox => {
+                // Load saved state
+                const taskId = checkbox.getAttribute('data-task');
+                if (taskId) {
+                    const savedState = localStorage.getItem(`task-${taskId}`);
+                    if (savedState === 'true') {
+                        checkbox.checked = true;
+                        checkbox.parentElement.classList.add('completed');
+                    }
+                }
+
+                // Add event listener
+                checkbox.addEventListener('change', function() {
+                    const taskItem = this.parentElement;
+                    const taskId = this.getAttribute('data-task');
+                    
+                    if (this.checked) {
+                        taskItem.classList.add('completed');
+                        if (taskId) localStorage.setItem(`task-${taskId}`, 'true');
+                    } else {
+                        taskItem.classList.remove('completed');
+                        if (taskId) localStorage.setItem(`task-${taskId}`, 'false');
+                    }
+                });
+            });
+        }
+
         // Add dynamic updates and interactions
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize task checkboxes
+            initializeTaskCheckboxes();
+
             // Animate progress bars
             const progressBars = document.querySelectorAll('.progress-fill');
             progressBars.forEach(bar => {

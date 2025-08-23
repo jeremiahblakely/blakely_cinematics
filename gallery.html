@@ -9,6 +9,34 @@
     <!-- Stylesheets -->
     <link rel="stylesheet" href="css/styles.css">
     
+    <!-- Gallery-specific styles -->
+    <style>
+        .gallery-grid .empty {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.1rem;
+            padding: 4rem 2rem;
+            grid-column: 1 / -1;
+        }
+        
+        img.placeholder { 
+            filter: grayscale(1); 
+            opacity: .7; 
+        }
+        
+        .gallery-grid a {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .gallery-grid a img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+    
     <!-- AWS CloudWatch RUM Analytics -->
     <script>
       (function(n,i,v,r,s,c,x,z){x=window.AwsRumClient={q:[],n:i,i:i,v:v,r:r,c:c};window[n]=function(c,p){x.q.push({c:c,p:p});};z=document.createElement('script');z.async=true;z.src=s;document.head.insertBefore(z,document.head.getElementsByTagName('script')[0]);})(
@@ -103,9 +131,9 @@
                 }
                 
                 this.loadGalleryInfo();
-                this.createImageGrid();
                 this.bindEvents();
                 this.updateSelectedCount();
+                this.loadGalleryImages(); // Load real images from API
             }
             
             checkAuthentication() {
@@ -150,8 +178,132 @@
                 }
             }
             
-            createImageGrid() {
+            async loadGalleryImages() {
+                try {
+                    // Get gallery info from session
+                    const galleryInfo = JSON.parse(sessionStorage.getItem('galleryInfo') || '{}');
+                    const galleryCode = galleryInfo.galleryCode || sessionStorage.getItem('galleryCode') || 'DEMO2025';
+                    
+                    console.log('📸 Loading gallery images for code:', galleryCode);
+                    
+                    // Show loading state
+                    const container = document.querySelector("#gallery-grid");
+                    container.innerHTML = '<div class="loading-message">Loading images...</div>';
+                    
+                    // Use the new fetchGalleryImages function
+                    const imgs = await fetchGalleryImages(galleryCode);
+                    console.log('🖼️ Loaded images:', imgs);
+                    
+                    if (imgs.length > 0) {
+                        // Option 1: Use existing complex display method (current)
+                        this.displayImages(imgs);
+                        this.updateImageCount(imgs.length);
+                        
+                        // Option 2: Simple image display (alternative)
+                        // container.innerHTML = '';
+                        // imgs.forEach(({ url }) => {
+                        //   if (!url) return;
+                        //   const img = document.createElement("img");
+                        //   img.loading = "lazy";
+                        //   img.decoding = "async";
+                        //   img.src = url;
+                        //   img.style.cssText = "width: 100%; height: auto; margin-bottom: 1rem;";
+                        //   container.appendChild(img);
+                        // });
+                    } else {
+                        console.log('⚠️ No images found, creating placeholder grid');
+                        this.createPlaceholderGrid();
+                    }
+                } catch (error) {
+                    console.error('🚨 Error loading images:', error);
+                    this.createPlaceholderGrid();
+                }
+            }
+            
+            displayImages(images = []) {
+                const grid = document.querySelector('.gallery-grid');
+                grid.innerHTML = '';
+
+                if (!Array.isArray(images) || images.length === 0) {
+                    grid.innerHTML = `<p class="empty">No images yet—check back soon.</p>`;
+                    return;
+                }
+
+                this.totalImages = images.length;
+                const frag = document.createDocumentFragment();
+
+                images.forEach((item, index) => {
+                    // Create wrapper for gallery functionality (checkboxes, etc.)
+                    const imageBox = document.createElement('div');
+                    imageBox.className = 'gallery-image';
+                    imageBox.dataset.imageId = item.imageId || `img-${index + 1}`;
+
+                    // Create clickable link to full image
+                    const a = document.createElement('a');
+                    a.href = item.url;                 // full presigned URL
+                    a.target = '_blank';
+                    a.rel = 'noopener';
+
+                    const img = document.createElement('img');
+                    img.src = item.url;
+                    img.alt = item.imageId || 'Photo';
+                    img.loading = 'lazy';
+                    img.decoding = 'async';
+                    img.referrerPolicy = 'no-referrer';    // extra safety; optional
+                    img.className = 'gallery-img';
+
+                    // Fallback if URL fails (expired/missing)
+                    img.onerror = () => {
+                        img.onerror = null;
+                        img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjBmMGYwIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlIFVuYXZhaWxhYmxlPC90ZXh0Pjwvc3ZnPg==';
+                        img.classList.add('placeholder');
+                    };
+
+                    // Maintain existing gallery selection functionality
+                    const overlay = document.createElement('div');
+                    overlay.className = 'image-overlay';
+                    overlay.innerHTML = `<span class="image-number">${item.imageId || item.fileName || `IMG-${String(index + 1).padStart(3, '0')}`}</span>`;
+
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.className = 'image-checkbox';
+                    checkbox.id = `img-${index + 1}`;
+
+                    const label = document.createElement('label');
+                    label.htmlFor = `img-${index + 1}`;
+                    label.className = 'checkbox-label';
+
+                    // Build the structure
+                    const container = document.createElement('div');
+                    container.className = 'image-container';
+                    
+                    a.appendChild(img);
+                    container.appendChild(a);
+                    container.appendChild(overlay);
+                    container.appendChild(checkbox);
+                    container.appendChild(label);
+                    
+                    imageBox.appendChild(container);
+                    frag.appendChild(imageBox);
+                });
+
+                grid.appendChild(frag);
+                console.log(`✅ Displayed ${images.length} images`);
+            }
+            
+            updateImageCount(count) {
+                if (count !== undefined) {
+                    this.totalImages = count;
+                    const imageCountEl = document.querySelector('.image-count');
+                    if (imageCountEl) {
+                        imageCountEl.textContent = `${count} images available`;
+                    }
+                }
+            }
+            
+            createPlaceholderGrid() {
                 const grid = document.getElementById('gallery-grid');
+                grid.innerHTML = '';
                 
                 for (let i = 1; i <= this.totalImages; i++) {
                     const imageBox = document.createElement('div');
@@ -170,6 +322,8 @@
                     
                     grid.appendChild(imageBox);
                 }
+                
+                console.log(`📋 Created ${this.totalImages} placeholder images`);
             }
             
             bindEvents() {

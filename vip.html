@@ -3,11 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIP Client Access - Blakely Cinematics</title>
-    <meta name="description" content="Exclusive VIP client gallery access for Blakely Cinematics">
+    <title>VIP Client Portal - Blakely Cinematics</title>
+    <meta name="description" content="Exclusive VIP client portal for Blakely Cinematics - manage your session, view preparation guides, and access your photos">
     
     <!-- Stylesheets -->
     <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <!-- AWS CloudWatch RUM Analytics -->
     <script>
@@ -27,153 +30,1148 @@
         }
       );
     </script>
+    
+    <style>
+        /* VIP Portal Specific Styles */
+        .vip-portal {
+            background: var(--dark);
+            min-height: 100vh;
+            display: none; /* Hidden until authenticated */
+        }
+        
+        .vip-login-page {
+            background: var(--dark);
+            min-height: 100vh;
+        }
+        
+        .portal-header {
+            background: rgba(0, 0, 0, 0.9);
+            border-bottom: 1px solid var(--primary);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .portal-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .portal-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.5rem;
+            font-weight: 100;
+            letter-spacing: 0.3rem;
+            color: var(--light);
+        }
+        
+        .portal-logo i {
+            color: var(--primary);
+            font-size: 1.8rem;
+        }
+        
+        .client-welcome {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .client-name {
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 0.1rem;
+        }
+        
+        .logout-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.7);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .logout-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .portal-content {
+            padding: 3rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .portal-dashboard {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .main-content {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .status-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .status-card.upcoming {
+            border-color: rgba(255, 107, 53, 0.5);
+            background: rgba(255, 107, 53, 0.05);
+        }
+        
+        .status-card.completed {
+            border-color: rgba(34, 197, 94, 0.5);
+            background: rgba(34, 197, 94, 0.05);
+        }
+        
+        .status-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .status-title {
+            font-size: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 0.1rem;
+            margin: 0;
+        }
+        
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1rem;
+        }
+        
+        .status-badge.upcoming {
+            background: rgba(255, 107, 53, 0.2);
+            color: var(--primary);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+        }
+        
+        .status-badge.completed {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22C55E;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+        
+        .session-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .detail-label {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1rem;
+        }
+        
+        .detail-value {
+            color: var(--light);
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+        
+        .sidebar {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .quick-actions {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+        
+        .quick-actions h3 {
+            margin: 0 0 1.5rem 0;
+            font-size: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 0.1rem;
+            color: var(--light);
+        }
+        
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--light);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        
+        .action-btn:hover {
+            border-color: var(--primary);
+            background: rgba(255, 107, 53, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .action-btn:last-child {
+            margin-bottom: 0;
+        }
+        
+        .action-btn i {
+            color: var(--primary);
+            font-size: 1.1rem;
+            width: 20px;
+        }
+        
+        .preparation-section {
+            grid-column: 1 / -1;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            font-weight: 100;
+            letter-spacing: 0.2rem;
+            margin-bottom: 2rem;
+            color: var(--light);
+        }
+        
+        .prep-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .prep-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .prep-card:hover {
+            border-color: var(--primary);
+            background: rgba(255, 107, 53, 0.05);
+        }
+        
+        .prep-card h4 {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin: 0 0 1rem 0;
+            font-size: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 0.1rem;
+            color: var(--light);
+        }
+        
+        .prep-card h4 i {
+            color: var(--primary);
+            font-size: 1.3rem;
+        }
+        
+        .prep-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .prep-card li {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        
+        .prep-card li::before {
+            content: '✓';
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1rem;
+        }
+        
+        .gallery-section {
+            grid-column: 1 / -1;
+            padding: 3rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .gallery-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .gallery-placeholder {
+            aspect-ratio: 4/3;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .gallery-placeholder i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            opacity: 0.5;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .portal-dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .session-details {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .portal-nav {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .prep-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Auto-fill from booking enhancement */
+        .auto-filled {
+            border-color: var(--primary) !important;
+            background: rgba(255, 107, 53, 0.1) !important;
+        }
+        
+        .auto-fill-indicator {
+            color: var(--primary);
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+    </style>
 </head>
 <body class="vip-page">
     <!-- Custom Cursor -->
     <div class="cursor"></div>
     <div class="cursor-follower"></div>
     
-    <!-- Minimal Navigation -->
-    <nav class="vip-nav">
-        <div class="nav-container">
-            <a href="index.html" class="logo">BLAKELY</a>
-            <a href="index.html" class="back-link">← Back to Main Site</a>
-        </div>
-    </nav>
+    <!-- VIP Login Section -->
+    <div id="vip-login" class="vip-login-page">
+        <!-- Minimal Navigation -->
+        <nav class="vip-nav">
+            <div class="nav-container">
+                <a href="index.html" class="logo">BLAKELY</a>
+                <a href="index.html" class="back-link">← Back to Main Site</a>
+            </div>
+        </nav>
+        
+        <!-- VIP Client Access Section -->
+        <section class="vip-access-page" id="vip">
+            <div class="vip-content">
+                <div class="vip-header">
+                    <h1 class="vip-title">VIP CLIENT PORTAL</h1>
+                    <p class="vip-subtitle">Enter your exclusive client experience</p>
+                </div>
+                
+                <div class="vip-container">
+                    <form id="vip-login-form" class="vip-form">
+                        <div class="form-group">
+                            <input type="text" id="gallery-code" name="gallery_code" placeholder=" " required>
+                            <label for="gallery-code">Gallery Code</label>
+                        </div>
+                        
+                        <div class="form-group">
+                            <input type="password" id="vip-password" name="password" placeholder=" " required>
+                            <label for="vip-password">Password</label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary vip-btn">
+                            <i class="fas fa-crown" style="margin-right: 0.5rem;"></i>
+                            ACCESS PORTAL
+                        </button>
+                    </form>
+                    
+                    <!-- Optional loading element -->
+                    <div id="vipLoading" style="display:none">Loading…</div>
+                    
+                    <div class="vip-info">
+                        <p>Just booked your session? Your VIP credentials were provided after booking completion.</p>
+                        <p>Need help? <a href="booking.html">Book a session</a> or <a href="index.html#contact">contact us</a></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Minimal Footer -->
+        <footer class="vip-footer">
+            <div class="footer-container">
+                <p>&copy; 2024 Blakely Cinematics. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
     
-    <!-- VIP Client Access Section -->
-    <section class="vip-access-page" id="vip">
-        <div class="vip-content">
-            <div class="vip-header">
-                <h1 class="vip-title">VIP CLIENT ACCESS</h1>
-                <p class="vip-subtitle">Enter your exclusive gallery</p>
+    <!-- VIP Portal (Hidden Initially) -->
+    <div id="vip-portal" class="vip-portal">
+        <!-- Portal Header -->
+        <header class="portal-header">
+            <nav class="portal-nav">
+                <div class="portal-logo">
+                    <i class="fas fa-crown"></i>
+                    <span>BLAKELY VIP</span>
+                </div>
+                <div class="client-welcome">
+                    <span class="client-name" id="client-name-display">Welcome</span>
+                    <button class="logout-btn" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Sign Out
+                    </button>
+                </div>
+            </nav>
+        </header>
+        
+        <!-- Portal Content -->
+        <div class="portal-content">
+            <div class="portal-dashboard">
+                <!-- Main Content -->
+                <div class="main-content">
+                    <!-- Session Status -->
+                    <div class="status-card upcoming" id="session-status">
+                        <div class="status-header">
+                            <h2 class="status-title">Your Session</h2>
+                            <div class="status-badge upcoming" id="status-badge">Upcoming</div>
+                        </div>
+                        
+                        <div class="session-details" id="session-details">
+                            <!-- Details populated by JavaScript -->
+                        </div>
+                        
+                        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                            <button class="action-btn" onclick="showContactForm()">
+                                <i class="fas fa-phone"></i>
+                                Contact Photographer
+                            </button>
+                            <button class="action-btn" onclick="showRescheduleForm()">
+                                <i class="fas fa-calendar-alt"></i>
+                                Reschedule Session
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Gallery Section -->
+                    <div class="gallery-section">
+                        <h2 class="section-title">Your Photos</h2>
+                        <div class="gallery-preview" id="gallery-preview">
+                            <div class="gallery-placeholder">
+                                <i class="fas fa-camera"></i>
+                                <p>Photos will appear here<br>5-7 days after your session</p>
+                            </div>
+                            <div class="gallery-placeholder">
+                                <i class="fas fa-hourglass-half"></i>
+                                <p>Processing in progress...<br>Check back soon</p>
+                            </div>
+                            <div class="gallery-placeholder">
+                                <i class="fas fa-star"></i>
+                                <p>High-resolution images<br>ready for download</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <!-- Quick Actions -->
+                    <div class="quick-actions">
+                        <h3>Quick Actions</h3>
+                        <a href="#" class="action-btn" onclick="downloadPreparationGuide()">
+                            <i class="fas fa-download"></i>
+                            Preparation Guide
+                        </a>
+                        <a href="#" class="action-btn" onclick="showLocationDetails()">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Session Location
+                        </a>
+                        <a href="#" class="action-btn" onclick="showPackageDetails()">
+                            <i class="fas fa-info-circle"></i>
+                            Package Details
+                        </a>
+                        <a href="index.html#contact" class="action-btn">
+                            <i class="fas fa-envelope"></i>
+                            Message Jeremiah
+                        </a>
+                    </div>
+                    
+                    <!-- Session Countdown -->
+                    <div class="quick-actions">
+                        <h3>Session Countdown</h3>
+                        <div id="countdown-display" style="text-align: center; padding: 2rem; font-size: 2rem; color: var(--primary); font-weight: 100;">
+                            Loading...
+                        </div>
+                    </div>
+                </div>
             </div>
             
-            <div class="vip-container">
-                <form id="vip-login-form" class="vip-form">
-                    <div class="form-group">
-                        <input type="text" id="gallery-code" name="gallery_code" placeholder=" " required>
-                        <label for="gallery-code">Gallery Code</label>
-                    </div>
-                    
-                    <div class="form-group">
-                        <input type="password" id="vip-password" name="password" placeholder=" " required>
-                        <label for="vip-password">Password</label>
-                    </div>
-                    
-                    <button type="submit" class="btn btn-primary vip-btn">ACCESS GALLERY</button>
-                </form>
+            <!-- Preparation Section -->
+            <div class="preparation-section">
+                <h2 class="section-title">Session Preparation</h2>
                 
-                <div class="vip-info">
-                    <p>Don't have access codes? <a href="index.html#contact">Contact us</a> to inquire about VIP gallery access.</p>
+                <div class="prep-grid">
+                    <div class="prep-card">
+                        <h4><i class="fas fa-tshirt"></i> What to Wear</h4>
+                        <ul>
+                            <li>Bring 2-4 outfit options</li>
+                            <li>Solid colors work best on camera</li>
+                            <li>Avoid busy patterns or logos</li>
+                            <li>Consider the session style/location</li>
+                            <li>Bring accessories (jewelry, glasses)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="prep-card">
+                        <h4><i class="fas fa-clock"></i> Before Your Session</h4>
+                        <ul>
+                            <li>Get plenty of rest the night before</li>
+                            <li>Stay hydrated and eat well</li>
+                            <li>Arrive 15 minutes early</li>
+                            <li>Bring any props or special items</li>
+                            <li>Have your phone charged for behind-scenes</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="prep-card">
+                        <h4><i class="fas fa-palette"></i> Hair & Makeup</h4>
+                        <ul>
+                            <li>Natural makeup photographs best</li>
+                            <li>Avoid heavy powder (can look flat)</li>
+                            <li>Style hair as you normally would</li>
+                            <li>Bring touch-up supplies</li>
+                            <li>Professional makeup artist available (add-on)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="prep-card">
+                        <h4><i class="fas fa-lightbulb"></i> Pro Tips</h4>
+                        <ul>
+                            <li>Relax and trust the process</li>
+                            <li>Communicate your vision/concerns</li>
+                            <li>Practice poses in the mirror</li>
+                            <li>Bring inspiration photos if helpful</li>
+                            <li>Have fun - confidence shows in photos!</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
-    
-    <!-- Minimal Footer -->
-    <footer class="vip-footer">
-        <div class="footer-container">
-            <p>&copy; 2024 Blakely Cinematics. All rights reserved.</p>
-        </div>
-    </footer>
+    </div>
     
     <!-- JavaScript -->
+    <script src="js/script.js"></script>
+    
     <script>
-        // VIP Login Authentication - AWS API Integration
+        // ---- VIP Auth Config ----
+        const DEV = location.hostname === '127.0.0.1' || location.hostname === 'localhost';
+        
+        let currentClient = null;
+        
+        // Check for auto-login from booking completion
         document.addEventListener('DOMContentLoaded', function() {
-            const vipForm = document.getElementById('vip-login-form');
-            const API_URL = 'https://0n42z2wsrj.execute-api.us-east-1.amazonaws.com/prod/authenticate';
+            console.log('VIP page loaded, checking for saved credentials...');
+            console.log('VIP Auth URL available:', AUTH_URL);
+            console.log('Environment detected:', DEV ? 'Development' : 'Production');
             
-            function showMessage(message, type) {
-                let messageEl = document.querySelector('.vip-message');
-                if (!messageEl) {
-                    messageEl = document.createElement('div');
-                    messageEl.className = 'vip-message';
-                    messageEl.style.textAlign = 'center';
-                    messageEl.style.marginTop = '1rem';
-                    messageEl.style.fontSize = '0.9rem';
-                    vipForm.appendChild(messageEl);
-                }
-                
-                messageEl.textContent = message;
-                messageEl.style.color = type === 'error' ? '#ef4444' : 
-                                       type === 'loading' ? '#f59e0b' : '#10b981';
-            }
+            // Check if user came from booking completion
+            const vipCredentials = sessionStorage.getItem('vipCredentials');
+            console.log('Found vipCredentials:', vipCredentials);
             
-            async function handleLogin(e) {
-                e.preventDefault();
-                
-                const galleryCode = document.getElementById('gallery-code').value.trim();
-                const password = document.getElementById('vip-password').value.trim();
-                const submitBtn = document.querySelector('.vip-btn');
-                const originalText = submitBtn.textContent;
-                
-                console.log('🔐 VIP Login Attempt:', galleryCode, password);
-                
-                // Show loading message
-                showMessage('Authenticating...', 'loading');
-                submitBtn.textContent = 'Authenticating...';
-                submitBtn.disabled = true;
-                
+            if (vipCredentials) {
                 try {
-                    const response = await fetch(API_URL, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            galleryCode: galleryCode,
-                            password: password
-                        })
-                    });
+                    const credentials = JSON.parse(vipCredentials);
+                    console.log('Parsed credentials:', credentials);
                     
-                    const data = await response.json();
-                    console.log('📡 API Response:', data);
-                    
-                    if (data.success) {
-                        console.log('✅ Authentication successful - storing gallery info');
+                    if (credentials.bookingConfirmed && credentials.galleryCode && credentials.password) {
+                        console.log('Valid booking credentials found, auto-filling form...');
                         
-                        // Store gallery info for the gallery page
-                        sessionStorage.setItem('galleryInfo', JSON.stringify(data.gallery));
-                        sessionStorage.setItem('authenticated', 'true');
+                        // Ensure form elements exist
+                        const galleryCodeField = document.getElementById('gallery-code');
+                        const passwordField = document.getElementById('vip-password');
                         
-                        showMessage('Success! Redirecting to gallery...', 'success');
-                        
-                        // Redirect to gallery
-                        setTimeout(() => {
-                            window.location.href = 'gallery.html';
-                        }, 500);
+                        if (galleryCodeField && passwordField) {
+                            // Auto-fill login form
+                            galleryCodeField.value = credentials.galleryCode;
+                            passwordField.value = credentials.password;
+                            
+                            console.log('Form filled with:', {
+                                galleryCode: credentials.galleryCode,
+                                password: '***hidden***'
+                            });
+                            
+                            // Add visual indicator
+                            galleryCodeField.classList.add('auto-filled');
+                            passwordField.classList.add('auto-filled');
+                            
+                            // Show auto-fill message
+                            const indicator = document.createElement('div');
+                            indicator.className = 'auto-fill-indicator';
+                            indicator.innerHTML = '<i class="fas fa-magic"></i> Credentials auto-filled from your booking';
+                            const vipForm = document.querySelector('.vip-form');
+                            if (vipForm) {
+                                vipForm.appendChild(indicator);
+                            }
+                            
+                            // Auto-submit after a moment to give user time to see the auto-filled credentials
+                            setTimeout(() => {
+                                console.log('Auto-submitting login...');
+                                handleVIPLogin();
+                            }, 2500); // Increased delay to 2.5 seconds
+                        } else {
+                            console.error('Form fields not found:', { galleryCodeField, passwordField });
+                        }
                     } else {
-                        console.log('❌ Authentication failed - invalid credentials');
-                        showMessage('Invalid credentials', 'error');
-                        vipForm.reset();
-                        
-                        // Reset button
-                        submitBtn.textContent = originalText;
-                        submitBtn.disabled = false;
-                        
-                        // Focus back to first input
-                        document.getElementById('gallery-code').focus();
+                        console.log('Invalid or incomplete credentials:', credentials);
                     }
                 } catch (error) {
-                    console.error('🚨 Login error:', error);
-                    showMessage('Connection error. Please try again.', 'error');
+                    console.error('Error parsing vipCredentials:', error);
+                }
+            } else {
+                console.log('No saved credentials found');
+            }
+            
+            // Login form handler - wired to new handler
+            document.getElementById('vip-login-form')?.addEventListener('submit', handleVipLoginSubmit);
+        });
+        
+        async function handleVipLoginSubmit(event) {
+          if (event) event.preventDefault();
+
+          const codeInput = document.querySelector('#gallery-code');
+          const passInput = document.querySelector('#vip-password');
+          const submitBtn = document.querySelector('.vip-btn');
+          const errorBox = document.querySelector('.vip-message') || createErrorBox();
+          const loading = document.querySelector('#vipLoading');
+
+          const galleryCode = (codeInput?.value || '').trim();
+          const password    = (passInput?.value || '').trim();
+
+          // basic guard
+          if (!galleryCode || !password) {
+            showMessage('Please enter your code and password.', 'error');
+            return;
+          }
+
+          try {
+            if (submitBtn) {
+              submitBtn.disabled = true;
+              submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Authenticating...';
+            }
+            if (loading) loading.style.display = 'block';
+
+            const res = await fetch(AUTH_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json", "Accept": "application/json" },
+              body: JSON.stringify({ galleryCode, password })
+            });
+            if (!res.ok) throw new Error(`Auth ${res.status}`);
+            const data = await res.json();
+            const gallery = data.gallery || {};
+            gallery.clientName = (gallery.clientName || "").trim();
+
+            console.log('Authentication successful for client:', gallery);
+
+            // Store normalized credentials in localStorage
+            localStorage.setItem("vipCredentials", JSON.stringify({
+              galleryCode,
+              password,
+              clientName: gallery.clientName,
+              bookingConfirmed: true,
+              timestamp: Date.now()
+            }));
+
+            // Set authentication flag for gallery access
+            sessionStorage.setItem('authenticated', 'true');
+            sessionStorage.setItem('galleryInfo', JSON.stringify({
+              ...gallery,
+              galleryCode
+            }));
+
+            // Show success message and redirect to gallery
+            showMessage('Authentication successful! Redirecting to your gallery...', 'success');
+            
+            // Small delay to show the success message, then redirect
+            setTimeout(() => {
+              console.log('Redirecting to gallery.html...');
+              window.location.href = 'gallery.html';
+            }, 1500);
+
+          } catch (err) {
+            console.error('VIP auth error:', err);
+            // Handle specific auth errors vs network errors
+            if (err.message && err.message.includes('Auth 401')) {
+              showMessage('Invalid credentials. Please check your gallery code and password.', 'error');
+            } else if (err.message && err.message.includes('Auth')) {
+              showMessage('Authentication service unavailable. Please try again later.', 'error');
+            } else {
+              showMessage('Network error. Please try again.', 'error');
+            }
+          } finally {
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.innerHTML = '<i class="fas fa-crown" style="margin-right: 0.5rem;"></i>ACCESS PORTAL';
+            }
+            if (loading) loading.style.display = 'none';
+          }
+        }
+        
+        // Helper function to create error box if it doesn't exist
+        function createErrorBox() {
+          let errorBox = document.querySelector('.vip-message');
+          if (!errorBox) {
+            errorBox = document.createElement('div');
+            errorBox.className = 'vip-message';
+            errorBox.style.textAlign = 'center';
+            errorBox.style.marginTop = '1rem';
+            errorBox.style.fontSize = '0.9rem';
+            const vipForm = document.querySelector('.vip-form');
+            if (vipForm) vipForm.appendChild(errorBox);
+          }
+          return errorBox;
+        }
+        
+        // Maintain backward compatibility
+        async function handleVIPLogin() {
+          return handleVipLoginSubmit();
+        }
+        
+        function showVIPPortal(clientData) {
+            currentClient = clientData;
+            
+            // Hide login, show portal
+            document.getElementById('vip-login').style.display = 'none';
+            document.getElementById('vip-portal').style.display = 'block';
+            
+            // Update client name
+            const clientName = clientData.name || clientData.clientName || 'Valued Client';
+            document.getElementById('client-name-display').textContent = `Welcome, ${clientName}`;
+            
+            // Populate session details
+            populateSessionDetails(clientData);
+            
+            // Start countdown
+            const sessionDate = clientData.date ? (typeof clientData.date === 'string' ? new Date(clientData.date) : clientData.date) : null;
+            if (sessionDate) {
+                startSessionCountdown(sessionDate);
+            }
+        }
+        
+        function populateSessionDetails(clientData) {
+            const detailsContainer = document.getElementById('session-details');
+            
+            // Handle date conversion if it's a string from API
+            let sessionDate = clientData.date;
+            if (typeof sessionDate === 'string') {
+                sessionDate = new Date(sessionDate);
+            }
+            
+            detailsContainer.innerHTML = `
+                <div class="detail-item">
+                    <div class="detail-label">Package</div>
+                    <div class="detail-value">${clientData.package || clientData.packageType || 'Package Info'}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Date</div>
+                    <div class="detail-value">${sessionDate ? sessionDate.toLocaleDateString('en-US', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    }) : 'Date TBD'}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Time</div>
+                    <div class="detail-value">${clientData.time || clientData.sessionTime || 'Time TBD'}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Location</div>
+                    <div class="detail-value">${clientData.location || clientData.sessionLocation || 'Location TBD'}</div>
+                </div>
+            `;
+        }
+        
+        function startSessionCountdown(sessionDate) {
+            const countdownElement = document.getElementById('countdown-display');
+            
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const sessionTime = sessionDate.getTime();
+                const distance = sessionTime - now;
+                
+                if (distance > 0) {
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                     
-                    // Reset button
-                    submitBtn.textContent = originalText;
-                    submitBtn.disabled = false;
+                    countdownElement.innerHTML = `
+                        <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">${days} days</div>
+                        <div style="font-size: 1rem; color: rgba(255, 255, 255, 0.7);">${hours}h ${minutes}m</div>
+                    `;
+                } else {
+                    countdownElement.innerHTML = '<div style="color: #22C55E;">Session Today!</div>';
                 }
             }
             
-            vipForm.addEventListener('submit', handleLogin);
+            updateCountdown();
+            setInterval(updateCountdown, 60000); // Update every minute
+        }
+        
+        function logout() {
+            // Clear session storage
+            sessionStorage.removeItem('vipCredentials');
             
-            // Initialize custom cursor if available
-            if (typeof initCustomCursor === 'function') {
-                initCustomCursor();
+            // Show login, hide portal
+            document.getElementById('vip-login').style.display = 'block';
+            document.getElementById('vip-portal').style.display = 'none';
+            
+            // Clear form
+            document.getElementById('vip-login-form').reset();
+            
+            currentClient = null;
+        }
+        
+        function showMessage(message, type) {
+            let messageEl = document.querySelector('.vip-message');
+            if (!messageEl) {
+                messageEl = document.createElement('div');
+                messageEl.className = 'vip-message';
+                messageEl.style.textAlign = 'center';
+                messageEl.style.marginTop = '1rem';
+                messageEl.style.fontSize = '0.9rem';
+                document.querySelector('.vip-form').appendChild(messageEl);
             }
-        });
+            
+            messageEl.textContent = message;
+            messageEl.style.color = type === 'error' ? '#ef4444' : '#22c55e';
+            
+            setTimeout(() => {
+                if (messageEl.parentNode) {
+                    messageEl.parentNode.removeChild(messageEl);
+                }
+            }, 5000);
+        }
+        
+        // Action functions
+        function showContactForm() {
+            // Redirect to contact section with pre-filled client info
+            window.open('index.html#contact', '_blank');
+        }
+        
+        function showRescheduleForm() {
+            const message = `To reschedule your session, please contact us at least 48 hours in advance.\n\nWould you like to open the contact form?`;
+            if (confirm(message)) {
+                window.open('index.html#contact', '_blank');
+            }
+        }
+        
+        function downloadPreparationGuide() {
+            // For now, show the preparation info inline - could be enhanced with PDF download
+            const guide = document.querySelector('.preparation-section');
+            if (guide) {
+                guide.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                alert('Your preparation guide is available in the VIP portal below.');
+            }
+        }
+        
+        function showLocationDetails() {
+            const clientData = currentClient;
+            if (clientData && clientData.location) {
+                alert(`Session Location: ${clientData.location}\n\nExact address and directions will be sent via email 24 hours before your session.`);
+            } else {
+                alert('Location details will be provided 24 hours before your session via email.');
+            }
+        }
+        
+        function showPackageDetails() {
+            const clientData = currentClient;
+            if (clientData && clientData.package) {
+                alert(`Package: ${clientData.package}\n\nFor detailed package information, visit our services page or contact us directly.`);
+                window.open('services.html', '_blank');
+            } else {
+                window.open('services.html', '_blank');
+            }
+        }
+        
+        // Check stored VIP credentials (for debugging)
+        window.checkVIPCredentials = function() {
+            const stored = sessionStorage.getItem('vipCredentials');
+            console.log('=== VIP CREDENTIALS DEBUG ===');
+            console.log('Raw stored data:', stored);
+            if (stored) {
+                try {
+                    const parsed = JSON.parse(stored);
+                    console.log('Parsed data:', parsed);
+                    console.log('Has required fields:', {
+                        galleryCode: !!parsed.galleryCode,
+                        password: !!parsed.password,
+                        bookingConfirmed: !!parsed.bookingConfirmed
+                    });
+                } catch (error) {
+                    console.error('Error parsing stored credentials:', error);
+                }
+            } else {
+                console.log('No credentials found in sessionStorage');
+            }
+            console.log('============================');
+            return stored;
+        };
+        
+        // Manual fill credentials (for testing)
+        window.fillTestCredentials = function() {
+            document.getElementById('gallery-code').value = 'test1234';
+            document.getElementById('vip-password').value = 'TESTPASS';
+            console.log('Test credentials filled manually');
+        };
+        
+        // Manually trigger auto-fill from stored credentials
+        window.triggerAutoFill = function() {
+            const vipCredentials = sessionStorage.getItem('vipCredentials');
+            if (vipCredentials) {
+                try {
+                    const credentials = JSON.parse(vipCredentials);
+                    if (credentials.galleryCode && credentials.password) {
+                        document.getElementById('gallery-code').value = credentials.galleryCode;
+                        document.getElementById('vip-password').value = credentials.password;
+                        console.log('Manually filled from stored credentials');
+                    } else {
+                        console.log('Stored credentials missing required fields');
+                    }
+                } catch (error) {
+                    console.error('Error parsing stored credentials:', error);
+                }
+            } else {
+                console.log('No stored credentials found');
+            }
+        };
+        
+        // Test VIP login with known credentials
+        window.testVIPLogin = function() {
+            // Fill with test credentials
+            document.getElementById('gallery-code').value = 'jereux19';
+            document.getElementById('vip-password').value = 'DEMO2025';
+            
+            console.log('Test credentials filled, attempting login...');
+            handleVIPLogin();
+        };
+        
+        // Direct API test with detailed network analysis
+        window.testAPICall = async function(galleryCode = 'testuser' + Date.now(), password = 'TESTPASS') {
+            try {
+                console.log('=== DETAILED API TEST ===');
+                console.log('Auth URL:', AUTH_URL);
+                console.log('Test credentials:', { galleryCode, password });
+                
+                // Check if we can even reach the domain
+                console.log('Testing basic connectivity...');
+                
+                const startTime = Date.now();
+                const response = await fetch(AUTH_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        galleryCode: galleryCode,
+                        password: password
+                    })
+                });
+                const endTime = Date.now();
+                
+                console.log('Request completed in:', endTime - startTime, 'ms');
+                console.log('Response status:', response.status, response.statusText);
+                console.log('Response type:', response.type);
+                console.log('Response ok:', response.ok);
+                console.log('Response URL:', response.url);
+                
+                // Log all headers
+                console.log('Response headers:');
+                for (const [key, value] of response.headers.entries()) {
+                    console.log(`  ${key}: ${value}`);
+                }
+                
+                // Try to get response data
+                let responseData;
+                const contentType = response.headers.get('content-type');
+                console.log('Content-Type:', contentType);
+                
+                if (contentType && contentType.includes('application/json')) {
+                    responseData = await response.json();
+                    console.log('JSON Response data:', responseData);
+                } else {
+                    responseData = await response.text();
+                    console.log('Text Response data:', responseData);
+                }
+                
+                return { 
+                    status: response.status, 
+                    statusText: response.statusText,
+                    ok: response.ok,
+                    data: responseData,
+                    headers: Object.fromEntries(response.headers.entries()),
+                    timing: endTime - startTime
+                };
+            } catch (error) {
+                console.error('API test failed completely:', error);
+                console.error('Error type:', error.constructor.name);
+                console.error('Error message:', error.message);
+                console.error('Error stack:', error.stack);
+                
+                // Check if it's a network error vs CORS
+                if (error.name === 'TypeError' && error.message.includes('fetch')) {
+                    console.error('This looks like a NETWORK ERROR or CORS PREFLIGHT failure');
+                } else {
+                    console.error('This is a different type of error');
+                }
+                
+                return { error: error.message, errorType: error.constructor.name };
+            }
+        };
+        
+        // Test with existing credentials
+        window.testExistingLogin = function() {
+            return testAPICall('jereux19', 'DEMO2025');
+        };
+        
+        // Test with new unique credentials  
+        window.testNewLogin = function() {
+            const uniqueCode = 'test' + Date.now();
+            return testAPICall(uniqueCode, 'NEWPASS');
+        };
+        
+        // Test function 1: Test with existing credentials
+        function testExistingLogin() {
+            console.log('Testing with existing credentials...');
+            document.getElementById('gallery-code').value = 'jereux19';
+            document.getElementById('vip-password').value = 'DEMO2025';
+            console.log('Filled form with: jereux19 / DEMO2025');
+            console.log('Now click the ACCESS PORTAL button to test');
+        }
+
+        // Test function 2: Create new test user
+        function testNewLogin() {
+            const timestamp = Date.now();
+            const testCode = 'TEST' + timestamp;
+            const testPass = 'PASS' + timestamp;
+            console.log('Testing with NEW credentials...');
+            document.getElementById('gallery-code').value = testCode;
+            document.getElementById('vip-password').value = testPass;
+            console.log('Filled form with:', testCode, '/', testPass);
+            console.log('Now click the ACCESS PORTAL button to test');
+        }
+
+        // Test function 3: Check stored credentials
+        function checkVIPCredentials() {
+            const stored = sessionStorage.getItem('galleryInfo');
+            if (stored) {
+                console.log('Found stored credentials:', JSON.parse(stored));
+            } else {
+                console.log('No credentials stored in session');
+            }
+        }
+        
+        // Test function 4: Direct API test (bypasses form)
+        async function testDirectAPI() {
+            const timestamp = Date.now();
+            const testCode = 'DIRECT' + timestamp;
+            const testPass = 'API' + timestamp;
+            
+            console.log('=== DIRECT API TEST ===');
+            console.log('Testing credentials:', testCode, '/', testPass);
+            console.log('Auth URL:', AUTH_URL);
+            
+            try {
+                const response = await fetch(AUTH_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        galleryCode: testCode,
+                        password: testPass
+                    })
+                });
+                
+                console.log('Response status:', response.status);
+                console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+                
+                const data = await response.text();
+                console.log('Response data:', data);
+                
+                if (response.ok) {
+                    console.log('✅ SUCCESS - New user should be created in database');
+                    return true;
+                } else {
+                    console.log('❌ FAILED - Check response above');
+                    return false;
+                }
+            } catch (error) {
+                console.error('❌ NETWORK ERROR:', error.message);
+                console.error('This suggests CORS preflight failure or network issue');
+                return false;
+            }
+        }
+        
+        // Make functions globally available
+        window.testExistingLogin = testExistingLogin;
+        window.testNewLogin = testNewLogin;
+        window.checkVIPCredentials = checkVIPCredentials;
+        window.testDirectAPI = testDirectAPI;
     </script>
-    <script src="js/script.js"></script>
 </body>
 </html>

@@ -23,6 +23,24 @@
 /* ============================================ */
 /* 1. GLOBAL VARIABLES                         */
 /* ============================================ */
+const API_BASE_URL = "https://4l12h6snuh.execute-api.us-east-1.amazonaws.com";
+const AUTH_URL = `${API_BASE_URL}/authenticate`;
+
+// VIP Gallery Images API
+async function fetchGalleryImages(galleryCode) {
+  const res = await fetch(`${API_BASE_URL}/images`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    },
+    body: JSON.stringify({ galleryCode })
+  });
+  if (!res.ok) throw new Error(`Images API ${res.status}`);
+  const data = await res.json();
+  return Array.isArray(data.images) ? data.images : [];
+}
+
 let currentSlide = 0;
 let currentTestimonial = 0;
 let isMenuOpen = false;
@@ -395,24 +413,9 @@ function initScrollAnimations() {
 /* 10. VIP LOGIN FORM                          */
 /* ============================================ */
 function initVIPForm() {
-    const vipForm = document.getElementById('vip-login-form');
-    
-    if (vipForm) {
-        vipForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const galleryCode = document.getElementById('gallery-code').value;
-            const password = document.getElementById('vip-password').value;
-            
-            console.log('🔐 VIP Login Attempt:');
-            console.log('Gallery Code:', galleryCode);
-            console.log('Password:', password);
-            console.log('-------------------');
-            
-            // TODO: Connect to backend authentication
-            alert('VIP login functionality will be connected to backend soon!');
-        });
-    }
+    // VIP form handling is now managed directly in vip.html
+    // This prevents conflicts with the real authentication system
+    console.log('VIP form initialization skipped - handled by vip.html directly');
 }
 
 /* ============================================ */
@@ -647,6 +650,17 @@ function isInViewport(element) {
         rect.right <= (window.innerWidth || document.documentElement.clientWidth)
     );
 }
+
+/* ============================================ */
+/* 12. SECRET ADMIN ACCESS                     */
+/* ============================================ */
+// Secret admin access shortcut: Ctrl+Shift+\ (or Cmd+Shift+\ on Mac)
+document.addEventListener('keydown', function(e) {
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === '\\') {
+        e.preventDefault();
+        window.location.href = 'admin-login.html';
+    }
+});
 
 // Export functions if using modules (optional)
 // export { initCustomCursor, initNavigation, initHeroSlider };
