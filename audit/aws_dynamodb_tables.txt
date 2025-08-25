@@ -1,0 +1,16 @@
+------------------------------------
+|            ListTables            |
++----------------------------------+
+||           TableNames           ||
+|+--------------------------------+|
+||  JDTV-Favorites                ||
+||  JDTV-UserPreferences          ||
+||  JDTV-Videos                   ||
+||  JDTV-WatchHistory             ||
+||  JDTV-WatchProgress            ||
+||  blakely-cinematics-admin      ||
+||  blakely-cinematics-contacts   ||
+||  blakely-cinematics-galleries  ||
+||  blakely-cinematics-images     ||
+||  jdx-projects                  ||
+|+--------------------------------+|

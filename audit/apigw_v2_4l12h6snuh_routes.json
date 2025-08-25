@@ -1,0 +1,27 @@
+{
+    "Items": [
+        {
+            "ApiKeyRequired": false,
+            "AuthorizationType": "NONE",
+            "RouteId": "6fa1l65",
+            "RouteKey": "POST /create-gallery",
+            "Target": "integrations/xv88cms"
+        },
+        {
+            "ApiKeyRequired": false,
+            "AuthorizationScopes": [],
+            "AuthorizationType": "NONE",
+            "RequestParameters": {},
+            "RouteId": "a2nj0t2",
+            "RouteKey": "POST /authenticate",
+            "Target": "integrations/3zq5bzf"
+        },
+        {
+            "ApiKeyRequired": false,
+            "AuthorizationType": "NONE",
+            "RouteId": "uxnjddd",
+            "RouteKey": "POST /images",
+            "Target": "integrations/zexmz7h"
+        }
+    ]
+}

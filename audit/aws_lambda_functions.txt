@@ -1,0 +1,11 @@
+-------------------------------------------------------
+|                    ListFunctions                    |
++--------------------------------------+--------------+
+|  blakely-cinematics-cleanupGalleries |  python3.13  |
+|  blakely-cinematics-contact-handler  |  python3.13  |
+|  blakely-cinematics-createGallery    |  python3.13  |
+|  blakely-cinematics-authenticate     |  python3.13  |
+|  blakely-cinematics-deleteGallery    |  python3.13  |
+|  blakely-cinematics-getImages        |  python3.13  |
+|  blakely-cinematics-uploadImages     |  python3.13  |
++--------------------------------------+--------------+

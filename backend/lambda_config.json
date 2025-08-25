@@ -1,0 +1,55 @@
+[
+    [
+        "blakely-cinematics-cleanupGalleries",
+        "python3.13",
+        "lambda_function.lambda_handler",
+        "arn:aws:iam::642278445221:role/service-role/blakely-cinematics-cleanupGalleries-role-ljvsdo37",
+        null
+    ],
+    [
+        "blakely-cinematics-contact-handler",
+        "python3.13",
+        "lambda_function.lambda_handler",
+        "arn:aws:iam::642278445221:role/service-role/blakely-cinematics-contact-handler-role-n7la0rpm",
+        null
+    ],
+    [
+        "blakely-cinematics-createGallery",
+        "python3.13",
+        "lambda_function.lambda_handler",
+        "arn:aws:iam::642278445221:role/service-role/blakely-cinematics-createGallery-role-um73jefg",
+        null
+    ],
+    [
+        "blakely-cinematics-authenticate",
+        "python3.13",
+        "lambda_function.lambda_handler",
+        "arn:aws:iam::642278445221:role/service-role/blakely-cinematics-authenticate-role-fcs2p8mp",
+        null
+    ],
+    [
+        "blakely-cinematics-deleteGallery",
+        "python3.13",
+        "lambda_function.lambda_handler",
+        "arn:aws:iam::642278445221:role/service-role/blakely-cinematics-deleteGallery-role-ajhtj0tf",
+        null
+    ],
+    [
+        "blakely-cinematics-getImages",
+        "python3.13",
+        "lambda_getImages.lambda_handler",
+        "arn:aws:iam::642278445221:role/service-role/blakely-cinematics-getImages-role-o7tn0q61",
+        {
+            "PRESIGN_SECONDS": "3600",
+            "IMAGES_BUCKET": "blakely-cinematics",
+            "IMAGES_PREFIX": "galleries"
+        }
+    ],
+    [
+        "blakely-cinematics-uploadImages",
+        "python3.13",
+        "lambda_function.lambda_handler",
+        "arn:aws:iam::642278445221:role/service-role/blakely-cinematics-uploadImages-role-sd20woux",
+        null
+    ]
+]

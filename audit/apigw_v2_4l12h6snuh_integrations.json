@@ -1,0 +1,32 @@
+{
+    "Items": [
+        {
+            "ConnectionType": "INTERNET",
+            "IntegrationId": "3zq5bzf",
+            "IntegrationMethod": "POST",
+            "IntegrationType": "AWS_PROXY",
+            "IntegrationUri": "arn:aws:lambda:us-east-1:642278445221:function:blakely-cinematics-authenticate",
+            "PayloadFormatVersion": "2.0",
+            "TimeoutInMillis": 30000
+        },
+        {
+            "ConnectionType": "INTERNET",
+            "IntegrationId": "xv88cms",
+            "IntegrationMethod": "POST",
+            "IntegrationType": "AWS_PROXY",
+            "IntegrationUri": "arn:aws:lambda:us-east-1:642278445221:function:blakely-cinematics-createGallery",
+            "PayloadFormatVersion": "2.0",
+            "TimeoutInMillis": 30000
+        },
+        {
+            "ConnectionType": "INTERNET",
+            "Description": "POST /images → blakely-cinematics-getImages (Lambda)\nPurpose: Returns gallery image metadata/URLs for the given galleryCode.\nInput: JSON body { \"galleryCode\": \"<code>\" }.\nOutput: { \"images\": [...] } (application/json).\nCORS: HTTP API CORS enabled (POST; headers: content-type,accept).\nNotes: Handles OPTIONS preflight; used by gallery.html image loader.\n",
+            "IntegrationId": "zexmz7h",
+            "IntegrationMethod": "POST",
+            "IntegrationType": "AWS_PROXY",
+            "IntegrationUri": "arn:aws:lambda:us-east-1:642278445221:function:blakely-cinematics-getImages",
+            "PayloadFormatVersion": "2.0",
+            "TimeoutInMillis": 30000
+        }
+    ]
+}
