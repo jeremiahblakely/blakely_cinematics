@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coming Soon | Blakely Cinematics</title>
+    <meta name="description" content="Blakely Cinematics - Cinematic Portraits Coming Soon. Professional photography services launching soon.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Social Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #FF6B35;
+            --primary-glow: #FF8C5A;
+            --dark: #0A0A0A;
+            --dark-secondary: #1A1A1A;
+            --light: #FAFAFA;
+            --gold: #D4AF37;
+            --transition: cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--dark-secondary) 100%);
+            color: var(--light);
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Film Grain Overlay */
+        .film-grain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            z-index: 1;
+            background-image: 
+                radial-gradient(circle at 20% 50%, transparent 20%, rgba(255,255,255,0.3) 21%, rgba(255,255,255,0.3) 34%, transparent 35%, transparent),
+                linear-gradient(0deg, transparent 24%, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.05) 26%, transparent 27%, transparent 74%, rgba(255,255,255,0.05) 75%, rgba(255,255,255,0.05) 76%, transparent 77%, transparent);
+            background-size: 50px 50px;
+            animation: filmGrain 0.2s steps(10) infinite;
+            pointer-events: none;
+        }
+
+        @keyframes filmGrain {
+            0%, 100% { transform: translate(0, 0); }
+            10% { transform: translate(-1px, -1px); }
+            20% { transform: translate(-2px, 0px); }
+            30% { transform: translate(1px, -1px); }
+            40% { transform: translate(-1px, 1px); }
+            50% { transform: translate(2px, 0px); }
+            60% { transform: translate(1px, 1px); }
+            70% { transform: translate(-2px, -1px); }
+            80% { transform: translate(-1px, 0px); }
+            90% { transform: translate(1px, -2px); }
+        }
+
+        /* Light Leak Effect */
+        .light-leak {
+            position: fixed;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(255, 107, 53, 0.1) 0%, transparent 70%);
+            z-index: 2;
+            animation: lightLeak 8s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes lightLeak {
+            0%, 100% { 
+                opacity: 0.1;
+                transform: rotate(0deg) scale(1);
+            }
+            50% { 
+                opacity: 0.2;
+                transform: rotate(180deg) scale(1.1);
+            }
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-bottom: 4rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1.5s ease forwards;
+        }
+
+        .brand-name {
+            font-size: clamp(4rem, 12vw, 8rem);
+            font-weight: 100;
+            letter-spacing: 1rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, var(--light), var(--primary), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .brand-subtitle {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-weight: 200;
+            letter-spacing: 0.5rem;
+            margin-bottom: 2rem;
+            color: var(--light);
+            opacity: 0.8;
+        }
+
+        .tagline {
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
+            font-weight: 300;
+            letter-spacing: 0.2rem;
+            color: var(--primary);
+            opacity: 0;
+            animation: fadeInUp 1.5s ease 0.5s forwards;
+        }
+
+        /* Content Section */
+        .content {
+            max-width: 600px;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeInUp 1.5s ease 1s forwards;
+        }
+
+        .message {
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
+            font-weight: 300;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+
+        .submessage {
+            font-size: clamp(1rem, 2vw, 1.1rem);
+            font-weight: 300;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            opacity: 0.7;
+        }
+
+        .contact-info {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            font-weight: 400;
+            margin-bottom: 2rem;
+        }
+
+        .contact-info a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.3s var(--transition);
+        }
+
+        .contact-info a:hover {
+            color: var(--gold);
+            text-shadow: 0 0 20px rgba(255, 107, 53, 0.5);
+        }
+
+        /* Countdown Timer */
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 3rem 0;
+            opacity: 0;
+            animation: fadeInUp 1.5s ease 1.5s forwards;
+        }
+
+        .countdown-item {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            min-width: 80px;
+        }
+
+        .countdown-number {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 300;
+            color: var(--primary);
+            display: block;
+            line-height: 1;
+        }
+
+        .countdown-label {
+            font-size: 0.9rem;
+            font-weight: 200;
+            letter-spacing: 0.1rem;
+            opacity: 0.7;
+            margin-top: 0.5rem;
+        }
+
+        /* Social Icons */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeInUp 1.5s ease 2s forwards;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border: 2px solid rgba(255, 107, 53, 0.3);
+            border-radius: 50%;
+            color: var(--primary);
+            font-size: 1.2rem;
+            text-decoration: none;
+            transition: all 0.3s var(--transition);
+            backdrop-filter: blur(10px);
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            color: var(--dark);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: auto;
+            text-align: center;
+            opacity: 0;
+            animation: fadeInUp 1.5s ease 2.5s forwards;
+        }
+
+        .footer p {
+            font-size: 0.9rem;
+            font-weight: 300;
+            opacity: 0.6;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .countdown {
+                gap: 1rem;
+                flex-wrap: wrap;
+            }
+            
+            .countdown-item {
+                min-width: 60px;
+                padding: 0.8rem;
+            }
+            
+            .social-links {
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .brand-name {
+                letter-spacing: 0.5rem;
+            }
+            
+            .brand-subtitle {
+                letter-spacing: 0.3rem;
+            }
+            
+            .tagline {
+                letter-spacing: 0.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Film Grain and Light Effects -->
+    <div class="film-grain"></div>
+    <div class="light-leak"></div>
+    
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="hero">
+            <h1 class="brand-name">BLAKELY</h1>
+            <h2 class="brand-subtitle">CINEMATICS</h2>
+            <p class="tagline">CINEMATIC PORTRAITS • COMING SOON</p>
+        </div>
+
+        <!-- Content Section -->
+        <div class="content">
+            <p class="message">We're putting the finishing touches on something special</p>
+            <p class="submessage">Our new online booking and gallery system launches soon</p>
+            <div class="contact-info">
+                For inquiries: <a href="mailto:hello@blakelycinematics.com">hello@blakelycinematics.com</a><br>
+                <span style="opacity: 0.8;">or call</span> <a href="tel:+1234567890">(123) 456-7890</a>
+            </div>
+        </div>
+
+        <!-- Countdown Timer -->
+        <div class="countdown" id="countdown">
+            <div class="countdown-item">
+                <span class="countdown-number" id="days">14</span>
+                <span class="countdown-label">DAYS</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="hours">00</span>
+                <span class="countdown-label">HOURS</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="minutes">00</span>
+                <span class="countdown-label">MINUTES</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="seconds">00</span>
+                <span class="countdown-label">SECONDS</span>
+            </div>
+        </div>
+
+        <!-- Social Links -->
+        <div class="social-links">
+            <a href="https://instagram.com/blakelycinematics" class="social-link" target="_blank" rel="noopener">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://facebook.com/blakelycinematics" class="social-link" target="_blank" rel="noopener">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="mailto:hello@blakelycinematics.com" class="social-link">
+                <i class="fas fa-envelope"></i>
+            </a>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>&copy; 2025 Blakely Cinematics</p>
+            <p>Professional Photography Services</p>
+        </div>
+    </div>
+
+    <script>
+        // Countdown Timer (14 days from now)
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const launchDate = new Date();
+            launchDate.setDate(launchDate.getDate() + 14);
+            const distance = launchDate.getTime() - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+
+            if (distance < 0) {
+                document.getElementById('countdown').innerHTML = '<div class="countdown-item"><span class="countdown-number">🎬</span><span class="countdown-label">LIVE!</span></div>';
+            }
+        }
+
+        // Update countdown every second
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // Smooth scroll for any internal links (if added later)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add subtle parallax effect on mouse move
+        document.addEventListener('mousemove', (e) => {
+            const lightLeak = document.querySelector('.light-leak');
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+            
+            lightLeak.style.transform = `translate(${mouseX * 20}px, ${mouseY * 20}px) rotate(${mouseX * 10}deg)`;
+        });
+
+        // Preload any images for smoother experience
+        window.addEventListener('load', () => {
+            // Add loaded class for any additional animations
+            document.body.classList.add('loaded');
+        });
+    </script>
+</body>
+</html>
