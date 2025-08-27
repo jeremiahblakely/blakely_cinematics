@@ -71,12 +71,12 @@
         <div class="nav-container">
             <a href="#home" class="logo">BLAKELY</a>
             <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="services.html">Services</a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/services">Services</a></li>
                 <li><a href="#portfolio">Portfolio</a></li>
-                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="/faq">FAQ</a></li>
                 <li><a href="#contact">Contact</a></li>
-                <li><a href="vip.html" class="vip-link">VIP</a></li>
+                <li><a href="/vip" class="vip-link">VIP</a></li>
             </ul>
             <button class="mobile-menu-toggle" aria-label="Toggle menu">
                 <span></span>
@@ -96,57 +96,13 @@
             <h1 class="hero-title">CINEMATIC VISION</h1>
             <p class="hero-subtitle">HOLLYWOOD-QUALITY PORTRAITS</p>
             <div class="hero-cta">
-                <a href="booking.html" class="btn btn-primary">BOOK SESSION</a>
+                <a href="/booking" class="btn btn-primary">BOOK SESSION</a>
                 <a href="#portfolio" class="btn btn-outline">VIEW WORK</a>
             </div>
         </div>
         <div class="scroll-indicator">
             <span></span>
             <small>SCROLL</small>
-        </div>
-    </section>
-    
-    <!-- Services Section -->
-    <section class="services" id="services">
-        <div class="section-header">
-            <h2 class="section-title">PREMIUM SERVICES</h2>
-        </div>
-        <div class="services-grid">
-            <a href="services.html" class="service-card-link" style="text-decoration: none; color: inherit;">
-                <article class="service-card">
-                    <div class="service-icon">📸</div>
-                    <h3 class="service-title">Signature Cinematic</h3>
-                    <p class="service-description">
-                        Transform your vision into Hollywood-quality imagery with dramatic lighting, 
-                        professional direction, and cinematic post-processing that tells your story.
-                    </p>
-                    <div class="service-price">FROM $450</div>
-                </article>
-            </a>
-            
-            <a href="services.html" class="service-card-link" style="text-decoration: none; color: inherit;">
-                <article class="service-card">
-                    <div class="service-icon">🎬</div>
-                    <h3 class="service-title">Essential</h3>
-                    <p class="service-description">
-                        Make a lasting impression with executive headshots that capture your professional 
-                        essence. Perfect for LinkedIn, corporate websites, and marketing materials.
-                    </p>
-                    <div class="service-price">FROM $250</div>
-                </article>
-            </a>
-            
-            <a href="services.html" class="service-card-link" style="text-decoration: none; color: inherit;">
-                <article class="service-card">
-                    <div class="service-icon">✨</div>
-                    <h3 class="service-title">Creative</h3>
-                    <p class="service-description">
-                        Unleash your creativity with conceptual photography sessions. From fashion editorials 
-                        to artistic portraits, we bring your wildest ideas to life.
-                    </p>
-                    <div class="service-price">FROM $575</div>
-                </article>
-            </a>
         </div>
     </section>
     
@@ -157,8 +113,8 @@
         </div>
         
         <div class="filter-buttons">
-            <button class="filter-btn active" data-filter="all">ALL</button>
-            <button class="filter-btn" data-filter="headshots">HEADSHOTS</button>
+            <button class="filter-btn" data-filter="all">ALL</button>
+            <button class="filter-btn active" data-filter="headshots">HEADSHOTS</button>
             <button class="filter-btn" data-filter="creative">CREATIVE</button>
             <button class="filter-btn" data-filter="cinematic">CINEMATIC</button>
         </div>
@@ -592,6 +548,50 @@
         </div>
     </section>
     
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="section-header">
+            <h2 class="section-title">PREMIUM SERVICES</h2>
+        </div>
+        <div class="services-grid">
+            <a href="/services" class="service-card-link" style="text-decoration: none; color: inherit;">
+                <article class="service-card">
+                    <div class="service-icon">📸</div>
+                    <h3 class="service-title">Signature Cinematic</h3>
+                    <p class="service-description">
+                        Transform your vision into Hollywood-quality imagery with dramatic lighting, 
+                        professional direction, and cinematic post-processing that tells your story.
+                    </p>
+                    <div class="service-price">FROM $450</div>
+                </article>
+            </a>
+            
+            <a href="/services" class="service-card-link" style="text-decoration: none; color: inherit;">
+                <article class="service-card">
+                    <div class="service-icon">🎬</div>
+                    <h3 class="service-title">Essential</h3>
+                    <p class="service-description">
+                        Make a lasting impression with executive headshots that capture your professional 
+                        essence. Perfect for LinkedIn, corporate websites, and marketing materials.
+                    </p>
+                    <div class="service-price">FROM $250</div>
+                </article>
+            </a>
+            
+            <a href="/services" class="service-card-link" style="text-decoration: none; color: inherit;">
+                <article class="service-card">
+                    <div class="service-icon">✨</div>
+                    <h3 class="service-title">Creative</h3>
+                    <p class="service-description">
+                        Unleash your creativity with conceptual photography sessions. From fashion editorials 
+                        to artistic portraits, we bring your wildest ideas to life.
+                    </p>
+                    <div class="service-price">FROM $575</div>
+                </article>
+            </a>
+        </div>
+    </section>
+    
     <!-- Testimonials Section -->
     <section class="testimonials" id="testimonials">
         <div class="section-header">
@@ -656,7 +656,7 @@
                     </div>
                     <div class="contact-item">
                         <span>📍</span>
-                        <span>Los Angeles Area</span>
+                        <span>Los Angeles & Guangzhou</span>
                     </div>
                 </div>
                 <p>
@@ -737,29 +737,32 @@
                         <i class="fab fa-tiktok"></i>
                     </a>
                 </div>
-                <p class="social-handle">@jeremiahblakely | @blakely_cinematics</p>
+                <p class="social-handle">
+                    <a href="https://instagram.com/jeremiahblakely" target="_blank" rel="noopener">@jeremiahblakely</a> | 
+                    <a href="https://instagram.com/blakely_cinematics" target="_blank" rel="noopener">@blakely_cinematics</a>
+                </p>
             </div>
             
             <div class="footer-links">
                 <div class="footer-column">
                     <h4>Quick Links</h4>
                     <a href="#portfolio">Portfolio</a>
-                    <a href="services.html">Services</a>
+                    <a href="/services">Services</a>
                     <a href="#about">About</a>
                 </div>
                 
                 <div class="footer-column">
                     <h4>Get Prepared</h4>
-                    <a href="preparation.html">Preparation Guide</a>
-                    <a href="vendors.html">Recommended Vendors</a>
-                    <a href="faq.html">FAQ</a>
+                    <a href="/preparation">Preparation Guide</a>
+                    <a href="/vendors">Recommended Vendors</a>
+                    <a href="/faq">FAQ</a>
                 </div>
                 
                 <div class="footer-column">
                     <h4>Contact</h4>
                     <p>323.555.0100</p>
                     <a href="mailto:jeremiah.blakely@gmail.com">hello@blakelycinematic.com</a>
-                    <p>Los Angeles, CA</p>
+                    <p>Los Angeles, CA • Guangzhou, China</p>
                 </div>
             </div>
             

@@ -279,6 +279,21 @@ function initPortfolioFilter() {
     
     if (filterButtons.length === 0) return;
     
+    // Initialize with headshots filter on page load
+    const defaultFilter = 'headshots';
+    portfolioGrid.classList.add('headshots-active');
+    
+    // Show only headshots items initially
+    portfolioItems.forEach(item => {
+        if (item.dataset.category === defaultFilter) {
+            item.style.display = 'block';
+            item.style.opacity = '1';
+        } else {
+            item.style.display = 'none';
+            item.style.opacity = '0';
+        }
+    });
+    
     filterButtons.forEach(button => {
         button.addEventListener('click', () => {
             const filter = button.dataset.filter;
