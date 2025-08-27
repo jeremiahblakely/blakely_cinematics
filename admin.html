@@ -8,6 +8,7 @@
     
     <!-- Stylesheets -->
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="admin/admin.css?v=20250827">
     
     <!-- AWS CloudWatch RUM Analytics -->
     <script>
@@ -29,17 +30,258 @@
     </script>
 </head>
 <body class="admin-page">
+    <div class="app">
+    <!-- BEGIN BC-ADMIN-NAV -->
+<nav class="admin-nav">
+    <div class="nav-container">
+        <h1 class="admin-logo">BLAKELY ADMIN</h1>
+        
+        <!-- Center: Tab Navigation -->
+        <div class="nav-tabs">
+            <button class="tab-btn active" data-tab="dashboard">Dashboard</button>
+            <button class="tab-btn" data-tab="galleries">Galleries</button>
+            <button class="tab-btn" data-tab="selections">Selections</button>
+            <button class="tab-btn" data-tab="scheduling">Scheduling</button>
+            <button class="tab-btn" data-tab="transactions">Transactions</button>
+            <button class="tab-btn" data-tab="clients">Clients</button>
+            <button class="tab-btn" data-tab="mail">Mail</button>
+            <button class="tab-btn" data-tab="updates">Updates</button>
+            <button class="tab-btn" data-tab="analytics">Analytics</button>
+            <button class="tab-btn" data-tab="settings">Settings</button>
+        </div>
+        
+        <a href="index.html" id="signOutBtn" class="admin-sign-out" onclick="adminSignOut(event)">Sign Out</a>
+    </div>
+</nav>
+<!-- END BC-ADMIN-NAV -->
+
+<!-- BEGIN BC-ADMIN-PANELS -->
+<main class="main">
+
+  <section id="panel-dashboard" class="panel" role="region" aria-labelledby="tab-dashboard">
+    <h1>Dashboard</h1>
+    <div class="grid">
+      <div class="card">
+        <h2>Today</h2>
+        <ul class="list">
+          <li>New inquiries: <strong>0</strong></li>
+          <li>Unpaid deposits: <strong>0</strong></li>
+          <li>Pending selections: <strong>0</strong></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>Quick Actions</h2>
+        <div class="row">
+          <a class="button" data-goto="mail">Open Mail</a>
+          <a class="button" data-goto="galleries">Create Gallery</a>
+          <a class="button" data-goto="scheduling">Block a Day</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="panel-mail" class="panel" hidden>
+    <h1>Mail</h1>
+    <div class="flex">
+      <aside class="mail-folders">
+        <h3>Folders</h3>
+        <ul>
+          <li>Inbox</li><li>Starred</li><li>Sent</li><li>Drafts</li><li>Archive</li><li>Trash</li>
+        </ul>
+        <h3>Aliases</h3>
+        <ul id="alias-list">
+          <li>admin@blakelycinematics.com</li>
+          <li>billing@blakelycinematics.com</li>
+          <li>bookings@blakelycinematics.com</li>
+          <li>collab@blakelycinematics.com</li>
+          <li>hello@blakelycinematics.com</li>
+          <li>jd@blakelycinematics.com</li>
+          <li>support@blakelycinematics.com</li>
+          <li>systems@blakelycinematics.com</li>
+        </ul>
+      </aside>
+      <div class="mail-area">
+        <div class="mail-toolbar">
+          <input type="search" placeholder="Search mail…">
+          <button class="button">Refresh</button>
+          <button class="button">Compose</button>
+        </div>
+        <div class="mail-content placeholder">Message list and reading pane will appear here.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="panel-galleries" class="panel" hidden>
+    <h1>Galleries</h1>
+    <div class="card">
+      <form class="form">
+        <label>Client Name <input type="text" placeholder="Jane Doe"></label>
+        <label>Session Type
+          <select>
+            <option>Signature Session</option>
+            <option>Branding Session</option>
+            <option>Weddings</option>
+          </select>
+        </label>
+        <div class="row">
+          <button class="button">Create Gallery</button>
+          <button type="button" class="button outline">Find Gallery</button>
+        </div>
+      </form>
+    </div>
+    <div class="card">
+      <h2>Recent Galleries</h2>
+      <div class="table placeholder">No data yet.</div>
+    </div>
+  </section>
+
+  <section id="panel-selections" class="panel" hidden>
+    <h1>Selections</h1>
+    <div class="card">
+      <form class="form">
+        <label>Gallery Code <input type="text" placeholder="e.g., JD-2025-0910"></label>
+        <fieldset class="fieldset">
+          <legend>Who selects the photos?</legend>
+          <label class="choice"><input type="radio" name="selector" value="client" checked> Client selects</label>
+          <label class="choice"><input type="radio" name="selector" value="me"> I will select</label>
+        </fieldset>
+        <div class="row">
+          <button class="button">Save Preference</button>
+          <button type="button" class="button outline">Open Gallery</button>
+        </div>
+      </form>
+    </div>
+    <div class="card">
+      <h2>Pending Client Selections</h2>
+      <div class="table placeholder">None pending.</div>
+    </div>
+  </section>
+
+  <section id="panel-scheduling" class="panel" hidden>
+    <h1>Scheduling</h1>
+    <div class="grid">
+      <div class="card">
+        <h2>Block a Day</h2>
+        <form class="form">
+          <label>Date <input type="date"></label>
+          <label>Reason <input type="text" placeholder="Out of town, personal, etc."></label>
+          <button class="button">Block</button>
+        </form>
+      </div>
+      <div class="card">
+        <h2>Pending Booking Requests</h2>
+        <div class="table placeholder">No requests yet.</div>
+      </div>
+      <div class="card">
+        <h2>Mini Forecast</h2>
+        <div class="forecast placeholder">Weather widget will live here.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="panel-transactions" class="panel" hidden>
+    <h1>Transactions</h1>
+    <div class="card">
+      <div class="row">
+        <button class="button">Refresh</button>
+        <button class="button outline">Export CSV</button>
+      </div>
+      <div class="table placeholder">No transactions found.</div>
+    </div>
+  </section>
+
+  <section id="panel-clients" class="panel" hidden>
+    <h1>Clients</h1>
+    <div class="card">
+      <form class="form">
+        <label>Search <input type="search" placeholder="Name, email, gallery code…"></label>
+        <button class="button">Find</button>
+      </form>
+    </div>
+    <div class="card">
+      <h2>Results</h2>
+      <div class="table placeholder">No results.</div>
+    </div>
+  </section>
+
+  <section id="panel-updates" class="panel" hidden>
+    <h1>Updates</h1>
+    <div class="card">
+      <div class="row">
+        <button class="button">Refresh Feed</button>
+        <button class="button outline">Mark All Read</button>
+      </div>
+      <div id="updates-feed" class="updates-feed">
+        <div class="update-item">
+          <div class="update-time">2 hours ago</div>
+          <div class="update-content">New booking request from Jane Doe for Signature Session</div>
+        </div>
+        <div class="update-item">
+          <div class="update-time">5 hours ago</div>
+          <div class="update-content">Payment received: $450 deposit for session #BC-2025-001</div>
+        </div>
+        <div class="update-item">
+          <div class="update-time">1 day ago</div>
+          <div class="update-content">Gallery upload completed: 24 images for John Smith</div>
+        </div>
+        <div class="update-item">
+          <div class="update-time">2 days ago</div>
+          <div class="update-content">Client selections completed for gallery code: JS-2025-AUG</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="panel-analytics" class="panel" hidden>
+    <h1>Analytics</h1>
+    <div class="grid">
+      <div class="card">
+        <h2>This Month</h2>
+        <ul class="list">
+          <li>New bookings: <strong>12</strong></li>
+          <li>Revenue: <strong>$5,400</strong></li>
+          <li>Galleries delivered: <strong>8</strong></li>
+          <li>Average session value: <strong>$450</strong></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>Popular Services</h2>
+        <ul class="list">
+          <li>Signature Sessions: <strong>8</strong></li>
+          <li>Branding Sessions: <strong>3</strong></li>
+          <li>Wedding Photography: <strong>1</strong></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>Performance</h2>
+        <div class="table placeholder">Analytics charts and detailed metrics will appear here.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="panel-settings" class="panel" hidden>
+    <h1>Settings</h1>
+    <div class="card">
+      <h2>General</h2>
+      <form class="form">
+        <label>Business Name <input type="text" placeholder="Blakely Cinematics"></label>
+        <label>Default Selector
+          <select>
+            <option value="client">Client selects</option>
+            <option value="me">I select</option>
+          </select>
+        </label>
+        <button class="button">Save</button>
+      </form>
+    </div>
+  </section>
+</main>
+<!-- END BC-ADMIN-PANELS -->
+
+    <!-- LEGACY START -->
     <!-- Custom Cursor -->
     <div class="cursor"></div>
     <div class="cursor-follower"></div>
-    
-    <!-- Admin Header -->
-    <nav class="admin-nav">
-        <div class="nav-container">
-            <h1 class="admin-logo">BLAKELY ADMIN</h1>
-            <a href="index.html" class="admin-sign-out" onclick="adminSignOut(event)">Sign Out</a>
-        </div>
-    </nav>
     
     <!-- Admin Dashboard -->
     <main class="admin-dashboard">
@@ -205,6 +447,7 @@
         </section>
         
     </main>
+    <!-- LEGACY END -->
     
     <!-- Admin Footer -->
     <footer class="admin-footer">
@@ -805,5 +1048,10 @@
     
     <!-- Load main script for shared functionality -->
     <script src="js/script.js"></script>
+    <script src="admin/config.js"></script>
+    <script src="admin/admin.galleries.js"></script>
+    <script src="admin/admin.selections.js"></script>
+    <script src="admin/admin.js"></script>
+    </div>
 </body>
 </html>

@@ -1,0 +1,1 @@
+window.BC_API_BASE = "https://4l12h6snuh.execute-api.us-east-1.amazonaws.com";

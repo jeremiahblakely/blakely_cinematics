@@ -1,0 +1,495 @@
+/* Admin Panel CSS - Single Header with 3-Column Grid */
+:root {
+  --bg: #0f1115;
+  --panel: #141822;
+  --muted: #98a2b3;
+  --text: #e6e9f0;
+  --accent: #00A9E0;
+  --accent-glow: #1ea9e0;
+  --line: #232838;
+  --header-bg: #0c0f16;
+  --tab-hover: #101522;
+  --tab-active: #121d33;
+  --tab-active-border: #1e2a44;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 14px/1.45 system-ui, -apple-system, 'Segoe UI', Roboto, Inter, Arial;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Main App Layout */
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Restored Original Header with 3-Section Layout */
+.admin-nav {
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  min-height: 70px;
+}
+
+.nav-container {
+  display: grid;
+  grid-template-columns: 220px 1fr 260px;
+  align-items: center;
+  padding: 16px 20px;
+  max-width: 100%;
+}
+
+/* LEFT: Brand Section */
+.admin-logo {
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.3px;
+  color: var(--text);
+  margin: 0;
+}
+
+/* CENTER: Tab Navigation */
+.nav-tabs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.nav-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+/* Tab Buttons */
+.tab-btn {
+  all: unset;
+  cursor: pointer;
+  padding: 10px 16px;
+  color: var(--muted);
+  font-weight: 500;
+  font-size: 13px;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+  border-radius: 50px;
+  position: relative;
+}
+
+.tab-btn:hover {
+  color: var(--text);
+  background: var(--tab-hover);
+}
+
+.tab-btn.active {
+  color: var(--accent);
+  background: var(--tab-active);
+  box-shadow: 0 0 0 1px var(--tab-active-border);
+}
+
+/* RIGHT: Sign Out Section */
+.admin-sign-out {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border: 1px solid var(--line);
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.admin-sign-out:hover {
+  color: var(--text);
+  border-color: var(--accent);
+  background: rgba(0, 169, 224, 0.08);
+}
+
+/* Mobile responsive tabs styling */
+
+/* Main Content Area */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+/* Panel Sections */
+.panel {
+  padding: 24px;
+  display: none;
+}
+
+.panel.active {
+  display: block;
+}
+
+/* Typography */
+h1 {
+  margin: 0 0 16px 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+h2 {
+  margin: 0 0 12px 0;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+/* Layout Components */
+.grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.flex {
+  display: flex;
+  gap: 18px;
+  align-items: stretch;
+}
+
+/* Form Elements */
+.form {
+  display: grid;
+  gap: 16px;
+  max-width: 600px;
+}
+
+.form label {
+  display: grid;
+  gap: 8px;
+  color: var(--text);
+  font-weight: 500;
+}
+
+input, select, button {
+  font: inherit;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="search"],
+select {
+  background: #0e1220;
+  border: 1px solid var(--line);
+  color: var(--text);
+  padding: 12px;
+  border-radius: 8px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="date"]:focus,
+input[type="search"]:focus,
+select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(0, 169, 224, 0.12);
+}
+
+/* Button Pills */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent);
+  color: #001219;
+  padding: 12px 18px;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  font-size: 13px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.button:hover {
+  background: var(--accent-glow);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 169, 224, 0.3);
+}
+
+.button.outline {
+  background: transparent;
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.button.outline:hover {
+  background: var(--accent);
+  color: #001219;
+}
+
+/* Tables */
+.table {
+  background: #0d111c;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  min-height: 120px;
+}
+
+/* Mail Components */
+.mail-folders {
+  width: 220px;
+  min-width: 220px;
+  background: #0f1320;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.mail-folders h3 {
+  margin: 8px 0 12px 0;
+  font-size: 13px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.mail-folders ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.mail-folders li {
+  padding: 8px 12px;
+  border-radius: 6px;
+  color: #c7cfdb;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mail-folders li:hover {
+  background: #0f1626;
+  color: var(--text);
+}
+
+.mail-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.mail-toolbar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.mail-toolbar input[type="search"] {
+  flex: 1;
+}
+
+.mail-content {
+  flex: 1;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 20px;
+  min-height: 400px;
+}
+
+/* Updates Feed Styling */
+.updates-feed {
+  margin-top: 20px;
+  background: #0d111c;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.update-item {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--line);
+  transition: background 0.2s ease;
+}
+
+.update-item:last-child {
+  border-bottom: none;
+}
+
+.update-item:hover {
+  background: rgba(0, 169, 224, 0.03);
+}
+
+.update-time {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+.update-content {
+  color: var(--text);
+  line-height: 1.5;
+}
+
+/* Utility Classes */
+.placeholder {
+  opacity: 0.7;
+  color: var(--muted);
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100px;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.list li {
+  padding: 6px 0;
+  color: var(--muted);
+}
+
+.fieldset {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: rgba(20, 24, 34, 0.5);
+}
+
+.choice {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0;
+}
+
+.choice input[type="radio"] {
+  accent-color: var(--accent);
+}
+
+/* Responsive Design - Mobile under 980px */
+@media (max-width: 980px) {
+  .nav-container {
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+  }
+  
+  .nav-tabs {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--header-bg);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 101;
+  }
+  
+  .nav-tabs.mobile-open {
+    display: block;
+  }
+  
+  .nav-tabs.mobile-open {
+    flex-direction: column;
+    gap: 0;
+    align-items: stretch;
+  }
+  
+  .nav-tabs.mobile-open .tab-btn {
+    padding: 16px 20px;
+    border-radius: 0;
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+  }
+  
+  .nav-tabs.mobile-open .tab-btn:last-child {
+    border-bottom: none;
+  }
+  
+  .nav-tabs.mobile-open .tab-btn.active {
+    border-left: 3px solid var(--accent);
+    background: rgba(0, 169, 224, 0.05);
+  }
+  
+  .panel {
+    padding: 16px;
+  }
+  
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .mail-folders {
+    width: 100%;
+    min-width: auto;
+    margin-bottom: 16px;
+  }
+  
+  .flex {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand {
+    font-size: 16px;
+  }
+  
+  .tab-btn {
+    font-size: 16px;
+    padding: 18px 20px;
+  }
+  
+  .card {
+    padding: 16px;
+  }
+}
