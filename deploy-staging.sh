@@ -18,18 +18,46 @@ echo "📁 Preparing dist directory..."
 rm -rf "$DIST_DIR"
 mkdir -p "$DIST_DIR"
 
-# Step 2: Copy coming-soon.html as index.html if needed
-if [[ ! -f "$DIST_DIR/index.html" && -f "coming-soon.html" ]]; then
-    echo "📄 Copying coming-soon.html → dist/index.html..."
-    cp coming-soon.html "$DIST_DIR/index.html"
-elif [[ -f "$DIST_DIR/index.html" ]]; then
-    echo "📄 Using existing dist/index.html..."
-else
-    echo "❌ Error: No index.html found and coming-soon.html missing"
+# Step 2: Copy all HTML pages
+echo "📄 Copying all HTML pages..."
+cp *.html "$DIST_DIR/" 2>/dev/null || true
+
+# Verify main index.html exists
+if [[ ! -f "$DIST_DIR/index.html" ]]; then
+    echo "❌ Error: index.html not found after copy"
     exit 1
 fi
 
-# Step 3: Copy public assets if they exist
+echo "✅ Copied HTML files:"
+ls "$DIST_DIR"/*.html | xargs -n1 basename
+
+# Step 3: Copy website assets (CSS, JS, admin, etc.)
+if [[ -d "css" ]]; then
+    echo "📂 Copying CSS files..."
+    cp -r css "$DIST_DIR/"
+fi
+
+if [[ -d "js" ]]; then
+    echo "📂 Copying JS files..."
+    cp -r js "$DIST_DIR/"
+fi
+
+if [[ -d "admin" ]]; then
+    echo "📂 Copying admin files..."
+    cp -r admin "$DIST_DIR/"
+fi
+
+if [[ -d "images" ]]; then
+    echo "📂 Copying images..."
+    cp -r images "$DIST_DIR/"
+fi
+
+# Copy other assets if they exist
+if [[ -d "assets" ]]; then
+    cp -r assets "$DIST_DIR/" 2>/dev/null || true
+fi
+
+# Copy public folder contents if it exists
 if [[ -d "public" ]]; then
     echo "📂 Copying public assets..."
     cp -r public/* "$DIST_DIR/" 2>/dev/null || true
@@ -94,10 +122,17 @@ echo "🧹 Cleaning up..."
 rm -f "$ZIP_FILE"
 rm -rf "$DIST_DIR"
 
-# Step 9: Print staging preview URL
+# Step 9: Print staging preview URL and DNS configuration
 echo ""
 echo "🌐 STAGING environment available at:"
 echo "   https://staging.$AMPLIFY_APP_ID.amplifyapp.com/"
+echo "   https://staging.blakelycinematics.com/ (after DNS setup)"
 echo ""
+echo "🔗 DNS Configuration for Namecheap:"
+echo "   Host: staging"
+echo "   Value/Target: staging.$AMPLIFY_APP_ID.amplifyapp.com"
+echo "   TTL: Automatic"
+echo ""
+echo "🔒 Basic Auth enabled: blakely / cinematic123"
 echo "⏳ Deployment in progress... Check AWS Amplify console for status."
 echo "📋 Job ID: $JOB_ID"
