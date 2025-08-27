@@ -53,7 +53,7 @@ a {
 
 .nav-container {
   display: grid;
-  grid-template-columns: 220px 1fr 260px;
+  grid-template-columns: 220px 1fr auto;
   align-items: center;
   padding: 16px 20px;
   max-width: 100%;
@@ -108,11 +108,21 @@ a {
   box-shadow: 0 0 0 1px var(--tab-active-border);
 }
 
-/* RIGHT: Sign Out Section */
-.admin-sign-out {
+/* RIGHT: User Actions Section */
+.admin-user-actions {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  gap: 12px;
+}
+
+.admin-user {
+  color: var(--muted);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.admin-sign-out {
   color: var(--muted);
   font-size: 13px;
   font-weight: 500;
@@ -457,6 +467,10 @@ select:focus {
   .nav-tabs.mobile-open .tab-btn.active {
     border-left: 3px solid var(--accent);
     background: rgba(0, 169, 224, 0.05);
+  }
+  
+  .admin-user {
+    display: none;
   }
   
   .panel {

@@ -50,10 +50,26 @@
     showTab(initialTab);
   }
   
+  // Initialize admin user display
+  function initAdminUser() {
+    const adminUserEl = document.getElementById('adminUser');
+    if (adminUserEl) {
+      const adminEmail = sessionStorage.getItem('adminEmail');
+      const adminUsername = sessionStorage.getItem('adminUsername');
+      
+      if (adminEmail) {
+        adminUserEl.textContent = adminEmail;
+      } else if (adminUsername) {
+        adminUserEl.textContent = adminUsername;
+      }
+    }
+  }
+
   // Initialize everything when DOM is ready
   function init() {
     initMobileMenu();
     initTabs();
+    initAdminUser();
     
     // Add smooth scrolling for better UX
     document.documentElement.style.scrollBehavior = 'smooth';

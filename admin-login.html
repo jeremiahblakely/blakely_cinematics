@@ -58,12 +58,20 @@
         </div>
     </section>
     
+    <!-- Configuration -->
+    <script src="admin/config.js"></script>
+    
     <!-- JavaScript -->
     <script>
         // Admin Login Authentication
         document.addEventListener('DOMContentLoaded', function() {
             const adminForm = document.getElementById('admin-login-form');
-            const ADMIN_PASSWORD = 'BCadmin2025!'; // Change this to your preferred password
+            
+            // Check if config is loaded
+            if (!window.BC_ADMIN_CONFIG) {
+                console.error('Admin config not loaded!');
+                return;
+            }
             
             function showMessage(message, type) {
                 let messageEl = document.querySelector('.admin-message');
@@ -97,12 +105,13 @@
                 
                 // Simulate brief verification delay
                 setTimeout(() => {
-                    if (password === ADMIN_PASSWORD) {
+                    if (password === window.BC_ADMIN_CONFIG.password) {
                         console.log('✅ Admin authentication successful');
                         
-                        // Set admin authenticated flag
+                        // Set admin authenticated flag with user info
                         sessionStorage.setItem('adminAuthenticated', 'true');
                         sessionStorage.setItem('adminLoginTime', Date.now().toString());
+                        sessionStorage.setItem('adminEmail', window.BC_ADMIN_CONFIG.email);
                         
                         showMessage('Access granted! Redirecting...', 'success');
                         
