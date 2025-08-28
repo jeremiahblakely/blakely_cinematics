@@ -1809,6 +1809,26 @@ select option:hover {
   mix-blend-mode: normal !important;
 }
 
+/* Elegant gradient branding for Admin header */
+.admin-bar .admin-logo {
+  background: linear-gradient(90deg,
+    #e6eef9 0%,        /* soft ice */
+    #9ec5ff 35%,       /* light azure */
+    #6ea8fe 65%,       /* royal blue */
+    #dbeafe 100%       /* pale blue */
+  );
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-fill-color: transparent;
+  letter-spacing: 0.14em;
+  font-weight: var(--brand-weight);
+  /* Subtle sheen on hover for a classy effect */
+  background-size: 200% 100%;
+  transition: background-position 400ms ease;
+}
+.admin-bar .admin-logo:hover { background-position: 100% 0; }
+
 .admin-sign-out:hover {
     color: var(--admin-primary);
     border-color: var(--admin-primary);
