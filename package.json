@@ -1,0 +1,11 @@
+{
+  "name": "blakely-cinematics-site",
+  "private": true,
+  "version": "0.0.1",
+  "scripts": {
+    "dev:static": "http-server . -p 8080 -c-1"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mail - Blakely Cinematics Admin</title>
+    <link rel="stylesheet" href="/css/styles.css?v=20250828">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        .admin-nav {
+            height: 60px;
+            background: #0a0a0a;
+            border-bottom: 1px solid #222;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            justify-content: space-between;
+        }
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        .nav-logo {
+            font-size: 18px;
+            font-weight: 600;
+            color: #007AFF;
+            text-decoration: none;
+        }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        .nav-links a {
+            color: #888;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: all 0.2s;
+        }
+        .nav-links a:hover {
+            color: #fff;
+            background: rgba(0, 122, 255, 0.1);
+        }
+        .nav-links a.active {
+            color: #007AFF;
+            background: rgba(0, 122, 255, 0.1);
+        }
+        .mail-container {
+            display: flex;
+            height: calc(100vh - 60px);
+        }
+        .mail-sidebar {
+            width: 250px;
+            background: #0a0a0a;
+            border-right: 1px solid #222;
+            padding: 20px;
+        }
+        .thread-list {
+            flex: 1;
+            max-width: 400px;
+            background: #050505;
+            border-right: 1px solid #222;
+            overflow-y: auto;
+        }
+        .message-view {
+            flex: 2;
+            padding: 30px;
+            overflow-y: auto;
+        }
+        .btn-compose {
+            width: 100%;
+            padding: 12px;
+            background: #007AFF;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+        .btn-compose:hover {
+            background: #0051D5;
+        }
+        .folder-item {
+            padding: 10px;
+            margin: 5px 0;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .folder-item:hover {
+            background: #1a1a1a;
+        }
+        .folder-item.active {
+            background: #1a1a1a;
+            border-left: 3px solid #007AFF;
+        }
+        .thread-item {
+            padding: 15px;
+            border-bottom: 1px solid #222;
+            cursor: pointer;
+        }
+        .thread-item:hover {
+            background: #0a0a0a;
+        }
+        .thread-item.unread {
+            background: #0a0a0a;
+        }
+        .thread-sender {
+            font-weight: 600;
+            color: #007AFF;
+        }
+        .thread-subject {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        .thread-preview {
+            color: #888;
+            font-size: 13px;
+        }
+        .search-mail {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px;
+            background: #0a0a0a;
+            border: 1px solid #222;
+            color: white;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="admin-nav">
+        <div class="nav-left">
+            <a href="../public/admin.html" class="nav-logo">Blakely Admin</a>
+            <div class="nav-links">
+                <a href="../public/admin.html">Dashboard</a>
+                <a href="mail.html" class="active">Mail</a>
+                <a href="../public/admin-galleries.html">Galleries</a>
+                <a href="../public/admin-clients.html">Clients</a>
+                <a href="../public/admin-analytics.html">Analytics</a>
+                <a href="../public/admin-settings.html">Settings</a>
+            </div>
+        </div>
+        <div class="nav-right">
+            <button onclick="logout()" style="padding: 8px 16px; background: transparent; border: 1px solid #333; color: #888; border-radius: 5px; cursor: pointer;">Logout</button>
+        </div>
+    </nav>
+
+    <div class="mail-container">
+        <aside class="mail-sidebar">
+            <button class="btn-compose">+ Compose</button>
+            <div class="folder-item active">📧 All Inboxes (12)</div>
+            <div class="folder-item">👤 admin@ (3)</div>
+            <div class="folder-item">📅 bookings@ (5)</div>
+            <div class="folder-item">👋 hello@ (4)</div>
+            <hr style="border-color: #222; margin: 20px 0;">
+            <div class="folder-item">⭐ VIP</div>
+            <div class="folder-item">📸 Active Shoots</div>
+            <div class="folder-item">💰 Pending Payment</div>
+        </aside>
+
+        <div class="thread-list">
+            <input type="text" class="search-mail" placeholder="Search mail...">
+            <div class="thread-item unread">
+                <div class="thread-sender">Sarah Mitchell</div>
+                <div class="thread-subject">Wedding Photography Inquiry - June 2025</div>
+                <div class="thread-preview">Hi! I came across your portfolio and absolutely love...</div>
+            </div>
+            <div class="thread-item unread">
+                <div class="thread-sender">Marcus Chen</div>
+                <div class="thread-subject">Corporate Headshots - Ready for Selection</div>
+                <div class="thread-preview">Thanks for sending the gallery link! The team is...</div>
+            </div>
+            <div class="thread-item">
+                <div class="thread-sender">Emily Rodriguez</div>
+                <div class="thread-subject">Payment Confirmation - Invoice #BC-2024-089</div>
+                <div class="thread-preview">Payment has been processed successfully...</div>
+            </div>
+        </div>
+
+        <div class="message-view">
+            <h2>Wedding Photography Inquiry - June 2025</h2>
+            <div style="margin: 20px 0; padding: 20px; background: #0a0a0a; border-radius: 8px;">
+                <strong>From:</strong> sarah.mitchell@email.com<br>
+                <strong>To:</strong> bookings@blakelycinematics.com<br>
+                <strong>Date:</strong> Today at 2:30 PM
+            </div>
+            <div style="line-height: 1.8;">
+                <p>Hi!</p>
+                <p>I came across your portfolio and absolutely love your cinematic style. We're planning our wedding for June 15th, 2025, at the Bel-Air Bay Club.</p>
+                <p>Could you please send over your wedding packages and availability for that date?</p>
+                <p>Best regards,<br>Sarah Mitchell</p>
+            </div>
+            <div style="margin-top: 30px;">
+                <textarea style="width: 100%; min-height: 100px; background: #0a0a0a; border: 1px solid #222; color: white; padding: 10px; border-radius: 5px;" placeholder="Type your reply..."></textarea>
+                <button style="margin-top: 10px; padding: 10px 20px; background: #007AFF; color: white; border: none; border-radius: 5px; cursor: pointer;">Send Reply</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function logout() {
+            sessionStorage.removeItem('authenticated');
+            window.location.href = '../public/admin-login.html';
+        }
+
+        document.querySelectorAll('.folder-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.folder-item').forEach(f => f.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        document.querySelectorAll('.thread-item').forEach(item => {
+            item.addEventListener('click', function() {
+                this.classList.remove('unread');
+            });
+        });
+    </script>
+</body>
+</html>

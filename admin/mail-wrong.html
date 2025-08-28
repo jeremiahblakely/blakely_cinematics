@@ -27,6 +27,7 @@
         }
       );
     </script>
+  <link rel="stylesheet" href="../assets/css/mail.css">
 </head>
 <body class="admin-page">
     <!-- Custom Cursor -->
@@ -47,167 +48,12 @@
     
     <!-- Admin Dashboard -->
     <main class="admin-dashboard">
-        
-        <!-- Section 1: Active Galleries -->
-        <section class="admin-section active-galleries">
+        <section class="admin-section">
             <div class="section-header">
-                <h2 class="section-title">Active Galleries</h2>
-                <div class="section-actions">
-                    <button class="refresh-btn admin-btn-secondary" id="refresh-galleries-btn" title="Refresh galleries">
-                        🔄 Refresh
-                    </button>
-                    <span class="section-count">3 galleries</span>
-                </div>
+                <h2 class="section-title">Mail</h2>
             </div>
-            
-            <div class="galleries-table">
-                <div class="table-header">
-                    <span>Client Name</span>
-                    <span>Session Type</span>
-                    <span>Upload Date</span>
-                    <span>Images</span>
-                    <span>Actions</span>
-                </div>
-                
-                <div class="table-row" data-gallery-code="DEMO2025" data-gallery-id="1">
-                    <span class="client-name">Demo Client</span>
-                    <span class="session-type">Headshots</span>
-                    <span class="upload-date">Today</span>
-                    <span class="image-count">24 images</span>
-                    <div class="table-actions">
-                        <button class="action-btn view-btn" data-action="view">View</button>
-                        <button class="action-btn edit-btn" data-action="edit">Edit</button>
-                        <button class="action-btn delete-btn" data-action="delete">Delete</button>
-                    </div>
-                </div>
-                
-                <div class="table-row" data-gallery-code="TEST-AUG-2025" data-gallery-id="2">
-                    <span class="client-name">Test Client</span>
-                    <span class="session-type">Creative</span>
-                    <span class="upload-date">Today</span>
-                    <span class="image-count">12 images</span>
-                    <div class="table-actions">
-                        <button class="action-btn view-btn" data-action="view">View</button>
-                        <button class="action-btn edit-btn" data-action="edit">Edit</button>
-                        <button class="action-btn delete-btn" data-action="delete">Delete</button>
-                    </div>
-                </div>
-                
-                <div class="table-row" data-gallery-code="SAMPLE-AUG-2025" data-gallery-id="3">
-                    <span class="client-name">Sample Gallery</span>
-                    <span class="session-type">Portrait</span>
-                    <span class="upload-date">Yesterday</span>
-                    <span class="image-count">8 images</span>
-                    <div class="table-actions">
-                        <button class="action-btn view-btn" data-action="view">View</button>
-                        <button class="action-btn edit-btn" data-action="edit">Edit</button>
-                        <button class="action-btn delete-btn" data-action="delete">Delete</button>
-                    </div>
-                </div>
-            </div>
+            <p>Inbox is coming soon. This is the Mail page stub.</p>
         </section>
-        
-        <!-- Section 2: Create New Gallery -->
-        <section class="admin-section create-gallery">
-            <div class="section-header">
-                <h2 class="section-title">Create New Gallery</h2>
-            </div>
-            
-            <div class="create-gallery-form">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <input type="text" id="client-name" name="client_name" placeholder="Enter client full name" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <select id="session-type" name="session_type" required>
-                            <option value="">Select session type</option>
-                            <option value="headshots">Headshots</option>
-                            <option value="creative">Creative</option>
-                            <option value="portrait">Portrait</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group gallery-code-group">
-                        <input type="text" id="gallery-code" name="gallery_code" placeholder="Auto-generated gallery code" readonly>
-                        <button type="button" class="generate-code-btn">Generate New</button>
-                    </div>
-                    
-                    <div class="form-group">
-                        <input type="text" id="gallery-password" name="password" placeholder="Enter secure password" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <input type="date" id="expiration-date" name="expiration_date" required>
-                    </div>
-                </div>
-                
-                <div class="upload-section">
-                    <div class="upload-zone" id="upload-zone">
-                        <div class="upload-icon">📁</div>
-                        <h3>Drag & Drop Images Here</h3>
-                        <p>Or click to browse files</p>
-                        <input type="file" id="file-input" multiple accept="image/*" style="display: none;">
-                    </div>
-                    <div class="upload-status" id="upload-status"></div>
-                </div>
-                
-                <button type="submit" class="create-gallery-btn admin-btn-primary" id="create-gallery-btn">
-                    Create Gallery
-                </button>
-            </div>
-        </section>
-        
-        <!-- Section 3: Quick Stats -->
-        <section class="admin-section quick-stats">
-            <div class="section-header">
-                <h2 class="section-title">Quick Stats</h2>
-            </div>
-            
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number">12</div>
-                    <div class="stat-label">Active Galleries</div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-number">487</div>
-                    <div class="stat-label">Total Images</div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-number">2.3 GB</div>
-                    <div class="stat-label">Storage Used</div>
-                </div>
-            </div>
-            
-            <div class="recent-activity">
-                <h3>Recent Activity</h3>
-                <div class="activity-list">
-                    <div class="activity-item">
-                        <span class="activity-time">2 hours ago</span>
-                        <span class="activity-text">Sarah Johnson viewed gallery (3 images downloaded)</span>
-                    </div>
-                    <div class="activity-item">
-                        <span class="activity-time">5 hours ago</span>
-                        <span class="activity-text">Marcus Rodriguez viewed gallery</span>
-                    </div>
-                    <div class="activity-item">
-                        <span class="activity-time">1 day ago</span>
-                        <span class="activity-text">Emma Chen gallery created</span>
-                    </div>
-                    <div class="activity-item">
-                        <span class="activity-time">2 days ago</span>
-                        <span class="activity-text">Alex Turner viewed gallery (12 images downloaded)</span>
-                    </div>
-                    <div class="activity-item">
-                        <span class="activity-time">3 days ago</span>
-                        <span class="activity-text">Lisa Wang gallery expired and archived</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
     </main>
     
     <!-- Admin Footer -->
@@ -820,5 +666,31 @@
         });
     })();
     </script>
+  <script src="../assets/js/mail.js" defer></script>
+<!-- MAIL TAB START -->
+<main id="mail-app" style="display:flex; height: calc(100vh - 64px);">
+  <!-- Left: Folders -->
+  <aside id="foldersPane" style="width:240px; border-right:1px solid #e5e7eb; overflow:auto; padding:12px;"></aside>
+
+  <!-- Middle: Thread list -->
+  <section style="width:380px; border-right:1px solid #e5e7eb; display:flex; flex-direction:column;">
+    <div style="padding:10px; border-bottom:1px solid #e5e7eb;">
+      <select id="aliasFilter"></select>
+      <input id="searchBox" type="search" placeholder="Search mail…" style="width:60%; margin-left:8px;">
+    </div>
+    <div id="threadList" style="overflow:auto; flex:1;"></div>
+  </section>
+
+  <!-- Right: Message view -->
+  <section id="messageView" style="flex:1; overflow:auto;">
+    <div id="messageToolbar" style="padding:10px; border-bottom:1px solid #e5e7eb;">
+      <button disabled title="(wire later)">Create Booking</button>
+      <button disabled title="(wire later)">Send Invoice</button>
+      <button disabled title="(wire later)">Open Client</button>
+    </div>
+    <div id="messageBody" style="padding:16px;"></div>
+  </section>
+</main>
+<!-- MAIL TAB END -->
 </body>
 </html>
