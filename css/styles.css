@@ -2844,6 +2844,53 @@ input[type="submit"],
   cursor: none !important;
 }
 
+/* ============================================ */
+/* Unified Header Geometry + Typography         */
+/* Applies consistent height/alignment across Home/VIP/Admin. */
+:root {
+  --header-height: 64px;
+  --header-padding-x: 24px;
+  --header-gap: 28px;
+}
+
+/* Home header (keeps blur), unify height/alignment */
+nav {
+  height: var(--header-height);
+  padding: 0 var(--header-padding-x);
+  display: flex;
+  align-items: center;
+}
+.nav-container { height: 100%; align-items: center; }
+.nav-links { gap: var(--header-gap); align-items: center; }
+
+/* VIP header (no blur), unify height/alignment */
+.portal-header { height: var(--header-height); }
+.portal-nav {
+  height: 100%;
+  padding: 0 var(--header-padding-x);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--header-gap);
+}
+
+/* Admin header already uses grid with 64px height; keep as-is */
+
+/* Brand typography: ensure VIP portal matches too */
+.loader-logo,
+.logo,
+.admin-logo,
+.portal-logo {
+  font-family: 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-weight: 300 !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase;
+}
+
+/* Mobile header size parity */
+@media (max-width: 900px) {
+  :root { --header-height: 56px; --header-padding-x: 16px; --header-gap: 16px; }
+}
 /* === ADMIN CURSOR OVERRIDES === */
 /* Never show default pointer on admin elements (branding, links, buttons) */
 .admin-page,
