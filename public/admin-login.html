@@ -145,9 +145,9 @@
                         
                         showMessage('Access granted! Redirecting...', 'success');
                         
-                        // Redirect to admin dashboard (SPA hash route)
+                        // Redirect to admin dashboard
                         setTimeout(() => {
-                            window.location.replace('/admin.html#dashboard');
+                            window.location.href = 'admin.html';
                         }, 800);
                     } else {
                         console.log('❌ Admin authentication failed');
