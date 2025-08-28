@@ -2922,6 +2922,18 @@ nav {
   gap: var(--header-gap);
 }
 
+/* VIP login (minimal) header: brand at 20%, back-link at 80% */
+.vip-nav { height: var(--header-height); padding: 0 var(--header-padding-x); }
+.vip-nav .nav-container{
+  height: 100%;
+  display: grid;
+  grid-template-columns: 20% auto 20%;
+  align-items: center;
+  max-width: none; margin: 0; width: 100%;
+}
+.vip-nav .logo{ grid-column:1; justify-self: end; }
+.vip-nav .back-link{ grid-column:3; justify-self: start; }
+
 /* Admin header already uses grid with 64px height; keep as-is */
 
 /* Brand typography: ensure VIP portal matches too */
