@@ -2897,6 +2897,16 @@ nav {
 .nav-container { height: 100%; align-items: center; }
 .nav-links { gap: var(--header-gap); align-items: center; }
 
+/* Home-only: push logo to far left and VIP to far right */
+.edge-header { padding-left: 0 !important; padding-right: 0 !important; }
+.edge-header .nav-container {
+  max-width: none !important;
+  margin: 0 !important;
+  width: 100% !important;
+  justify-content: space-between;
+}
+.edge-header .nav-links { margin-left: auto; }
+
 /* VIP header (no blur), unify height/alignment */
 .portal-header { height: var(--header-height); }
 .portal-nav {
