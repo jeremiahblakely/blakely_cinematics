@@ -7,7 +7,8 @@
     <meta name="description" content="Admin control center for Blakely Cinematics gallery management">
     
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/admin-overrides.css">
     
     <!-- AWS CloudWatch RUM Analytics -->
     <script>
@@ -33,20 +34,25 @@
     <div class="cursor"></div>
     <div class="cursor-follower"></div>
     
-    <!-- Admin Header -->
-    <nav class="admin-nav">
-        <div class="nav-container">
-            <a href="admin.html" class="admin-logo">BLAKELY ADMIN</a>
-            <nav id="header-tabs">
-                <a href="admin-mail.html" data-tab="mail">Mail</a>
-                <a href="admin-galleries.html" data-tab="galleries">Galleries</a>
-                <a href="admin-clients.html" data-tab="clients">Clients</a>
-                <a href="admin-analytics.html" data-tab="analytics">Analytics</a>
-                <a href="admin-settings.html" data-tab="settings">Settings</a>
-            </nav>
-            <a href="index.html" class="admin-sign-out" onclick="adminSignOut(event)">Sign Out</a>
-        </div>
-    </nav>
+    <!-- BEGIN ADMIN-HEADER -->
+    <header id="adminBar" class="admin-bar">
+      <!-- brand (left) -->
+      <h1 class="admin-logo">BLAKELY <span class="admin-accent">ADMIN</span></h1>
+
+      <!-- nav (center) -->
+      <nav class="admin-nav" aria-label="Admin navigation">
+        <!-- keep your existing <a> links here unchanged -->
+        <a href="#">Mail</a>
+        <a href="#">Galleries</a>
+        <a href="#">Clients</a>
+        <a href="#">Analytics</a>
+        <a href="#">Settings</a>
+      </nav>
+
+      <!-- sign out (right) -->
+      <a class="admin-signout" href="/admin-login.html">Sign out</a>
+    </header>
+    <!-- END ADMIN-HEADER -->
     
     <!-- Admin Dashboard -->
     <main class="admin-dashboard">
@@ -811,7 +817,7 @@
     </script>
     
     <!-- Load main script for shared functionality -->
-    <script src="js/script.js"></script>
+    <script src="/js/script.js"></script>
     
     <script>
     (function(){
