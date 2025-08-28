@@ -2828,3 +2828,18 @@ footer {
 @media (max-width: 900px){
     #header-tabs{ max-width: 70vw; }
 }
+
+/* === CURSOR OVERRIDE: hide default pointer on interactive elements === */
+a,
+button,
+input[type="button"],
+input[type="submit"],
+[role="button"],
+.btn,
+.action-btn,
+.filter-btn,
+.nav-links a,
+.price-button,
+.mobile-menu-toggle {
+  cursor: none !important;
+}

@@ -1906,6 +1906,50 @@ select option:hover {
   mix-blend-mode: normal !important;
 }
 
+/* === HOME BRANDING OVERRIDE === */
+header .logo,
+.loader-logo{
+  font-family: 'Montserrat', sans-serif !important;
+  font-weight: 700;
+  letter-spacing: .14em; /* match the “better” spacing */
+  text-transform: uppercase;
+}
+
+/* === CURSOR OVERRIDE: hide default pointer on interactive elements === */
+a,
+button,
+input[type="button"],
+input[type="submit"],
+[role="button"],
+.btn,
+.action-btn,
+.filter-btn,
+.nav-links a,
+.price-button,
+.mobile-menu-toggle {
+  cursor: none !important;
+}
+
+/* === GLOBAL BRANDING OVERRIDE: Match VIP portal style === */
+.loader-logo,   /* preloader */
+.logo,          /* homepage header logo */
+.admin-logo {   /* admin branding */
+  font-family: 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-weight: 300 !important;    /* thin/light like VIP */
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase;
+  color: #eaeaea !important;
+}
+
+/* === PRELOADER LOGO FIX (match VIP style) === */
+.loader-logo {
+  font-family: 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-weight: 300 !important;
+  letter-spacing: 0.14em !important; /* same as VIP */
+  text-transform: uppercase;
+  color: #eaeaea !important;
+}
+
 .admin-section {
     background: var(--admin-card);
     border-radius: 12px;
@@ -1913,6 +1957,19 @@ select option:hover {
     border: 1px solid rgba(0, 102, 204, 0.2);
     position: relative;
     overflow: hidden;
+}
+
+/* === ADMIN HEADER HARD RESET ===
+   Neutralize legacy gradient/text-fill on .admin-logo
+   so it matches the unified VIP branding cleanly. */
+.admin-bar .admin-logo {
+  background: none !important;
+  -webkit-background-clip: initial !important;
+          background-clip: initial !important;
+  -webkit-text-fill-color: inherit !important;
+  color: #eaeaea !important;
+  font-weight: 300 !important;
+  letter-spacing: 0.14em !important;
 }
 
 .admin-section::before {
@@ -2965,4 +3022,13 @@ footer {
     flex: 0 0 auto;
     min-width: 100px;
     text-align: right;
+}
+
+/* === HOME BRANDING OVERRIDE === */
+header .logo,
+.loader-logo{
+  font-family: 'Montserrat', sans-serif !important;
+  font-weight: 700;
+  letter-spacing: .14em; /* match the “better” spacing */
+  text-transform: uppercase;
 }
