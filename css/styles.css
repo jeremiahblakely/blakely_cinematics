@@ -2904,12 +2904,12 @@ nav {
   margin: 0 !important;
   width: 100% !important;
   display: grid;
-  grid-template-columns: 1fr auto 1fr; /* brand | tabs | VIP */
+  grid-template-columns: 20% auto 20%; /* brand@20% | tabs centered | VIP@80% */
   align-items: center;
 }
-.edge-header .logo { justify-self: start; padding-left: 8px; }
+.edge-header .logo { grid-column: 1; justify-self: end; padding-left: 0; }
 .edge-header .nav-links { grid-column: 2; justify-self: center; }
-.edge-header .nav-cta { grid-column: 3; justify-self: end; margin-right: 8px; }
+.edge-header .nav-cta { grid-column: 3; justify-self: start; margin-right: 0; }
 
 /* VIP header (no blur), unify height/alignment */
 .portal-header { height: var(--header-height); }
