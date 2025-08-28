@@ -59,15 +59,19 @@ fi
 
 # Copy public folder contents if it exists (exclude css to avoid overwriting root CSS)
 if [[ -d "public" ]]; then
-    echo "📂 Copying public assets (excluding public/css)..."
+    echo "📂 Copying public assets (excluding public/css and duplicate admin shells)..."
     # Prefer rsync if available for exclusion
     if command -v rsync >/dev/null 2>&1; then
-        rsync -a --exclude 'css' public/ "$DIST_DIR/" 2>/dev/null || true
+        rsync -a \
+          --exclude 'css' \
+          --exclude 'admin.html' \
+          --exclude 'admin-login.html' \
+          public/ "$DIST_DIR/" 2>/dev/null || true
     else
         # Fallback: copy entries except 'css'
         for entry in public/*; do
             name=$(basename "$entry")
-            [[ "$name" == "css" ]] && continue
+            [[ "$name" == "css" || "$name" == "admin.html" || "$name" == "admin-login.html" ]] && continue
             cp -R "$entry" "$DIST_DIR/" 2>/dev/null || true
         done
     fi
