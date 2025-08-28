@@ -1972,6 +1972,28 @@ input[type="submit"],
   letter-spacing: 0.14em !important;
 }
 
+/* === ADMIN CURSOR OVERRIDES === */
+/* Never show default pointer on admin elements (branding, links, buttons) */
+.admin-page,
+.admin-page a,
+.admin-page button,
+.admin-page [role="button"],
+.admin-page .admin-logo,
+.admin-page .admin-signout {
+  cursor: none !important;
+}
+
+/* Blue custom cursor for admin pages */
+.admin-page .cursor {
+  border-color: #0066CC !important;
+}
+.admin-page .cursor.hover {
+  background: #0066CC !important;
+}
+.admin-page .cursor-follower {
+  background: rgba(0, 102, 204, 0.12) !important;
+}
+
 .admin-section::before {
     content: '';
     position: absolute;
