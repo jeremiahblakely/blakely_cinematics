@@ -2898,14 +2898,18 @@ nav {
 .nav-links { gap: var(--header-gap); align-items: center; }
 
 /* Home-only: push logo to far left and VIP to far right */
-.edge-header { padding-left: 0 !important; padding-right: 0 !important; }
+.edge-header { padding-left: 24px !important; padding-right: 24px !important; }
 .edge-header .nav-container {
   max-width: none !important;
   margin: 0 !important;
   width: 100% !important;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr; /* brand | tabs | VIP */
+  align-items: center;
 }
-.edge-header .nav-links { margin-left: auto; }
+.edge-header .logo { justify-self: start; padding-left: 8px; }
+.edge-header .nav-links { grid-column: 2; justify-self: center; }
+.edge-header .nav-cta { grid-column: 3; justify-self: end; margin-right: 8px; }
 
 /* VIP header (no blur), unify height/alignment */
 .portal-header { height: var(--header-height); }
