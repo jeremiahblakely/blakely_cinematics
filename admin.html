@@ -30,17 +30,17 @@
 </head>
 <body class="admin-page">
 <header id="adminBar" class="admin-bar">
-  <a class="admin-logo" href="/admin.html#dashboard" title="Dashboard">BLAKELY <span class="admin-accent">ADMIN</span></a>
+  <a class="admin-logo" href="/admin.html" title="Dashboard">BLAKELY <span class="admin-accent">ADMIN</span></a>
   <nav class="admin-nav" aria-label="Admin navigation">
-    <a href="/admin.html#scheduling">Scheduling</a>
-    <a href="/admin.html#mail">Mail</a>
-    <a href="/admin.html#bookings">Bookings</a>
-    <a href="/admin.html#galleries">Galleries</a>
-    <a href="/admin.html#crm">CRM</a>
-    <a href="/admin.html#finance">Finance</a>
-    <a href="/admin.html#tasks">Tasks</a>
-    <a href="/admin.html#assets">Assets</a>
-    <a href="/admin.html#audit">Audit</a>
+    <a href="/admin-scheduling.html">Scheduling</a>
+    <a href="/admin-mail.html">Mail</a>
+    <a href="/admin-bookings.html">Bookings</a>
+    <a href="/admin-galleries.html">Galleries</a>
+    <a href="/admin-crm.html">CRM</a>
+    <a href="/admin-finance.html">Finance</a>
+    <a href="/admin-tasks.html">Tasks</a>
+    <a href="/admin-assets.html">Assets</a>
+    <a href="/admin-audit.html">Audit</a>
   </nav>
   <div class="admin-actions">
     <a class="admin-settings" href="/admin-settings.html" title="Settings" aria-label="Settings">
@@ -51,7 +51,7 @@
     </a>
     <a class="admin-signout" href="/admin-login.html">Sign out</a>
   </div>
-  <script>(function(){function setActive(){var hash=location.hash||'#dashboard';document.querySelectorAll('#adminBar .admin-nav a').forEach(function(a){a.classList.toggle('active', a.getAttribute('href').endsWith(hash));});}window.addEventListener('hashchange',setActive);setActive();})();</script>
+  <script>(function(){var p=location.pathname.replace(/\/+$/,'');document.querySelectorAll('#adminBar .admin-nav a').forEach(function(a){var h=a.getAttribute('href');if(h&&h!=='#'&&p===h){a.classList.add('active');}});})();</script>
 </header>
 
 
@@ -59,13 +59,14 @@
     <div class="cursor"></div>
     <div class="cursor-follower"></div>
     
-    <!-- Admin Header rendered above -->
+    <!-- Admin Header (unified) -->
+    `cat /tmp/canon_header.html`
     
     <!-- Admin Dashboard -->
-    <main class="admin-dashboard" id="admin-panels">
+    <main class="admin-dashboard">
         
         <!-- Section 1: Active Galleries -->
-        <section class="admin-section active-galleries" data-panel="dashboard">
+        <section class="admin-section active-galleries">
             <div class="section-header">
                 <h2 class="section-title">Active Galleries</h2>
                 <div class="section-actions">
@@ -124,7 +125,7 @@
         </section>
         
         <!-- Section 2: Create New Gallery -->
-        <section class="admin-section create-gallery" data-panel="dashboard">
+        <section class="admin-section create-gallery">
             <div class="section-header">
                 <h2 class="section-title">Create New Gallery</h2>
             </div>
@@ -175,7 +176,7 @@
         </section>
         
         <!-- Section 3: Quick Stats -->
-        <section class="admin-section quick-stats" data-panel="dashboard">
+        <section class="admin-section quick-stats">
             <div class="section-header">
                 <h2 class="section-title">Quick Stats</h2>
             </div>
@@ -225,25 +226,6 @@
         </section>
         
     </main>
-
-    <script>
-      (function(){
-        function showPanel(){
-          var name=(location.hash||'#dashboard').slice(1);
-          var found=false;
-          document.querySelectorAll('[data-panel]').forEach(function(p){
-            var match=p.getAttribute('data-panel')===name;
-            p.style.display= match || (name==='dashboard' && p.getAttribute('data-panel')==='dashboard') ? '' : 'none';
-            if(match) found=true;
-          });
-          if(!found){
-            document.querySelectorAll('[data-panel="dashboard"]').forEach(function(p){p.style.display='';});
-          }
-        }
-        window.addEventListener('hashchange',showPanel);
-        document.addEventListener('DOMContentLoaded',showPanel);
-      })();
-    </script>
     
     <!-- Admin Footer -->
     <footer class="admin-footer">

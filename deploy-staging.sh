@@ -77,10 +77,7 @@ fi
 echo "📦 Creating artifacts.zip..."
 rm -f "$ZIP_FILE"
 cd "$DIST_DIR"
-zip -r "../$ZIP_FILE" . \
-  -x "*.DS_Store" "*/.*" \
-  -x "*.bak" "*.bak2" "*~" \
-  -x "admin/*-wrong*.html*" "admin/*-updated*.html*"
+zip -r "../$ZIP_FILE" . -x "*.DS_Store" "*/.*"
 cd ..
 
 if [[ ! -f "$ZIP_FILE" ]]; then
