@@ -1,0 +1,5 @@
+
+# block editor/temp backups
+*.bak
+*.bak2
+*-wrong*.html*
