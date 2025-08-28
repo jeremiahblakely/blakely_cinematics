@@ -1721,6 +1721,50 @@ select option:hover {
 /* ============================================ */
 /* 16. ADMIN DASHBOARD                         */
 /* ============================================ */
+
+/* top bar layout */
+.admin-bar{
+  display:grid;
+  grid-template-columns: 1fr auto 1fr; /* brand | nav | signout */
+  align-items:center;
+  height:64px;
+  padding:0 24px;
+  background:#0b0b0b;
+  border-bottom:1px solid #262626;
+  position:sticky; top:0; z-index:50;
+}
+
+/* branding */
+.admin-logo{
+  margin:0;
+  justify-self:start;
+  font-weight:700;
+  letter-spacing:.14em;
+  font-size:28px;                /* big like before */
+  color:#e6eef9;
+}
+.admin-logo .admin-accent{
+  background: linear-gradient(90deg,#00A9E0 0%, #8A2BE2 100%);
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* keep your existing nav links centered */
+.admin-nav{ justify-self:center; display:flex; gap:28px; }
+
+/* signout on right, simple text link */
+.admin-signout{
+  justify-self:end;
+  color:#9aa0a6; text-decoration:none; padding:8px 10px;
+}
+.admin-signout:hover{ color:#eaeaea; text-decoration:underline; }
+
+/* responsive tweak */
+@media (max-width:900px){
+  .admin-logo{ font-size:20px; letter-spacing:.12em; }
+  .admin-nav{ gap:16px; }
+}
 :root {
     --admin-primary: #0066CC; /* Professional blue */
     --admin-secondary: #4A90E2; /* Lighter blue */
@@ -1843,6 +1887,23 @@ select option:hover {
     margin: 0 auto;
     display: grid;
     gap: 3rem;
+}
+
+/* ============================================ */
+/* Admin Header Grid Overrides                 */
+/* Ensures the admin nav sits inside the .admin-bar
+   grid instead of becoming a full-width fixed bar. */
+.admin-bar .admin-nav {
+  position: static !important;
+  width: auto !important;
+  top: auto !important;
+  z-index: auto !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  mix-blend-mode: normal !important;
 }
 
 .admin-section {
