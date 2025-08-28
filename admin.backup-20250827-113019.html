@@ -37,10 +37,6 @@
     <nav class="admin-nav">
         <div class="nav-container">
             <h1 class="admin-logo">BLAKELY ADMIN</h1>
-            <nav id="header-tabs">
-                <a href="admin.html" data-tab="dashboard">Dashboard</a>
-                <a href="admin-mail.html" data-tab="mail">Mail</a>
-            </nav>
             <a href="index.html" class="admin-sign-out" onclick="adminSignOut(event)">Sign Out</a>
         </div>
     </nav>
@@ -809,16 +805,5 @@
     
     <!-- Load main script for shared functionality -->
     <script src="js/script.js"></script>
-    
-    <script>
-    (function(){
-        var links = document.querySelectorAll('#header-tabs a');
-        if (!links.length) return;
-        var page = location.pathname.split('/').pop() || 'admin.html';
-        links.forEach(function(a){
-            if (a.getAttribute('href') === page) a.classList.add('active');
-        });
-    })();
-    </script>
 </body>
 </html>

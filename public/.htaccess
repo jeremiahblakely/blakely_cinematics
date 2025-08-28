@@ -1,0 +1,23 @@
+# Blakely Cinematics Security Configuration
+# Prevent directory listing for security
+Options -Indexes
+
+# Set index file priority
+DirectoryIndex index.html
+
+# Security headers (optional)
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options nosniff
+    Header always set X-Frame-Options DENY
+</IfModule>
+
+# Block access to sensitive files
+<Files ".htaccess">
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files "*.md">
+    Order allow,deny
+    Deny from all
+</Files>
