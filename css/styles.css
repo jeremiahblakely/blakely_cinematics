@@ -1795,6 +1795,11 @@ select option:hover {
 .admin-bar .admin-signout{ justify-self:end; color:#9aa0a6; text-decoration:none; padding:8px 10px; }
 .admin-bar .admin-signout:hover{ color:#eaeaea; text-decoration:underline; }
 
+/* Right-side actions (settings icon + sign out) */
+.admin-actions{ justify-self:end; display:flex; align-items:center; gap:14px; }
+.admin-actions .admin-settings{ color:#9aa0a6; display:inline-flex; align-items:center; padding:6px; border-radius:8px; }
+.admin-actions .admin-settings:hover{ color:#eaeaea; background: rgba(255,255,255,0.06); }
+
 /* Neutralize legacy fixed nav when inside grid header */
 .admin-bar .admin-nav{
   position: static !important;
