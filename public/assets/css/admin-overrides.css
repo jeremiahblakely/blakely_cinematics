@@ -1,0 +1,29 @@
+/* === ADMIN HEADER FIX (scoped) === */
+#adminBar, .admin-bar{
+  position: sticky; top: 0; z-index: 1500; /* sit above page content, below modals */
+}
+
+/* Make the admin nav participate in the grid instead of overlaying */
+#adminBar .admin-nav{
+  position: static !important;
+  width: auto !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  z-index: auto !important;
+
+  display: flex;
+  gap: 28px;
+}
+
+/* Ensure brand & signout aren't positioned/floated by legacy rules */
+#adminBar .admin-logo,
+#adminBar .admin-signout{
+  position: static !important;
+  z-index: auto !important;
+}
+
+/* Optional: keep the bar visually on top during scroll */
+@supports (backdrop-filter: blur(2px)){
+  #adminBar{ backdrop-filter: blur(2px); }
+}

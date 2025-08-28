@@ -1,0 +1,55 @@
+{
+  "aliases": [
+    "admin@blakelycinematics.com",
+    "bookings@blakelycinematics.com",
+    "hello@blakelycinematics.com",
+    "support@blakelycinematics.com"
+  ],
+  "threads": [
+    {
+      "id": "thr_001",
+      "alias": "bookings@blakelycinematics.com",
+      "subject": "Signature Session Inquiry — Sept 10",
+      "from": "Ava Chen <ava@example.com>",
+      "labels": ["Inbox","Bookings"],
+      "lastMessageAt": "2025-08-26T21:40:00Z",
+      "unreadCount": 2,
+      "snippet": "Hi! I’m interested in the Signature Session…",
+      "messages": [
+        {
+          "id": "msg_001a",
+          "date": "2025-08-26T21:32:00Z",
+          "from": "Ava Chen <ava@example.com>",
+          "to": "bookings@blakelycinematics.com",
+          "bodyHtml": "<p>Hi! I’m interested in Sept 10. What’s the process?</p>"
+        },
+        {
+          "id": "msg_001b",
+          "date": "2025-08-26T21:40:00Z",
+          "from": "Ava Chen <ava@example.com>",
+          "to": "bookings@blakelycinematics.com",
+          "bodyHtml": "<p>Also, do you offer studio selects?</p>"
+        }
+      ]
+    },
+    {
+      "id": "thr_002",
+      "alias": "admin@blakelycinematics.com",
+      "subject": "Receipt for deposit",
+      "from": "Stripe <no-reply@stripe.com>",
+      "labels": ["Inbox","Finance"],
+      "lastMessageAt": "2025-08-27T09:12:00Z",
+      "unreadCount": 0,
+      "snippet": "Payment received: $450.00",
+      "messages": [
+        {
+          "id": "msg_002a",
+          "date": "2025-08-27T09:12:00Z",
+          "from": "Stripe <no-reply@stripe.com>",
+          "to": "admin@blakelycinematics.com",
+          "bodyHtml": "<p>Payment received for Booking #BC-1029: $450.00</p>"
+        }
+      ]
+    }
+  ]
+}

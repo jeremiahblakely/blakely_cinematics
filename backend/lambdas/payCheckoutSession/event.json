@@ -1,0 +1,9 @@
+{
+  "version": "2.0",
+  "routeKey": "POST /pay",
+  "rawPath": "/pay",
+  "requestContext": { "http": { "method": "POST" } },
+  "headers": { "content-type": "application/json" },
+  "isBase64Encoded": false,
+  "body": "{\"price\":45000,\"bookingId\":\"2ba75418-14de-4dcd-b9bf-9a9a092c7504\"}"
+}

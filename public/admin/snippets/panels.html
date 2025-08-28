@@ -1,0 +1,187 @@
+<!-- BEGIN BC-ADMIN-NAV -->
+<aside class="sidebar" aria-label="Admin Navigation">
+  <div class="brand">Blakely Admin</div>
+  <nav>
+    <button class="nav-btn" data-tab="dashboard" aria-controls="panel-dashboard">Dashboard</button>
+    <button class="nav-btn" data-tab="mail" aria-controls="panel-mail">Mail</button>
+    <button class="nav-btn" data-tab="galleries" aria-controls="panel-galleries">Galleries</button>
+    <button class="nav-btn" data-tab="selections" aria-controls="panel-selections">Selections</button>
+    <button class="nav-btn" data-tab="scheduling" aria-controls="panel-scheduling">Scheduling</button>
+    <button class="nav-btn" data-tab="transactions" aria-controls="panel-transactions">Transactions</button>
+    <button class="nav-btn" data-tab="clients" aria-controls="panel-clients">Clients</button>
+    <button class="nav-btn" data-tab="settings" aria-controls="panel-settings">Settings</button>
+  </nav>
+</aside>
+<!-- END BC-ADMIN-NAV -->
+
+<!-- BEGIN BC-ADMIN-PANELS -->
+<main class="main">
+  <header class="topbar">
+    <div class="crumbs">Admin Panel</div>
+    <div class="user">Signed in as: admin@blakelycinematics.com</div>
+  </header>
+
+  <section id="panel-dashboard" class="panel" role="region" aria-labelledby="tab-dashboard">
+    <h1>Dashboard</h1>
+    <div class="grid">
+      <div class="card">
+        <h2>Today</h2>
+        <ul class="list">
+          <li>New inquiries: <strong>0</strong></li>
+          <li>Unpaid deposits: <strong>0</strong></li>
+          <li>Pending selections: <strong>0</strong></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>Quick Actions</h2>
+        <div class="row">
+          <a class="button" data-goto="mail">Open Mail</a>
+          <a class="button" data-goto="galleries">Create Gallery</a>
+          <a class="button" data-goto="scheduling">Block a Day</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="panel-mail" class="panel" hidden>
+    <h1>Mail</h1>
+    <div class="flex">
+      <aside class="mail-folders">
+        <h3>Folders</h3>
+        <ul>
+          <li>Inbox</li><li>Starred</li><li>Sent</li><li>Drafts</li><li>Archive</li><li>Trash</li>
+        </ul>
+        <h3>Aliases</h3>
+        <ul id="alias-list">
+          <li>admin@blakelycinematics.com</li>
+          <li>billing@blakelycinematics.com</li>
+          <li>bookings@blakelycinematics.com</li>
+          <li>collab@blakelycinematics.com</li>
+          <li>hello@blakelycinematics.com</li>
+          <li>jd@blakelycinematics.com</li>
+          <li>support@blakelycinematics.com</li>
+          <li>systems@blakelycinematics.com</li>
+        </ul>
+      </aside>
+      <div class="mail-area">
+        <div class="mail-toolbar">
+          <input type="search" placeholder="Search mail…">
+          <button class="button">Refresh</button>
+          <button class="button">Compose</button>
+        </div>
+        <div class="mail-content placeholder">Message list and reading pane will appear here.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="panel-galleries" class="panel" hidden>
+    <h1>Galleries</h1>
+    <div class="card">
+      <form class="form">
+        <label>Client Name <input type="text" placeholder="Jane Doe"></label>
+        <label>Session Type
+          <select>
+            <option>Signature Session</option>
+            <option>Branding Session</option>
+            <option>Weddings</option>
+          </select>
+        </label>
+        <div class="row">
+          <button class="button">Create Gallery</button>
+          <button type="button" class="button outline">Find Gallery</button>
+        </div>
+      </form>
+    </div>
+    <div class="card">
+      <h2>Recent Galleries</h2>
+      <div class="table placeholder">No data yet.</div>
+    </div>
+  </section>
+
+  <section id="panel-selections" class="panel" hidden>
+    <h1>Selections</h1>
+    <div class="card">
+      <form class="form">
+        <label>Gallery Code <input type="text" placeholder="e.g., JD-2025-0910"></label>
+        <fieldset class="fieldset">
+          <legend>Who selects the photos?</legend>
+          <label class="choice"><input type="radio" name="selector" value="client" checked> Client selects</label>
+          <label class="choice"><input type="radio" name="selector" value="me"> I will select</label>
+        </fieldset>
+        <div class="row">
+          <button class="button">Save Preference</button>
+          <button type="button" class="button outline">Open Gallery</button>
+        </div>
+      </form>
+    </div>
+    <div class="card">
+      <h2>Pending Client Selections</h2>
+      <div class="table placeholder">None pending.</div>
+    </div>
+  </section>
+
+  <section id="panel-scheduling" class="panel" hidden>
+    <h1>Scheduling</h1>
+    <div class="grid">
+      <div class="card">
+        <h2>Block a Day</h2>
+        <form class="form">
+          <label>Date <input type="date"></label>
+          <label>Reason <input type="text" placeholder="Out of town, personal, etc."></label>
+          <button class="button">Block</button>
+        </form>
+      </div>
+      <div class="card">
+        <h2>Pending Booking Requests</h2>
+        <div class="table placeholder">No requests yet.</div>
+      </div>
+      <div class="card">
+        <h2>Mini Forecast</h2>
+        <div class="forecast placeholder">Weather widget will live here.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="panel-transactions" class="panel" hidden>
+    <h1>Transactions</h1>
+    <div class="card">
+      <div class="row">
+        <button class="button">Refresh</button>
+        <button class="button outline">Export CSV</button>
+      </div>
+      <div class="table placeholder">No transactions found.</div>
+    </div>
+  </section>
+
+  <section id="panel-clients" class="panel" hidden>
+    <h1>Clients</h1>
+    <div class="card">
+      <form class="form">
+        <label>Search <input type="search" placeholder="Name, email, gallery code…"></label>
+        <button class="button">Find</button>
+      </form>
+    </div>
+    <div class="card">
+      <h2>Results</h2>
+      <div class="table placeholder">No results.</div>
+    </div>
+  </section>
+
+  <section id="panel-settings" class="panel" hidden>
+    <h1>Settings</h1>
+    <div class="card">
+      <h2>General</h2>
+      <form class="form">
+        <label>Business Name <input type="text" placeholder="Blakely Cinematics"></label>
+        <label>Default Selector
+          <select>
+            <option value="client">Client selects</option>
+            <option value="me">I select</option>
+          </select>
+        </label>
+        <button class="button">Save</button>
+      </form>
+    </div>
+  </section>
+</main>
+<!-- END BC-ADMIN-PANELS -->

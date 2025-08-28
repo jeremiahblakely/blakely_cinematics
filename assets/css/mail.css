@@ -1,0 +1,59 @@
+/* ===== Blakely Mail v2 (scoped) ===== */
+:root{
+  --bc-ink:#0f172a; --bc-sub:#64748b; --bc-line:#e5e7eb; --bc-soft:#f7f7fb;
+  --bc-hover:#f0f6ff; --bc-accent:#00A9E0; --bc-bg:#ffffff;
+}
+#mail-app{ font-family: -apple-system,BlinkMacSystemFont,Inter,Segoe UI,Roboto,Arial,sans-serif;
+  color:var(--bc-ink); background:var(--bc-bg);
+}
+#mail-app *{ box-sizing:border-box }
+
+/* Layout */
+#foldersPane{ width:240px !important; border-right:1px solid var(--bc-line) !important;
+  padding:12px !important; background:#fff;
+}
+#messageView{ background:#fff }
+#threadList{ background:#fff }
+
+/* Folders */
+#foldersPane a{ display:block; padding:10px 12px; margin:4px 0; border-radius:10px;
+  color:#334155; text-decoration:none; transition:background .15s,color .15s;
+}
+#foldersPane a:hover{ background:var(--bc-hover); color:#111827 }
+#foldersPane a.active{ background:var(--bc-soft); color:#111827; font-weight:700;
+  border-left:3px solid var(--bc-accent);
+}
+
+/* Filters */
+#aliasFilter,#searchBox{
+  height:36px; border:1px solid var(--bc-line); border-radius:10px; padding:0 12px; outline:none;
+  background:#fff;
+}
+#aliasFilter:focus,#searchBox:focus{ border-color:var(--bc-accent); box-shadow:0 0 0 3px rgba(0,169,224,.15) }
+#searchBox{ width:60% !important; margin-left:8px !important }
+
+/* Threads */
+#threadList > .threadRow{
+  padding:12px 14px; border-bottom:1px solid var(--bc-line); cursor:pointer;
+  transition:background .12s,border-color .12s;
+}
+#threadList > .threadRow:hover{ background:var(--bc-hover) }
+#threadList > .threadRow.selected{ background:#eef6ff; border-left:3px solid var(--bc-accent) }
+#threadList .subject{ font-weight:800; letter-spacing:.2px; color:#0b1220 }
+#threadList .meta{ font-size:12px; color:var(--bc-sub) }
+#threadList .snippet{ font-size:13px; color:#374151; margin-top:2px }
+
+/* Message view */
+#messageToolbar{ position:sticky; top:0; z-index:1; background:#fff;
+  border-bottom:1px solid var(--bc-line); padding:10px;
+}
+#messageToolbar button{
+  height:32px; padding:0 12px; margin-right:8px; border:1px solid var(--bc-line);
+  border-radius:10px; background:#fff; color:#6b7280; cursor:not-allowed;
+}
+#messageBody{ padding:20px }
+#messageBody header{ margin-bottom:12px }
+#messageBody header .title{ font-size:20px; font-weight:900; letter-spacing:.2px }
+#messageBody header .meta{ font-size:12px; color:var(--bc-sub) }
+#messageBody article{ padding:14px 0; border-bottom:1px solid var(--bc-line) }
+#messageBody .byline{ font-size:12px; color:var(--bc-sub); margin-bottom:6px }
