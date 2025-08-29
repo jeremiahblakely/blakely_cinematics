@@ -53,12 +53,15 @@
         }
         
         .portal-nav {
-            display: flex;
-            justify-content: space-between;
+            height: var(--header-height);
+            padding: 0 var(--header-padding-x);
+            display: grid;
+            grid-template-columns: 20% auto 20%; /* brand @20% | spacer | actions @80% */
             align-items: center;
-            padding: 1.5rem 2rem;
+            gap: var(--header-gap);
             max-width: 1400px;
             margin: 0 auto;
+            width: 100%;
         }
         
         .portal-logo {
@@ -69,6 +72,7 @@
             font-weight: 100;
             letter-spacing: 0.3rem;
             color: var(--light);
+            justify-self: end; /* position text centerline at ~20% */
         }
         
         .portal-logo i {
@@ -81,6 +85,42 @@
             align-items: center;
             gap: 1rem;
             color: rgba(255, 255, 255, 0.8);
+            justify-self: start; /* position actions centerline at ~80% */
+        }
+
+        /* Link-style Sign Out (replaces button) */
+        .logout-link {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            padding: 0.5rem 0;
+            transition: color 0.2s ease;
+        }
+        .logout-link:hover { color: var(--primary); }
+        
+        /* VIP API status pill */
+        .vip-status-pill {
+            font-size: 0.75rem;
+            line-height: 1;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.8);
+            background: rgba(255,255,255,0.06);
+            white-space: nowrap;
+            max-width: 40ch;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            justify-self: center;
+        }
+        .vip-status--online {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: rgba(255, 107, 53, 0.08);
+        }
+        .vip-status--offline {
+            border-color: var(--admin-danger, #EF4444);
+            color: var(--admin-danger, #EF4444);
+            background: rgba(239, 68, 68, 0.08);
         }
         
         .client-name {
@@ -468,11 +508,10 @@
                     <i class="fas fa-crown"></i>
                     <span>BLAKELY VIP</span>
                 </div>
+                <div id="vipStatus" class="vip-status-pill" aria-live="polite">VIP API • Checking…</div>
                 <div class="client-welcome">
                     <span class="client-name" id="client-name-display">Welcome</span>
-                    <button class="logout-btn" onclick="logout()">
-                        <i class="fas fa-sign-out-alt"></i> Sign Out
-                    </button>
+                    <a href="#" class="logout-link" onclick="logout(); return false;">Sign Out</a>
                 </div>
             </nav>
         </header>
@@ -613,6 +652,28 @@
     
     <!-- JavaScript -->
     <script src="/js/script.js?v=20250828"></script>
+    <script type="module">
+      import { vipHealth } from '/js/vip-api.js';
+      document.addEventListener('DOMContentLoaded', async () => {
+        const pill = document.getElementById('vipStatus');
+        if (!pill) return;
+        try {
+          const data = await vipHealth();
+          if (data && (data.ok === true || data.status === 'ok')) {
+            pill.textContent = 'VIP API • Online';
+            pill.classList.remove('vip-status--offline');
+            pill.classList.add('vip-status--online');
+          } else {
+            throw new Error('Unexpected response');
+          }
+        } catch (e) {
+          console.warn('VIP API health failed:', e);
+          pill.textContent = 'VIP API • Offline';
+          pill.classList.remove('vip-status--online');
+          pill.classList.add('vip-status--offline');
+        }
+      });
+    </script>
     
     <script>
         // ---- VIP Auth Config ----
