@@ -745,9 +745,9 @@
     </div>
     
     <!-- JavaScript -->
-    <script src="/js/script.js?v=20250828-1"></script>
+    <script src="/js/script.js?v=stg-s2"></script>
     <script type="module">
-      import { vipHealth, vipFinalize, vipRestore, vipTrash, vipRemoveFromFolder } from '/js/vip-api.js?v=stg-03B';
+      import { vipHealth, vipFinalize, vipRestore, vipTrash, vipRemoveFromFolder } from '/js/vip-api.js?v=stg-s2';
       document.addEventListener('DOMContentLoaded', async () => {
         const pill = document.getElementById('vipStatus');
         if (!pill) return;
@@ -1016,14 +1016,14 @@
               galleryCode
             }));
 
-            // Show success message and redirect to gallery
-            showMessage('Authentication successful! Redirecting to your gallery...', 'success');
-            
-            // Small delay to show the success message, then redirect
+            // Show success message and remain on VIP portal (no gallery.html redirect)
+            showMessage('Authentication successful! Loading your VIP portal…', 'success');
+            // Ensure we are on /vip.html (root). If already here, do nothing.
             setTimeout(() => {
-              console.log('Redirecting to gallery.html...');
-              window.location.href = 'gallery.html';
-            }, 1500);
+              if (!/vip\.html$/i.test(location.pathname)) {
+                window.location.replace('/vip.html');
+              }
+            }, 1200);
 
           } catch (err) {
             console.error('VIP auth error:', err);
