@@ -7,7 +7,7 @@
     <meta name="description" content="Exclusive VIP client portal for Blakely Cinematics - manage your session, view preparation guides, and access your photos">
     
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="/css/styles.css?v=20250828">
+    <link rel="stylesheet" href="/css/styles.css?v=20250828-1">
     
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -153,6 +153,7 @@
 
         /* VIP Galleries skeleton */
         .vip-galleries { margin-top: 2rem; }
+        .vip-gal-label { margin: 0 0 0.5rem 0; font-size: 0.9rem; opacity: 0.85; letter-spacing: 0.08rem; }
         .galleries-layout { display: grid; grid-template-columns: 280px 1fr; gap: 1.5rem; }
         .folders {
             border: 1px solid rgba(255,255,255,0.1);
@@ -636,6 +637,7 @@
 
             <!-- Refined Galleries UI (mock) -->
             <section class="vip-galleries" aria-labelledby="vip-gal-title">
+              <div class="vip-gal-label">Galleries (mock) • v0.1</div>
               <div class="galleries-layout">
                 <aside class="folders" aria-label="Folders">
                   <div class="folders-header">
@@ -742,9 +744,9 @@
     </div>
     
     <!-- JavaScript -->
-    <script src="/js/script.js?v=20250828"></script>
+    <script src="/js/script.js?v=20250828-1"></script>
     <script type="module">
-      import { vipHealth, vipFinalize, vipRestore, vipTrash, vipRemoveFromFolder } from '/js/vip-api.js';
+      import { vipHealth, vipFinalize, vipRestore, vipTrash, vipRemoveFromFolder } from '/js/vip-api.js?v=20250828-1';
       document.addEventListener('DOMContentLoaded', async () => {
         const pill = document.getElementById('vipStatus');
         if (!pill) return;
