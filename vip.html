@@ -7,7 +7,7 @@
     <meta name="description" content="Exclusive VIP client portal for Blakely Cinematics - manage your session, view preparation guides, and access your photos">
     
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="/css/styles.css?v=20250828-1">
+    <link rel="stylesheet" href="/css/styles.css?v=stg-03B">
     
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -556,6 +556,7 @@
         
         <!-- Portal Content -->
         <div class="portal-content">
+            <div style="opacity:.75;font-size:.85rem;margin:6px 0;">VIP • build:e94bea8 • staging/local</div>
             <div class="portal-dashboard">
                 <!-- Main Content -->
                 <div class="main-content">
@@ -746,7 +747,7 @@
     <!-- JavaScript -->
     <script src="/js/script.js?v=20250828-1"></script>
     <script type="module">
-      import { vipHealth, vipFinalize, vipRestore, vipTrash, vipRemoveFromFolder } from '/js/vip-api.js?v=20250828-1';
+      import { vipHealth, vipFinalize, vipRestore, vipTrash, vipRemoveFromFolder } from '/js/vip-api.js?v=stg-03B';
       document.addEventListener('DOMContentLoaded', async () => {
         const pill = document.getElementById('vipStatus');
         if (!pill) return;
