@@ -1,3 +1,7 @@
 *.bak
 *.bak2
 *-wrong*.html*
+
+# Ignore public VIP duplicates
+public/vip.html
+public/js/vip-api.js
