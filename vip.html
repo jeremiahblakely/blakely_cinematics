@@ -501,11 +501,11 @@
                 </div>
                 
                 <div class="vip-container">
-                    <form id="vip-login-form" class="vip-form">
-                        <div class="form-group">
-                            <input type="text" id="gallery-code" name="gallery_code" placeholder=" " required>
-                            <label for="gallery-code">Gallery Code</label>
-                        </div>
+                <form id="vip-login-form" class="vip-form">
+                    <div class="form-group">
+                        <input type="text" id="gallery-code" name="gallery_code" placeholder=" " required>
+                        <label for="gallery-code">Gallery Code</label>
+                    </div>
                         
                         <div class="form-group">
                             <input type="password" id="vip-password" name="password" placeholder=" " required>
@@ -516,6 +516,7 @@
                             <i class="fas fa-crown" style="margin-right: 0.5rem;"></i>
                             ACCESS PORTAL
                         </button>
+                        <span id="vip-debug" style="display:none"></span>
                     </form>
                     
                     <!-- Optional loading element -->
@@ -745,9 +746,9 @@
     </div>
     
     <!-- JavaScript -->
-    <script src="/js/script.js?v=stg-s2"></script>
+    <script src="/js/script.js?v=stg-s4"></script>
     <script type="module">
-      import { vipHealth, vipFinalize, vipRestore, vipTrash, vipRemoveFromFolder } from '/js/vip-api.js?v=stg-s2';
+      import { vipHealth, vipFinalize, vipRestore, vipTrash, vipRemoveFromFolder } from '/js/vip-api.js?v=stg-s4';
       document.addEventListener('DOMContentLoaded', async () => {
         const pill = document.getElementById('vipStatus');
         if (!pill) return;
@@ -1016,17 +1017,23 @@
               galleryCode
             }));
 
-            // Show success message and remain on VIP portal (no gallery.html redirect)
+            // Show success message and redirect hard to VIP portal
             showMessage('Authentication successful! Loading your VIP portal…', 'success');
-            // Ensure we are on /vip.html (root). If already here, do nothing.
+            console.log('[VIP] login success fired');
+            console.log('[VIP] redirect -> /vip.html (ts:', new Date().toISOString(), ')');
+            window.__vipLoginRedirect = 'attempted';
+            // Hard navigation + fallback in case something intercepts
+            window.location.replace('/vip.html');
             setTimeout(() => {
               if (!/vip\.html$/i.test(location.pathname)) {
-                window.location.replace('/vip.html');
+                window.location.assign('/vip.html');
               }
-            }, 1200);
+            }, 600);
 
           } catch (err) {
             console.error('VIP auth error:', err);
+            const dbg = document.getElementById('vip-debug');
+            if (dbg) { dbg.textContent = (err && (err.message||err.status)) ? String(err.message||err.status) : 'auth_error'; }
             // Handle specific auth errors vs network errors
             if (err.message && err.message.includes('Auth 401')) {
               showMessage('Invalid credentials. Please check your gallery code and password.', 'error');
