@@ -96,8 +96,13 @@
             <div class="admin-login-container">
                 <form id="vip-login-form" class="admin-login-form">
                     <div class="form-group">
+                        <input type="text" id="gallery-code" name="gallery_code" placeholder=" " required>
+                        <label for="gallery-code">Gallery Code</label>
+                    </div>
+                    
+                    <div class="form-group">
                         <input type="password" id="vip-password" name="vip_password" placeholder=" " required>
-                        <label for="vip-password">Gallery Access Code</label>
+                        <label for="vip-password">Password</label>
                     </div>
                     
                     <button type="submit" class="btn btn-primary admin-login-btn">ACCESS GALLERY</button>
@@ -135,25 +140,36 @@
             vipForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
+                const galleryCode = document.getElementById('gallery-code').value.trim();
                 const password = document.getElementById('vip-password').value.trim();
                 const submitBtn = document.querySelector('.admin-login-btn');
                 const originalText = submitBtn.textContent;
                 
                 // Show loading message
-                showMessage('Verifying access...', 'loading');
+                showMessage('Verifying credentials...', 'loading');
                 submitBtn.textContent = 'Verifying...';
                 submitBtn.disabled = true;
                 
                 // Simulate brief verification delay
                 setTimeout(() => {
-                    // You can add actual VIP code validation here
-                    // For now, using a simple demo code
-                    if (password === 'VIP2025' || password === 'GALLERY') {
-                        
+                    // VIP authentication logic - both gallery code and password required
+                    const validCredentials = [
+                        { code: 'DEMO2025', password: 'VIP2025' },
+                        { code: 'GALLERY01', password: 'EXCLUSIVE' },
+                        { code: 'SPRING24', password: 'PORTRAIT' },
+                        { code: 'WEDDING23', password: 'CINEMA' }
+                    ];
+                    
+                    const isValid = validCredentials.some(cred => 
+                        cred.code === galleryCode && cred.password === password
+                    );
+                    
+                    if (isValid) {
                         // Set VIP authenticated flag
                         sessionStorage.setItem('vipAuthenticated', 'true');
                         sessionStorage.setItem('vipLoginTime', Date.now().toString());
-                        sessionStorage.setItem('vipGalleryCode', password);
+                        sessionStorage.setItem('vipGalleryCode', galleryCode);
+                        sessionStorage.setItem('vipPassword', password);
                         
                         showMessage('Access granted! Loading gallery...', 'success');
                         
@@ -161,20 +177,21 @@
                         setTimeout(() => {
                             // You can redirect to a gallery page here
                             // window.location.href = 'gallery.html';
-                            showMessage('Gallery access successful!', 'success');
+                            showMessage(`Welcome to ${galleryCode} gallery!`, 'success');
                         }, 800);
                     } else {
-                        showMessage('Invalid access code. Please check your invitation.', 'error');
+                        showMessage('Invalid gallery code or password. Please check your invitation.', 'error');
                         
                         // Reset form
+                        document.getElementById('gallery-code').value = '';
                         document.getElementById('vip-password').value = '';
                         
                         // Reset button
                         submitBtn.textContent = originalText;
                         submitBtn.disabled = false;
                         
-                        // Focus back to password input
-                        document.getElementById('vip-password').focus();
+                        // Focus back to gallery code input
+                        document.getElementById('gallery-code').focus();
                     }
                 }, 1000); // 1 second delay
             });
@@ -184,8 +201,8 @@
                 initCustomCursor();
             }
             
-            // Focus password field on load
-            document.getElementById('vip-password').focus();
+            // Focus gallery code field on load
+            document.getElementById('gallery-code').focus();
         });
     </script>
     <script src="js/api-config.js"></script>
