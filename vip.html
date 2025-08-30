@@ -609,7 +609,11 @@
     
     <!-- JavaScript -->
     <script src="js/script.js"></script>
-    
+    <script>
+        // API Configuration
+        const API_BASE_URL = "https://0n42z2wsrj.execute-api.us-east-1.amazonaws.com/prod";
+        const AUTH_URL = API_BASE_URL + "/authenticate";
+    </script>    
     <script>
         // ---- VIP Auth Config ----
         const DEV = location.hostname === '127.0.0.1' || location.hostname === 'localhost';
@@ -618,21 +622,15 @@
         
         // Check for auto-login from booking completion
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('VIP page loaded, checking for saved credentials...');
-            console.log('VIP Auth URL available:', AUTH_URL);
-            console.log('Environment detected:', DEV ? 'Development' : 'Production');
             
             // Check if user came from booking completion
             const vipCredentials = sessionStorage.getItem('vipCredentials');
-            console.log('Found vipCredentials:', vipCredentials);
             
             if (vipCredentials) {
                 try {
                     const credentials = JSON.parse(vipCredentials);
-                    console.log('Parsed credentials:', credentials);
                     
                     if (credentials.bookingConfirmed && credentials.galleryCode && credentials.password) {
-                        console.log('Valid booking credentials found, auto-filling form...');
                         
                         // Ensure form elements exist
                         const galleryCodeField = document.getElementById('gallery-code');
@@ -643,7 +641,6 @@
                             galleryCodeField.value = credentials.galleryCode;
                             passwordField.value = credentials.password;
                             
-                            console.log('Form filled with:', {
                                 galleryCode: credentials.galleryCode,
                                 password: '***hidden***'
                             });
@@ -663,20 +660,15 @@
                             
                             // Auto-submit after a moment to give user time to see the auto-filled credentials
                             setTimeout(() => {
-                                console.log('Auto-submitting login...');
                                 handleVIPLogin();
                             }, 2500); // Increased delay to 2.5 seconds
                         } else {
-                            console.error('Form fields not found:', { galleryCodeField, passwordField });
                         }
                     } else {
-                        console.log('Invalid or incomplete credentials:', credentials);
                     }
                 } catch (error) {
-                    console.error('Error parsing vipCredentials:', error);
                 }
             } else {
-                console.log('No saved credentials found');
             }
             
             // Login form handler - wired to new handler
@@ -718,7 +710,6 @@
             const gallery = data.gallery || {};
             gallery.clientName = (gallery.clientName || "").trim();
 
-            console.log('Authentication successful for client:', gallery);
 
             // Store normalized credentials in localStorage
             localStorage.setItem("vipCredentials", JSON.stringify({
@@ -741,12 +732,10 @@
             
             // Small delay to show the success message, then redirect
             setTimeout(() => {
-              console.log('Redirecting to gallery.html...');
               window.location.href = 'gallery.html';
             }, 1500);
 
           } catch (err) {
-            console.error('VIP auth error:', err);
             // Handle specific auth errors vs network errors
             if (err.message && err.message.includes('Auth 401')) {
               showMessage('Invalid credentials. Please check your gallery code and password.', 'error');
@@ -945,24 +934,17 @@
         // Check stored VIP credentials (for debugging)
         window.checkVIPCredentials = function() {
             const stored = sessionStorage.getItem('vipCredentials');
-            console.log('=== VIP CREDENTIALS DEBUG ===');
-            console.log('Raw stored data:', stored);
             if (stored) {
                 try {
                     const parsed = JSON.parse(stored);
-                    console.log('Parsed data:', parsed);
-                    console.log('Has required fields:', {
                         galleryCode: !!parsed.galleryCode,
                         password: !!parsed.password,
                         bookingConfirmed: !!parsed.bookingConfirmed
                     });
                 } catch (error) {
-                    console.error('Error parsing stored credentials:', error);
                 }
             } else {
-                console.log('No credentials found in sessionStorage');
             }
-            console.log('============================');
             return stored;
         };
         
@@ -970,7 +952,6 @@
         window.fillTestCredentials = function() {
             document.getElementById('gallery-code').value = 'test1234';
             document.getElementById('vip-password').value = 'TESTPASS';
-            console.log('Test credentials filled manually');
         };
         
         // Manually trigger auto-fill from stored credentials
@@ -982,15 +963,11 @@
                     if (credentials.galleryCode && credentials.password) {
                         document.getElementById('gallery-code').value = credentials.galleryCode;
                         document.getElementById('vip-password').value = credentials.password;
-                        console.log('Manually filled from stored credentials');
                     } else {
-                        console.log('Stored credentials missing required fields');
                     }
                 } catch (error) {
-                    console.error('Error parsing stored credentials:', error);
                 }
             } else {
-                console.log('No stored credentials found');
             }
         };
         
@@ -1000,19 +977,14 @@
             document.getElementById('gallery-code').value = 'jereux19';
             document.getElementById('vip-password').value = 'DEMO2025';
             
-            console.log('Test credentials filled, attempting login...');
             handleVIPLogin();
         };
         
         // Direct API test with detailed network analysis
         window.testAPICall = async function(galleryCode = 'testuser' + Date.now(), password = 'TESTPASS') {
             try {
-                console.log('=== DETAILED API TEST ===');
-                console.log('Auth URL:', AUTH_URL);
-                console.log('Test credentials:', { galleryCode, password });
                 
                 // Check if we can even reach the domain
-                console.log('Testing basic connectivity...');
                 
                 const startTime = Date.now();
                 const response = await fetch(AUTH_URL, {
@@ -1028,29 +1000,19 @@
                 });
                 const endTime = Date.now();
                 
-                console.log('Request completed in:', endTime - startTime, 'ms');
-                console.log('Response status:', response.status, response.statusText);
-                console.log('Response type:', response.type);
-                console.log('Response ok:', response.ok);
-                console.log('Response URL:', response.url);
                 
                 // Log all headers
-                console.log('Response headers:');
                 for (const [key, value] of response.headers.entries()) {
-                    console.log(`  ${key}: ${value}`);
                 }
                 
                 // Try to get response data
                 let responseData;
                 const contentType = response.headers.get('content-type');
-                console.log('Content-Type:', contentType);
                 
                 if (contentType && contentType.includes('application/json')) {
                     responseData = await response.json();
-                    console.log('JSON Response data:', responseData);
                 } else {
                     responseData = await response.text();
-                    console.log('Text Response data:', responseData);
                 }
                 
                 return { 
@@ -1062,16 +1024,10 @@
                     timing: endTime - startTime
                 };
             } catch (error) {
-                console.error('API test failed completely:', error);
-                console.error('Error type:', error.constructor.name);
-                console.error('Error message:', error.message);
-                console.error('Error stack:', error.stack);
                 
                 // Check if it's a network error vs CORS
                 if (error.name === 'TypeError' && error.message.includes('fetch')) {
-                    console.error('This looks like a NETWORK ERROR or CORS PREFLIGHT failure');
                 } else {
-                    console.error('This is a different type of error');
                 }
                 
                 return { error: error.message, errorType: error.constructor.name };
@@ -1091,11 +1047,8 @@
         
         // Test function 1: Test with existing credentials
         function testExistingLogin() {
-            console.log('Testing with existing credentials...');
             document.getElementById('gallery-code').value = 'jereux19';
             document.getElementById('vip-password').value = 'DEMO2025';
-            console.log('Filled form with: jereux19 / DEMO2025');
-            console.log('Now click the ACCESS PORTAL button to test');
         }
 
         // Test function 2: Create new test user
@@ -1103,20 +1056,15 @@
             const timestamp = Date.now();
             const testCode = 'TEST' + timestamp;
             const testPass = 'PASS' + timestamp;
-            console.log('Testing with NEW credentials...');
             document.getElementById('gallery-code').value = testCode;
             document.getElementById('vip-password').value = testPass;
-            console.log('Filled form with:', testCode, '/', testPass);
-            console.log('Now click the ACCESS PORTAL button to test');
         }
 
         // Test function 3: Check stored credentials
         function checkVIPCredentials() {
             const stored = sessionStorage.getItem('galleryInfo');
             if (stored) {
-                console.log('Found stored credentials:', JSON.parse(stored));
             } else {
-                console.log('No credentials stored in session');
             }
         }
         
@@ -1126,9 +1074,6 @@
             const testCode = 'DIRECT' + timestamp;
             const testPass = 'API' + timestamp;
             
-            console.log('=== DIRECT API TEST ===');
-            console.log('Testing credentials:', testCode, '/', testPass);
-            console.log('Auth URL:', AUTH_URL);
             
             try {
                 const response = await fetch(AUTH_URL, {
@@ -1143,22 +1088,15 @@
                     })
                 });
                 
-                console.log('Response status:', response.status);
-                console.log('Response headers:', Object.fromEntries(response.headers.entries()));
                 
                 const data = await response.text();
-                console.log('Response data:', data);
                 
                 if (response.ok) {
-                    console.log('✅ SUCCESS - New user should be created in database');
                     return true;
                 } else {
-                    console.log('❌ FAILED - Check response above');
                     return false;
                 }
             } catch (error) {
-                console.error('❌ NETWORK ERROR:', error.message);
-                console.error('This suggests CORS preflight failure or network issue');
                 return false;
             }
         }
