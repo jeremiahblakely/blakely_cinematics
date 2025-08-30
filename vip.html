@@ -4,497 +4,190 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VIP Portal - Blakely Cinematics</title>
+    <meta name="description" content="VIP portal for exclusive Blakely Cinematics gallery access">
     
-    <!-- Load your existing styles first -->
-    <link rel="stylesheet" href="css/styles.css">
-    
-    <!-- VIP-specific styles (matching admin-login styling) -->
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/styles.css?v=20250828">
     <style>
-        /* VIP Portal - Matching Admin Login Styles */
-        :root {
-            --vip-primary: #FF6B35;
-            --vip-secondary: #FF8C5A;
-            --admin-primary: #0066CC;
-            --admin-secondary: #4A90E2;
-        }
-
-        body {
-            background: #0A0A0A;
-            color: #E0E0E0;
-            font-family: 'Montserrat', sans-serif;
-            min-height: 100vh;
-            margin: 0;
-            padding: 0;
-        }
-
-        /* Login Container with Admin-style gradient background */
-        .vip-login {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 4rem;
-            background: linear-gradient(
-                135deg,
-                #0A0A0A 0%,
-                rgba(255, 107, 53, 0.05) 50%,
-                #0A0A0A 100%
-            );
-            position: relative;
-        }
-
-        /* Admin-style radial gradients */
-        .vip-login::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 30% 20%, rgba(255, 107, 53, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 70% 80%, rgba(255, 107, 53, 0.05) 0%, transparent 50%);
-            pointer-events: none;
-        }
-
-        .login-box {
-            text-align: center;
-            max-width: 500px;
-            width: 100%;
-            position: relative;
-            z-index: 1;
-            opacity: 0;
-            animation: fadeInUp 0.8s ease forwards;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Title with gradient text like admin */
-        .login-title {
-            font-size: 2.5rem;
-            font-weight: 100;
-            letter-spacing: 0.3rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #FFFFFF 0%, var(--vip-primary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .login-subtitle {
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.6);
-            font-weight: 300;
-            letter-spacing: 0.1rem;
-            margin-bottom: 3rem;
-        }
-
-        /* Form styles matching admin */
-        .form-group {
-            position: relative;
-            margin-bottom: 2rem;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 107, 53, 0.3);
-            border-radius: 5px;
-            color: #FFFFFF;
-            font-size: 1rem;
-            font-family: inherit;
-            transition: all 0.3s ease;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--vip-primary);
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 0 20px rgba(255, 107, 53, 0.2);
-        }
-
-        /* Floating labels like admin */
-        .form-group label {
-            position: absolute;
-            left: 1.5rem;
-            top: 1.5rem;
-            color: rgba(255, 255, 255, 0.5);
-            transition: all 0.3s ease;
-            pointer-events: none;
-        }
-
-        .form-group input:focus + label,
-        .form-group input:not(:placeholder-shown) + label {
-            top: -0.5rem;
-            left: 0.5rem;
-            font-size: 0.8rem;
-            background: #0A0A0A;
-            padding: 0 0.5rem;
-            color: var(--vip-primary);
-        }
-
-        /* Button with gradient and hover effect like admin */
-        .login-btn {
-            width: 100%;
-            margin-top: 1rem;
-            padding: 1.2rem 3rem;
-            font-size: 1rem;
-            letter-spacing: 0.2rem;
-            font-weight: 400;
-            background: linear-gradient(135deg, var(--vip-primary) 0%, var(--vip-secondary) 100%);
-            border: none;
-            border-radius: 5px;
-            color: white;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .login-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--vip-secondary) 0%, var(--vip-primary) 100%);
-            transition: left 0.3s ease;
-        }
-
-        .login-btn:hover::before {
-            left: 0;
-        }
-
-        .login-btn:hover {
-            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
-            transform: translateY(-2px);
-        }
-
-        .login-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* Dashboard (Hidden by default) */
-        .vip-dashboard {
-            display: none;
-            min-height: 100vh;
-        }
-
-        .dashboard-header {
-            background: rgba(0, 0, 0, 0.8);
-            padding: 1.5rem 2rem;
-            border-bottom: 1px solid rgba(255, 107, 53, 0.3);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .dashboard-title {
-            font-size: 1.5rem;
-            font-weight: 300;
-            letter-spacing: 0.1rem;
-        }
-
-        .signout-btn {
-            padding: 0.5rem 1.5rem;
-            background: transparent;
-            border: 1px solid #FF6B35;
-            border-radius: 5px;
-            color: #FF6B35;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .signout-btn:hover {
-            background: #FF6B35;
-            color: white;
-        }
-
-        .dashboard-content {
-            padding: 3rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .welcome-message {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .welcome-message h1 {
-            font-size: 2rem;
-            font-weight: 100;
-            letter-spacing: 0.2rem;
-            margin-bottom: 1rem;
-        }
-
-        .gallery-info {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 1rem;
-        }
-
-        .gallery-placeholder {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .gallery-item {
-            aspect-ratio: 1;
-            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: rgba(255, 255, 255, 0.3);
-            font-size: 0.9rem;
-        }
-
-        .message {
-            padding: 1rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-            text-align: center;
-            font-size: 0.9rem;
-        }
-
-        .message.error {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            color: #ef4444;
-        }
-
-        .message.success {
-            background: rgba(34, 197, 94, 0.1);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-            color: #22c55e;
-        }
-
-        .back-link {
-            text-align: center;
-            margin-top: 2rem;
-        }
-
-        .back-link a {
-            color: rgba(255, 255, 255, 0.5);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.3s ease;
-        }
-
-        .back-link a:hover {
-            color: #FF6B35;
-        }
+      /* Hide admin header on login page */
+      #adminBar{display:none !important;}
+      
+      /* VIP-specific color overrides for admin-login styles */
+      .admin-login-page {
+        /* Use VIP orange instead of admin blue */
+        --admin-primary: #FF6B35;
+        --admin-secondary: #FF8C5A;
+      }
+      
+      /* Override admin gradient with VIP colors */
+      .admin-login-section::before {
+        background: 
+          radial-gradient(circle at 30% 20%, rgba(255, 107, 53, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 70% 80%, rgba(255, 107, 53, 0.05) 0%, transparent 50%);
+      }
+      
+      .admin-login-section {
+        background: linear-gradient(
+          135deg,
+          #0A0A0A 0%,
+          rgba(255, 107, 53, 0.05) 50%,
+          #0A0A0A 100%
+        );
+      }
     </style>
+    
+    <!-- AWS CloudWatch RUM Analytics -->
+    <script>
+      (function(n,i,v,r,s,c,x,z){x=window.AwsRumClient={q:[],n:i,i:i,v:v,r:r,c:c};window[n]=function(c,p){x.q.push({c:c,p:p});};z=document.createElement('script');z.async=true;z.src=s;document.head.insertBefore(z,document.head.getElementsByTagName('script')[0]);})({
+        'cwr',
+        '1a163e06-eb6a-4131-bdb1-6e27fbb0799c',
+        '1.0.0',
+        'us-east-1',
+        'https://client.rum.us-east-1.amazonaws.com/1.19.0/cwr.js',
+        {
+          sessionSampleRate: 1 ,
+          endpoint: "https://dataplane.rum.us-east-1.amazonaws.com" ,
+          telemetries: ["performance","errors","http"] ,
+          allowCookies: true ,
+          enableXRay: false ,
+          signing: true
+        }
+      });
+    </script>
 </head>
-<body>
+<body class="admin-login-page">
+<header id="adminBar" class="admin-bar">
+  <a class="admin-logo" href="/admin.html" title="Dashboard">BLAKELY <span class="admin-accent">ADMIN</span></a>
+  <nav class="admin-nav" aria-label="Admin navigation">
+    <a href="/admin-scheduling.html">Scheduling</a>
+    <a href="/admin-mail.html">Mail</a>
+    <a href="/admin-bookings.html">Bookings</a>
+    <a href="/admin-galleries.html">Galleries</a>
+    <a href="/admin-crm.html">CRM</a>
+    <a href="/admin-finance.html">Finance</a>
+    <a href="/admin-tasks.html">Tasks</a>
+    <a href="/admin-assets.html">Assets</a>
+    <a href="/admin-audit.html">Audit</a>
+  </nav>
+  <div class="admin-actions">
+    <a class="admin-settings" href="/admin-settings.html" title="Settings" aria-label="Settings">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M19.4 13.5a7.6 7.6 0 0 0 .05-3l1.86-1.43a.7.7 0 0 0 .16-.89l-1.76-3.05a.7.7 0 0 0-.83-.32l-2.2.73a7.63 7.63 0 0 0-2.6-1.5l-.33-2.3A.7.7 0 0 0 12 1h-3.5a.7.7 0 0 0-.69.59l-.33 2.3a7.63 7.63 0 0 0-2.6 1.5l-2.2-.73a.7.7 0 0 0-.83.32L.09 8.03a.7.7 0 0 0 .16.9L2.1 10.36a7.6 7.6 0 0 0 0 3L.25 14.8a.7.7 0 0 0-.16.9l1.76 3.05c.18.31.54.45.88.33l2.2-.74c.76.62 1.64 1.12 2.6 1.5l.33 2.3c.05.34.34.58.68.59H12c.34 0 .64-.25.69-.59l.33-2.3c.96-.38 1.84-.88 2.6-1.5l2.2.74c.34.12.7-.02.88-.33l1.76-3.05a.7.7 0 0 0-.16-.9L19.4 13.5Z" stroke="currentColor" stroke-width="1.5"/>
+      </svg>
+    </a>
+    <a class="admin-signout" href="index.html">Back to Site</a>
+  </div>
+  <script>(function(){var p=location.pathname.replace(/\/+$/,'');document.querySelectorAll('#adminBar .admin-nav a').forEach(function(a){var h=a.getAttribute('href');if(h&&h!=='#'&&p===h){a.classList.add('active');}});})();</script>
+</header>
+
     <!-- Custom Cursor -->
     <div class="cursor"></div>
     <div class="cursor-follower"></div>
-    <!-- Login Screen -->
-    <div class="vip-login" id="loginScreen">
-        <div class="login-box">
-            <h1 class="login-title">VIP PORTAL</h1>
-            <p class="login-subtitle">Access Your Exclusive Gallery</p>
+    
+    <!-- VIP Login Section -->
+    <section class="admin-login-section">
+        <div class="admin-login-content">
+            <div class="admin-login-header">
+                <h1 class="admin-login-title">VIP PORTAL</h1>
+                <p class="admin-login-subtitle">Access Your Exclusive Gallery</p>
+            </div>
             
-            <form id="vipLoginForm">
-                <div class="form-group">
-                    <input 
-                        type="text" 
-                        id="galleryCode" 
-                        name="galleryCode" 
-                        required 
-                        placeholder=" "
-                    >
-                    <label for="galleryCode">Gallery Code</label>
-                </div>
+            <div class="admin-login-container">
+                <form id="vip-login-form" class="admin-login-form">
+                    <div class="form-group">
+                        <input type="password" id="vip-password" name="vip_password" placeholder=" " required>
+                        <label for="vip-password">Gallery Access Code</label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary admin-login-btn">ACCESS GALLERY</button>
+                </form>
                 
-                <div class="form-group">
-                    <input 
-                        type="password" 
-                        id="password" 
-                        name="password" 
-                        required 
-                        placeholder=" "
-                    >
-                    <label for="password">Password</label>
+                <div class="admin-login-info">
+                    <p><a href="index.html">← Back to Main Site</a></p>
                 </div>
-                
-                <button type="submit" class="login-btn" id="loginBtn">
-                    ACCESS GALLERY
-                </button>
-            </form>
-            
-            <div id="loginMessage"></div>
-            
-            <div class="back-link">
-                <a href="index.html">← Back to Main Site</a>
             </div>
         </div>
-    </div>
-
-    <!-- Dashboard (Hidden initially) -->
-    <div class="vip-dashboard" id="dashboardScreen">
-        <header class="dashboard-header">
-            <div class="dashboard-title">VIP CLIENT PORTAL</div>
-            <button class="signout-btn" onclick="signOut()">Sign Out</button>
-        </header>
-        
-        <div class="dashboard-content">
-            <div class="welcome-message">
-                <h1>Welcome to Your Gallery</h1>
-                <p class="gallery-info" id="galleryInfo">Loading your session details...</p>
-            </div>
-            
-            <div class="gallery-placeholder">
-                <div class="gallery-item">Image 1</div>
-                <div class="gallery-item">Image 2</div>
-                <div class="gallery-item">Image 3</div>
-                <div class="gallery-item">Image 4</div>
-                <div class="gallery-item">Image 5</div>
-                <div class="gallery-item">Image 6</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- VIP Portal Script -->
+    </section>
+    
+    <!-- JavaScript -->
     <script>
-        // Configuration
-        const API_BASE_URL = 'https://0n42z2wsrj.execute-api.us-east-1.amazonaws.com/prod';
-        const AUTH_URL = API_BASE_URL + '/authenticate';
-
-        // Get elements
-        const loginScreen = document.getElementById('loginScreen');
-        const dashboardScreen = document.getElementById('dashboardScreen');
-        const loginForm = document.getElementById('vipLoginForm');
-        const loginBtn = document.getElementById('loginBtn');
-        const loginMessage = document.getElementById('loginMessage');
-        const galleryInfo = document.getElementById('galleryInfo');
-
-        // Check if already authenticated
-        window.addEventListener('DOMContentLoaded', () => {
-            // Initialize custom cursor
-            if (typeof initCustomCursor === "function") {
+        // VIP Login Authentication
+        document.addEventListener('DOMContentLoaded', function() {
+            const vipForm = document.getElementById('vip-login-form');
+            
+            function showMessage(message, type) {
+                let messageEl = document.querySelector('.admin-message');
+                if (!messageEl) {
+                    messageEl = document.createElement('div');
+                    messageEl.className = 'admin-message';
+                    messageEl.style.textAlign = 'center';
+                    messageEl.style.marginTop = '1rem';
+                    messageEl.style.fontSize = '0.9rem';
+                    vipForm.appendChild(messageEl);
+                }
+                
+                messageEl.textContent = message;
+                messageEl.style.color = type === 'error' ? '#ef4444' : 
+                                       type === 'loading' ? '#FF6B35' : '#10b981';
+            }
+            
+            vipForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const password = document.getElementById('vip-password').value.trim();
+                const submitBtn = document.querySelector('.admin-login-btn');
+                const originalText = submitBtn.textContent;
+                
+                // Show loading message
+                showMessage('Verifying access...', 'loading');
+                submitBtn.textContent = 'Verifying...';
+                submitBtn.disabled = true;
+                
+                // Simulate brief verification delay
+                setTimeout(() => {
+                    // You can add actual VIP code validation here
+                    // For now, using a simple demo code
+                    if (password === 'VIP2025' || password === 'GALLERY') {
+                        
+                        // Set VIP authenticated flag
+                        sessionStorage.setItem('vipAuthenticated', 'true');
+                        sessionStorage.setItem('vipLoginTime', Date.now().toString());
+                        sessionStorage.setItem('vipGalleryCode', password);
+                        
+                        showMessage('Access granted! Loading gallery...', 'success');
+                        
+                        // Redirect to gallery or show success
+                        setTimeout(() => {
+                            // You can redirect to a gallery page here
+                            // window.location.href = 'gallery.html';
+                            showMessage('Gallery access successful!', 'success');
+                        }, 800);
+                    } else {
+                        showMessage('Invalid access code. Please check your invitation.', 'error');
+                        
+                        // Reset form
+                        document.getElementById('vip-password').value = '';
+                        
+                        // Reset button
+                        submitBtn.textContent = originalText;
+                        submitBtn.disabled = false;
+                        
+                        // Focus back to password input
+                        document.getElementById('vip-password').focus();
+                    }
+                }, 1000); // 1 second delay
+            });
+            
+            // Initialize custom cursor if available
+            if (typeof initCustomCursor === 'function') {
                 initCustomCursor();
             }
-            const isAuthenticated = sessionStorage.getItem('vipAuthenticated');
-            if (isAuthenticated === 'true') {
-                showDashboard();
-            }
+            
+            // Focus password field on load
+            document.getElementById('vip-password').focus();
         });
-
-        // Handle login form submission
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const galleryCode = document.getElementById('galleryCode').value.trim();
-            const password = document.getElementById('password').value.trim();
-            
-            // Update button state
-            loginBtn.textContent = 'AUTHENTICATING...';
-            loginBtn.disabled = true;
-            
-            try {
-                // Make API call
-                const response = await fetch(AUTH_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        galleryCode: galleryCode,
-                        password: password
-                    })
-                });
-                
-                const data = await response.json();
-                
-                if (response.ok && data.success) {
-                    // Authentication successful
-                    sessionStorage.setItem('vipAuthenticated', 'true');
-                    sessionStorage.setItem('galleryCode', galleryCode);
-                    sessionStorage.setItem('galleryData', JSON.stringify(data.gallery || {}));
-                    
-                    showMessage('Authentication successful! Redirecting...', 'success');
-                    
-                    setTimeout(() => {
-                        showDashboard();
-                    }, 1000);
-                } else {
-                    // Authentication failed
-                    showMessage('Invalid credentials. Please try again.', 'error');
-                    loginBtn.textContent = 'ACCESS GALLERY';
-                    loginBtn.disabled = false;
-                }
-            } catch (error) {
-                // Demo mode fallback
-                if (galleryCode === 'DEMO2025' && password === 'preview') {
-                    sessionStorage.setItem('vipAuthenticated', 'true');
-                    sessionStorage.setItem('galleryCode', galleryCode);
-                    sessionStorage.setItem('galleryData', JSON.stringify({
-                        clientName: 'Demo Client',
-                        sessionType: 'Demo Session',
-                        imageCount: 6
-                    }));
-                    
-                    showMessage('Demo access granted!', 'success');
-                    
-                    setTimeout(() => {
-                        showDashboard();
-                    }, 1000);
-                } else {
-                    showMessage('Connection error. Please try again.', 'error');
-                    loginBtn.textContent = 'ACCESS GALLERY';
-                    loginBtn.disabled = false;
-                }
-            }
-        });
-
-        // Show dashboard
-        function showDashboard() {
-            loginScreen.style.display = 'none';
-            dashboardScreen.style.display = 'block';
-            
-            // Load gallery data
-            try {
-                const data = JSON.parse(sessionStorage.getItem('galleryData') || '{}');
-                galleryInfo.textContent = data.clientName + ' - ' + data.sessionType + ' - ' + data.imageCount + ' images available';
-            } catch (e) {
-                galleryInfo.textContent = 'Your gallery is ready for viewing';
-            }
-        }
-
-        // Show message
-        function showMessage(text, type) {
-            loginMessage.innerHTML = '<div class="message ' + type + '">' + text + '</div>';
-            
-            setTimeout(() => {
-                loginMessage.innerHTML = '';
-            }, 5000);
-        }
-
-        // Sign out
-        function signOut() {
-            sessionStorage.clear();
-            window.location.reload();
-        }
     </script>
-    <!-- Load main script for cursor and other functionality -->
     <script src="js/api-config.js"></script>
     <script src="js/integrate-api.js"></script>
     <script src="js/script.js"></script>
