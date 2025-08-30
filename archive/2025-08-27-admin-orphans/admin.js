@@ -5,7 +5,6 @@
   // Mobile menu toggle functionality (removed for backup restoration)
   function initMobileMenu() {
     // Mobile functionality removed to match original backup structure
-    console.log('Mobile menu toggle disabled - using original backup structure');
   }
   
   // Tab switching functionality
@@ -75,7 +74,6 @@
     document.documentElement.style.scrollBehavior = 'smooth';
     
     // Log successful initialization
-    console.log('Admin panel initialized successfully');
   }
   
   // Initialize when DOM is loaded

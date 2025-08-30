@@ -211,7 +211,6 @@ return urls[imageName];
             
             // Handle image load errors
             img.onerror = function() {
-                console.warn(`Failed to load hero image: ${image.name}`);
             };
             
             slide.appendChild(img);
@@ -430,7 +429,6 @@ function initScrollAnimations() {
 function initVIPForm() {
     // VIP form handling is now managed directly in vip.html
     // This prevents conflicts with the real authentication system
-    console.log('VIP form initialization skipped - handled by vip.html directly');
 }
 
 /* ============================================ */
@@ -438,8 +436,6 @@ function initVIPForm() {
 /* ============================================ */
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Blakely Cinematics website initialized');
-    console.log('🔧 DEBUGGING: Starting contact form setup...');
     
     // Initialize all components
     initCustomCursor();
@@ -466,7 +462,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 message: document.getElementById('message').value
             };
             
-            console.log('Sending to AWS:', formData);
             
             const submitBtn = contactForm.querySelector('button[type="submit"]');
             const originalText = submitBtn.textContent;
@@ -480,7 +475,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     body: JSON.stringify(formData)
                 });
                 const result = await response.json();
-                console.log('Success:', result);
                 
                 // Create overlay for success animation
                 const overlay = document.createElement('div');
@@ -556,7 +550,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Clear and reset form
                 contactForm.reset();
             } catch (error) {
-                console.error('Error:', error);
                 
                 const errorMessage = document.createElement('div');
                 errorMessage.className = 'form-error-message';
@@ -569,7 +562,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 submitBtn.disabled = false;
             }
         });
-        console.log('Contact form handler attached successfully!');
     }
     
     // Show/hide custom project field

@@ -244,14 +244,12 @@
             
             // Check if admin is authenticated and session hasn't expired
             if (!isAuthenticated || !loginTime || (currentTime - parseInt(loginTime)) > sessionTimeout) {
-                console.log('🚫 Admin access denied - redirecting to login');
                 sessionStorage.removeItem('adminAuthenticated');
                 sessionStorage.removeItem('adminLoginTime');
                 window.location.href = 'admin-login.html';
                 return;
             }
             
-            console.log('✅ Admin authenticated - access granted');
         })();
         
         class AdminDashboard {
@@ -308,7 +306,6 @@
                 const galleryCode = row.dataset.galleryCode;
                 const clientName = row.querySelector('.client-name').textContent;
                 
-                console.log(`🔧 Admin Action: ${action.toUpperCase()} - Gallery: ${galleryCode} (${clientName})`);
                 
                 switch(action) {
                     case 'view':
@@ -333,7 +330,6 @@
                     return;
                 }
                 
-                console.log(`🗑️ Deleting gallery: ${galleryCode}`);
                 
                 // Add loading state to all buttons in row
                 const allButtons = row.querySelectorAll('.action-btn');
@@ -364,10 +360,8 @@
                     });
                     
                     const data = await response.json();
-                    console.log('🗑️ Delete API Response:', data);
                     
                     if (data.success || response.ok) {
-                        console.log(`✅ Successfully deleted gallery: ${galleryCode}`);
                         
                         // Show success message
                         this.showDeleteMessage(`Gallery "${galleryCode}" deleted successfully`, 'success');
@@ -387,7 +381,6 @@
                     }
                     
                 } catch (error) {
-                    console.error('🚨 Delete error:', error);
                     this.showDeleteMessage(`Failed to delete gallery: ${error.message}`, 'error');
                     
                     // Restore button states on error
@@ -450,7 +443,6 @@
             }
             
             async refreshGalleries(button) {
-                console.log('🔄 Refreshing galleries...');
                 
                 // Add loading state
                 button.disabled = true;
@@ -484,10 +476,8 @@
                         sectionCount.style.color = '';
                     }, 2000);
                     
-                    console.log('✅ Galleries refreshed successfully');
                     
                 } catch (error) {
-                    console.error('🚨 Refresh failed:', error);
                     const sectionCount = document.querySelector('.section-count');
                     sectionCount.textContent = '❌ Refresh failed';
                     sectionCount.style.color = '#ef4444';
@@ -518,7 +508,6 @@
                     // Generate random code if no client name
                     const randomCode = 'BC-' + Math.random().toString(36).substring(2, 8).toUpperCase();
                     document.getElementById('gallery-code').value = randomCode;
-                    console.log(`🔑 Generated random gallery code: ${randomCode}`);
                     return;
                 }
                 
@@ -544,7 +533,6 @@
                 }
                 
                 document.getElementById('gallery-code').value = baseCode;
-                console.log(`🔑 Generated gallery code: ${baseCode}`);
             }
             
             setDefaultExpirationDate() {
@@ -599,9 +587,7 @@
                 // Store files for later upload
                 this.selectedFiles = imageFiles;
                 
-                console.log(`📤 Files selected for upload: ${imageFiles.length} images`);
                 imageFiles.forEach(file => {
-                    console.log(`  - ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`);
                 });
                 
                 uploadStatus.innerHTML = `
@@ -674,7 +660,6 @@
                     });
                     
                     const data = await response.json();
-                    console.log('📡 Upload API Response:', data);
                     
                     progressFill.style.width = '100%';
                     
@@ -707,7 +692,6 @@
                     }
                     
                 } catch (error) {
-                    console.error('🚨 Upload error:', error);
                     uploadStatus.innerHTML = `
                         <div class="upload-error">
                             <p class="error">❌ Upload Failed</p>
@@ -739,7 +723,6 @@
                     if (!proceed) return;
                 }
                 
-                console.log('🚀 Creating new gallery with data:', formData);
                 
                 // Disable create button during upload
                 const createBtn = document.getElementById('create-gallery-btn');
@@ -750,7 +733,6 @@
                 try {
                     // If files are selected, upload them
                     if (this.selectedFiles && this.selectedFiles.length > 0) {
-                        console.log(`📤 Uploading ${this.selectedFiles.length} images to gallery ${formData.galleryCode}`);
                         await this.uploadImagesToAPI(formData.galleryCode, this.selectedFiles);
                         
                         // Success message with upload confirmation
@@ -771,7 +753,6 @@
                     this.resetForm();
                     
                 } catch (error) {
-                    console.error('🚨 Gallery creation error:', error);
                     alert(`Error creating gallery: ${error.message}`);
                 } finally {
                     // Re-enable create button
@@ -812,7 +793,6 @@
         // Admin Sign Out Function
         function adminSignOut(event) {
             event.preventDefault();
-            console.log('🚪 Admin signing out - clearing authentication');
             
             // Clear admin authentication
             sessionStorage.removeItem('adminAuthenticated');

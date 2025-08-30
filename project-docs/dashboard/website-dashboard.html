@@ -761,7 +761,6 @@
                 <ul class="task-list">
                     <li class="task-item">
                         <input type="checkbox" class="task-checkbox" data-task="blakely-console-cleanup">
-                        <span>Remove console.log statements for production</span>
                     </li>
                     <li class="task-item">
                         <input type="checkbox" class="task-checkbox" data-task="blakely-social-links">
@@ -920,7 +919,6 @@
                     <div class="todo-item">
                         <span class="todo-priority priority-medium">Med</span>
                         <div class="todo-content">
-                            <div class="todo-description">Remove console.log statements for production</div>
                             <div class="todo-location">js/script.js</div>
                         </div>
                     </div>
@@ -1101,7 +1099,6 @@ ${projectData.pendingTasks.map((task, index) => `${index + 1}. ${task}`).join('\
 1. Upload real portfolio images to S3 bucket
 2. Connect contact form to Formspree backend
 3. Complete SEO optimization (sitemap, structured data)
-4. Remove console.log statements for production
 5. Final content review and testing
 
 ## 💡 TECHNICAL NOTES
@@ -1128,7 +1125,6 @@ ${projectData.pendingTasks.map((task, index) => `${index + 1}. ${task}`).join('\
                 await navigator.clipboard.writeText(contextText);
                 showCopyFeedback('Context copied to clipboard!');
             } catch (err) {
-                console.error('Failed to copy: ', err);
                 showCopyFeedback('Failed to copy context');
             }
         }
@@ -1233,7 +1229,6 @@ ${projectData.pendingTasks.map((task, index) => `${index + 1}. ${task}`).join('\
                 });
             });
 
-            console.log('🌐 Blakely Cinematics Website Dashboard loaded successfully!');
         });
     </script>
 </body>

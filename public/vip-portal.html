@@ -487,26 +487,22 @@
       
       // Portal guard - check authentication on page load
       document.addEventListener('DOMContentLoaded', function() {
-          console.log('VIP Portal loaded, checking authentication...');
           
           const isAuthenticated = sessionStorage.getItem('authenticated');
           const galleryInfo = sessionStorage.getItem('galleryInfo');
           
           if (!isAuthenticated || isAuthenticated !== 'true' || !galleryInfo) {
-              console.log('No valid VIP authentication found, redirecting to login...');
               window.location.replace('/vip');
               return;
           }
           
           try {
               const gallery = JSON.parse(galleryInfo);
-              console.log('Valid authentication found for gallery:', gallery.galleryCode);
               
               // Initialize portal with gallery data
               initializePortal(gallery);
               
           } catch (error) {
-              console.error('Error parsing gallery info:', error);
               sessionStorage.removeItem('authenticated');
               sessionStorage.removeItem('galleryInfo');
               window.location.replace('/vip');
@@ -522,7 +518,6 @@
                       pill.classList.remove('vip-status--offline');
                   }
               }).catch(err => {
-                  console.warn('VIP health check failed:', err);
               });
           }
       });
@@ -601,7 +596,6 @@
       
       // Logout function
       window.logout = function() {
-          console.log('VIP logout requested');
           sessionStorage.removeItem('authenticated');
           sessionStorage.removeItem('galleryInfo');
           sessionStorage.removeItem('vipCredentials');

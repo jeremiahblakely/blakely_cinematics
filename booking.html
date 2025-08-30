@@ -768,7 +768,7 @@
                 <li><a href="index.html#portfolio">Portfolio</a></li>
                 <li><a href="faq.html">FAQ</a></li>
                 <li><a href="index.html#contact">Contact</a></li>
-                <li><a href="vip.html" class="vip-link">VIP</a></li>
+                <li><a href="/vip" class="vip-link">VIP</a></li>
             </ul>
             <button class="mobile-menu-toggle" aria-label="Toggle menu">
                 <span></span>
@@ -1133,7 +1133,6 @@
             
             localStorage.setItem(BOOKING_STORAGE_KEY, JSON.stringify(bookingData));
             hasUnsavedData = true;
-            console.log('Booking progress saved');
         }
         
         // Load booking progress from localStorage
@@ -1170,11 +1169,9 @@
                 }
                 
                 hasUnsavedData = true;
-                console.log('Booking progress restored');
                 return true;
                 
             } catch (error) {
-                console.error('Error loading booking progress:', error);
                 localStorage.removeItem(BOOKING_STORAGE_KEY);
                 return false;
             }
@@ -1184,7 +1181,6 @@
         function clearBookingProgress() {
             localStorage.removeItem(BOOKING_STORAGE_KEY);
             hasUnsavedData = false;
-            console.log('Booking progress cleared');
         }
         
         // Restore UI state after loading saved data
@@ -1297,7 +1293,6 @@
             validateField('client-email');
             validateField('client-phone');
             updateStepDisplay();
-            console.log('Test data filled with validation, button should be enabled now');
         }
         
         // Make test function available globally
@@ -1306,7 +1301,6 @@
         // Force enable next button (for debugging)
         window.forceEnableNext = function() {
             document.getElementById('next-step').disabled = false;
-            console.log('Next button force enabled');
         };
         
         // Check form state (for debugging)
@@ -1315,7 +1309,6 @@
             const email = document.getElementById('client-email').value;
             const phone = document.getElementById('client-phone').value;
             const button = document.getElementById('next-step');
-            console.log({
                 currentStep,
                 formValues: { name, email, phone },
                 buttonDisabled: button.disabled,
@@ -1328,14 +1321,12 @@
         // Clear saved progress (for debugging)
         window.clearSavedProgress = function() {
             clearBookingProgress();
-            console.log('Saved progress cleared');
         };
         
         // Force save progress (for debugging)
         window.forceSaveProgress = function() {
             saveBookingProgress();
             showProgressIndicator();
-            console.log('Progress force saved');
         };
         
         // Test VIP credential transfer (for debugging)
@@ -1345,7 +1336,6 @@
                 password: 'TESTPASS'
             };
             
-            console.log('Testing VIP credential transfer...');
             goToVIPPortal(testCredentials);
         };
         
@@ -1361,7 +1351,6 @@
                 location: 'Studio (Downtown LA)'
             };
             
-            console.log('Simulating full booking completion with AWS integration...');
             
             // Test the AWS gallery creation
             const galleryResult = await createVIPGallery(testClientData);
@@ -1379,15 +1368,11 @@
                 timestamp: Date.now()
             };
             
-            console.log('Storing test credentials directly...');
             sessionStorage.setItem('vipCredentials', JSON.stringify(testCreds));
             
             // Verify storage
             const stored = sessionStorage.getItem('vipCredentials');
-            console.log('Storage successful:', !!stored);
-            console.log('Stored data:', stored ? JSON.parse(stored) : 'None');
             
-            console.log('Now navigate to VIP page to test auto-fill: window.open("vip.html")');
             return testCreds;
         };
         
@@ -1450,7 +1435,6 @@
             // Prevent form submission
             document.getElementById('booking-form').addEventListener('submit', function(e) {
                 e.preventDefault();
-                console.log('Form submission prevented');
             });
             
             // Package selection
@@ -1536,7 +1520,6 @@
             if (currentStep < 4) {
                 // Validate current step
                 if (!validateStep(currentStep)) {
-                    console.log('Validation failed for step:', currentStep);
                     return;
                 }
                 
@@ -1598,7 +1581,6 @@
                     const phoneValid = validateField('client-phone');
                     
                     const isValid = nameValid && emailValid && phoneValid;
-                    console.log('Step 3 validation:', { 
                         nameValid, emailValid, phoneValid, overallValid: isValid 
                     });
                     return isValid;
@@ -1640,7 +1622,6 @@
                 nextBtn.style.display = 'block';
                 const isValid = validateStep(currentStep);
                 nextBtn.disabled = !isValid;
-                console.log('Button update - Step:', currentStep, 'Valid:', isValid, 'Disabled:', nextBtn.disabled);
             }
         }
         
@@ -1802,7 +1783,6 @@
         // Function to create VIP gallery in AWS
         async function createVIPGallery(bookingData) {
             try {
-                console.log('Creating VIP gallery for:', bookingData.name);
                 
                 const response = await fetch(`${API_BASE_URL}/create-gallery`, {
                     method: 'POST',
@@ -1821,22 +1801,18 @@
                 });
                 
                 const result = await response.json();
-                console.log('Gallery creation response:', result);
                 
                 if (result.success) {
                     // Store the generated credentials
                     sessionStorage.setItem('galleryCode', result.galleryCode);
                     sessionStorage.setItem('password', result.password);
                     
-                    console.log('Gallery created successfully:', result.galleryCode);
                     return result;
                 } else {
-                    console.error('Failed to create gallery:', result.message);
                     // Fallback to local credential generation
                     return generateVIPCredentialsFallback(bookingData);
                 }
             } catch (error) {
-                console.error('Error creating gallery:', error);
                 // Fallback to local credential generation
                 return generateVIPCredentialsFallback(bookingData);
             }
@@ -1844,7 +1820,6 @@
         
         // Fallback VIP credential generation (in case AWS fails)
         function generateVIPCredentialsFallback(clientData) {
-            console.log('Using fallback credential generation');
             
             // Generate unique gallery code (client name + random)
             const nameCode = clientData.name.replace(/\s+/g, '').toLowerCase().substring(0, 4);
@@ -2020,7 +1995,6 @@
             };
             
             sessionStorage.setItem('vipCredentials', JSON.stringify(credentialsToStore));
-            console.log('Credentials initially stored:', credentialsToStore);
             
             // Clear saved booking progress since booking is complete
             clearBookingProgress();
@@ -2029,7 +2003,6 @@
             setupVIPTransfer(vipCredentials);
             
             // TODO: Send booking data to backend
-            console.log('Booking Data:', clientData, vipCredentials);
         }
         
         // Handle VIP portal transfer with countdown
@@ -2070,7 +2043,6 @@
         
         // Navigate to VIP portal with pre-filled credentials
         function goToVIPPortal(vipCredentials) {
-            console.log('Transferring to VIP portal with credentials:', {
                 galleryCode: vipCredentials.galleryCode,
                 password: '***hidden***',
                 hasCredentials: !!(vipCredentials.galleryCode && vipCredentials.password)
@@ -2078,17 +2050,14 @@
             
             // Verify current storage (credentials should already be stored)
             const stored = sessionStorage.getItem('vipCredentials');
-            console.log('Credentials in sessionStorage before transfer:', !!stored);
             
             if (stored) {
                 const parsed = JSON.parse(stored);
-                console.log('Stored credential preview:', {
                     hasGalleryCode: !!parsed.galleryCode,
                     hasPassword: !!parsed.password,
                     bookingConfirmed: !!parsed.bookingConfirmed
                 });
             } else {
-                console.error('No credentials found in storage! Re-storing...');
                 // Fallback: re-store if missing
                 sessionStorage.setItem('vipCredentials', JSON.stringify({
                     galleryCode: vipCredentials.galleryCode,
@@ -2100,7 +2069,6 @@
             }
             
             // Navigate to VIP portal (same tab for seamless experience)
-            console.log('Navigating to vip.html...');
             window.location.href = 'vip.html';
         }
         
@@ -2169,7 +2137,6 @@
                 }
                 
             } catch (error) {
-                console.error('Stripe checkout error:', error);
                 
                 // Reset button
                 paymentBtn.innerHTML = '<i class="fas fa-credit-card" style="margin-right: 0.5rem;"></i>Pay $100 Deposit';

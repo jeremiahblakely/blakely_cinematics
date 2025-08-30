@@ -69,7 +69,6 @@ export const handler = async (event) => {
       ];
     }
 
-    console.log(JSON.stringify({ route: 'finalize', galleryId, mode, count: finalized.length }));
 
     const response = {
       galleryId,

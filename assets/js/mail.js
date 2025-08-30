@@ -165,7 +165,6 @@
       const res = await fetch("../assets/data/mock-mail.json", { cache: "no-store" });
       DATA = await res.json();
     } catch (e) {
-      console.error("Failed to load mock-mail.json", e);
       DATA = { aliases: [], threads: [] };
     }
     renderAliasFilter();

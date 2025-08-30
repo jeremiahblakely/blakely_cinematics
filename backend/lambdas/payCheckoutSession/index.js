@@ -69,13 +69,11 @@ export const handler = async (event) => {
           })
         );
       } catch (e) {
-        console.warn("Could not update booking with session id:", e?.message);
       }
     }
 
     return res(200, { url: session.url, sessionId: session.id });
   } catch (err) {
-    console.error("payCheckoutSession error:", err);
     return res(500, { error: "Failed to create checkout session." });
   }
 };

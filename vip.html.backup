@@ -302,9 +302,6 @@
     </style>
 </head>
 <body>
-    <!-- Custom Cursor -->
-    <div class="cursor"></div>
-    <div class="cursor-follower"></div>
     <!-- Login Screen -->
     <div class="vip-login" id="loginScreen">
         <div class="login-box">
@@ -387,10 +384,6 @@
 
         // Check if already authenticated
         window.addEventListener('DOMContentLoaded', () => {
-            // Initialize custom cursor
-            if (typeof initCustomCursor === "function") {
-                initCustomCursor();
-            }
             const isAuthenticated = sessionStorage.getItem('vipAuthenticated');
             if (isAuthenticated === 'true') {
                 showDashboard();
@@ -494,7 +487,5 @@
             window.location.reload();
         }
     </script>
-    <!-- Load main script for cursor and other functionality -->
-    <script src="js/script.js"></script>
 </body>
 </html>

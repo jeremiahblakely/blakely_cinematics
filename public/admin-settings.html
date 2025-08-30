@@ -89,20 +89,17 @@
             
             // Check if admin is authenticated and session hasn't expired
             if (!isAuthenticated || !loginTime || (currentTime - parseInt(loginTime)) > sessionTimeout) {
-                console.log('🚫 Admin access denied - redirecting to login');
                 sessionStorage.removeItem('adminAuthenticated');
                 sessionStorage.removeItem('adminLoginTime');
                 window.location.href = 'admin-login.html';
                 return;
             }
             
-            console.log('✅ Admin authenticated - access granted');
         })();
         
         // Admin Sign Out Function
         function adminSignOut(event) {
             event.preventDefault();
-            console.log('🚪 Admin signing out - clearing authentication');
             
             // Clear admin authentication
             sessionStorage.removeItem('adminAuthenticated');

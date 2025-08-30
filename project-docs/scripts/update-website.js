@@ -8,7 +8,6 @@ class WebsiteUpdater {
         this.dataFile = 'data/website-status.json';
         this.projectData = null;
         this.loadProjectData();
-        console.log('🚀 Blakely Cinematics Website Update System initialized');
     }
 
     /**
@@ -19,7 +18,6 @@ class WebsiteUpdater {
             const response = await fetch(this.dataFile);
             this.projectData = await response.json();
         } catch (error) {
-            console.error('Failed to load project data:', error);
             this.projectData = this.getDefaultData();
         }
     }
@@ -223,7 +221,6 @@ class WebsiteUpdater {
             this.projectData.updateLog = this.projectData.updateLog.slice(-50);
         }
 
-        console.log(`[${type.toUpperCase()}] ${message}`);
     }
 
     /**
@@ -310,7 +307,6 @@ Last Updated: ${new Date(data.lastUpdated).toLocaleString()}
     saveData() {
         // In a real implementation, this would save to the actual JSON file
         // For now, we'll just log the data structure
-        console.log('💾 Data saved:', this.projectData);
         
         // In browser environment, could save to localStorage
         if (typeof localStorage !== 'undefined') {
@@ -339,4 +335,3 @@ if (typeof module !== 'undefined' && module.exports) {
     module.exports = WebsiteUpdater;
 }
 
-console.log('🌐 Blakely Cinematics Website Update System loaded successfully!');

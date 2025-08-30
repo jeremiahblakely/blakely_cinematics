@@ -100,7 +100,6 @@
             
             // Check if config is loaded
             if (!window.BC_ADMIN_CONFIG) {
-                console.error('Admin config not loaded!');
                 return;
             }
             
@@ -127,7 +126,6 @@
                 const submitBtn = document.querySelector('.admin-login-btn');
                 const originalText = submitBtn.textContent;
                 
-                console.log('🔐 Admin login attempt');
                 
                 // Show loading message
                 showMessage('Verifying...', 'loading');
@@ -137,7 +135,6 @@
                 // Simulate brief verification delay
                 setTimeout(() => {
                     if (password === window.BC_ADMIN_CONFIG.password) {
-                        console.log('✅ Admin authentication successful');
                         
                         // Set admin authenticated flag with user info
                         sessionStorage.setItem('adminAuthenticated', 'true');
@@ -151,7 +148,6 @@
                             window.location.href = 'admin.html';
                         }, 800);
                     } else {
-                        console.log('❌ Admin authentication failed');
                         showMessage('Incorrect password. Access denied.', 'error');
                         
                         // Reset form
