@@ -7,7 +7,7 @@
     <meta name="description" content="Exclusive VIP client portal for Blakely Cinematics - manage your session, view preparation guides, and access your photos">
     
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="/css/styles.css?v=stg-03B">
+    <link rel="stylesheet" href="css/styles.css">
     
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -87,7 +87,13 @@
             color: rgba(255, 255, 255, 0.8);
             justify-self: start; /* position actions centerline at ~80% */
         }
-
+        
+        .client-name {
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 0.1rem;
+        }
+        
         /* Link-style Sign Out (replaces button) */
         .logout-link {
             color: rgba(255, 255, 255, 0.8);
@@ -97,97 +103,11 @@
         }
         .logout-link:hover { color: var(--primary); }
         
-        /* VIP API status pill */
-        .vip-status-pill {
-            font-size: 0.75rem;
-            line-height: 1;
-            padding: 4px 10px;
-            border-radius: 9999px;
-            border: 1px solid rgba(255,255,255,0.2);
-            color: rgba(255,255,255,0.8);
-            background: rgba(255,255,255,0.06);
-            white-space: nowrap;
-            max-width: 40ch;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            justify-self: center;
-        }
-        .vip-status--online {
-            border-color: var(--primary);
-            color: var(--primary);
-            background: rgba(255, 107, 53, 0.08);
-        }
-        .vip-status--offline {
-            border-color: var(--admin-danger, #EF4444);
-            color: var(--admin-danger, #EF4444);
-            background: rgba(239, 68, 68, 0.08);
-        }
-        
-        .client-name {
-            font-size: 1.1rem;
-            font-weight: 300;
-            letter-spacing: 0.1rem;
-        }
-        
-        .logout-btn {
-            background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: rgba(255, 255, 255, 0.7);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-        }
-        
-        .logout-btn:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-        
         .portal-content {
             padding: 3rem 2rem;
             max-width: 1400px;
             margin: 0 auto;
         }
-
-        /* VIP Galleries skeleton */
-        .vip-galleries { margin-top: 2rem; }
-        .vip-gal-label { margin: 0 0 0.5rem 0; font-size: 0.9rem; opacity: 0.85; letter-spacing: 0.08rem; }
-        .galleries-layout { display: grid; grid-template-columns: 280px 1fr; gap: 1.5rem; }
-        .folders {
-            border: 1px solid rgba(255,255,255,0.1);
-            background: rgba(255,255,255,0.04);
-            border-radius: 12px; padding: 1rem;
-        }
-        .folders-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
-        .folders-header h4 { margin: 0; font-weight: 300; letter-spacing: 0.1rem; }
-        .folders-new { font-size: 0.8rem; color: var(--primary); text-decoration: none; opacity: .9; }
-        .folders-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
-        .folder-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; border-radius: 8px; cursor: pointer; border: 1px solid transparent; }
-        .folder-item[aria-selected="true"], .folder-item:focus { border-color: var(--primary); background: rgba(255, 107, 53, 0.08); outline: none; }
-        .folder-item .count { opacity: 0.8; font-size: 0.8rem; }
-
-        .grid-wrap { border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.04); border-radius: 12px; padding: 1rem; }
-        .grid-toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
-        .grid-title { margin: 0; font-weight: 300; letter-spacing: 0.1rem; }
-        .selection-counter { font-size: 0.85rem; opacity: 0.9; }
-        .grid-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-        .grid-actions button { padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.06); color: var(--light); cursor: default; opacity: .6; }
-
-        .thumb-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; }
-        .tile { position: relative; border-radius: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.2); cursor: pointer; }
-        .tile:focus { outline: 2px solid var(--primary); outline-offset: 2px; }
-        .thumb { width: 100%; padding-top: 66%; background-size: cover; background-position: center; }
-        .caption { font-size: 0.8rem; padding: 8px 10px; opacity: 0.9; }
-        .check { position: absolute; top: 8px; right: 8px; width: 22px; height: 22px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.6); background: rgba(0,0,0,0.35); display: grid; place-items: center; font-size: 12px; opacity: 0; transition: opacity .15s ease; }
-        .tile[aria-pressed="true"] .check { opacity: 1; border-color: var(--primary); color: var(--primary); background: rgba(255, 107, 53, 0.08); }
-
-        @media (max-width: 1024px) {
-          .galleries-layout { grid-template-columns: 1fr; }
-          .folders { order: -1; }
-        }
-        @media (max-width: 768px) { .thumb-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } }
         
         .portal-dashboard {
             display: grid;
@@ -501,11 +421,11 @@
                 </div>
                 
                 <div class="vip-container">
-                <form id="vip-login-form" class="vip-form">
-                    <div class="form-group">
-                        <input type="text" id="gallery-code" name="gallery_code" placeholder=" " required>
-                        <label for="gallery-code">Gallery Code</label>
-                    </div>
+                    <form id="vip-login-form" class="vip-form">
+                        <div class="form-group">
+                            <input type="text" id="gallery-code" name="gallery_code" placeholder=" " required>
+                            <label for="gallery-code">Gallery Code</label>
+                        </div>
                         
                         <div class="form-group">
                             <input type="password" id="vip-password" name="password" placeholder=" " required>
@@ -516,7 +436,6 @@
                             <i class="fas fa-crown" style="margin-right: 0.5rem;"></i>
                             ACCESS PORTAL
                         </button>
-                        <span id="vip-debug" style="display:none"></span>
                     </form>
                     
                     <!-- Optional loading element -->
@@ -547,7 +466,6 @@
                     <i class="fas fa-crown"></i>
                     <span>BLAKELY VIP</span>
                 </div>
-                <div id="vipStatus" class="vip-status-pill" aria-live="polite">VIP API • Checking…</div>
                 <div class="client-welcome">
                     <span class="client-name" id="client-name-display">Welcome</span>
                     <a href="#" class="logout-link" onclick="logout(); return false;">Sign Out</a>
@@ -557,7 +475,6 @@
         
         <!-- Portal Content -->
         <div class="portal-content">
-            <div style="opacity:.75;font-size:.85rem;margin:6px 0;">VIP • build:e94bea8 • staging/local</div>
             <div class="portal-dashboard">
                 <!-- Main Content -->
                 <div class="main-content">
@@ -636,62 +553,7 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Refined Galleries UI (mock) -->
-            <section class="vip-galleries" aria-labelledby="vip-gal-title">
-              <div class="vip-gal-label">Galleries (mock) • v0.1</div>
-              <div class="galleries-layout">
-                <aside class="folders" aria-label="Folders">
-                  <div class="folders-header">
-                    <h4 id="vip-gal-title">Folders</h4>
-                    <a class="folders-new" href="#" onclick="return false;">+ New</a>
-                  </div>
-                  <ul id="vip-folder-list" class="folders-list" role="listbox" aria-label="Folder list"></ul>
-                </aside>
-                <section class="grid-wrap">
-                  <div class="grid-toolbar">
-                    <h4 class="grid-title">Thumbnails</h4>
-                    <div class="selection-counter" id="vip-selection" aria-live="polite"></div>
-                    <div class="grid-actions">
-                      <button disabled>Add to Folder</button>
-                      <button disabled>Move</button>
-                      <button disabled>Send to Final</button>
-                      <button disabled>Trash</button>
-                      <button disabled>Undo</button>
-                    </div>
-                  </div>
-                  <div id="vip-thumb-grid" class="thumb-grid" role="grid" aria-label="Assets grid"></div>
-                </section>
-              </div>
-            </section>
             
-            <!-- Minimal VIP Actions test panel -->
-            <section class="vip-actions" aria-labelledby="vip-actions-title">
-                <h3 id="vip-actions-title">VIP Actions</h3>
-                <div class="row">
-                    <div>
-                        <label for="vip-gallery-id">Gallery ID</label>
-                        <input id="vip-gallery-id" type="text" placeholder="e.g. test-001" />
-                    </div>
-                    <div>
-                        <label for="vip-folder-id">Folder ID (optional)</label>
-                        <input id="vip-folder-id" type="text" placeholder="e.g. f-123" />
-                    </div>
-                    <div>
-                        <label for="vip-asset-ids">Asset IDs (comma-separated)</label>
-                        <textarea id="vip-asset-ids" placeholder="img_201,img_202"></textarea>
-                    </div>
-                </div>
-                <div class="btn-row">
-                    <button id="vip-btn-restore">Restore</button>
-                    <button id="vip-btn-finalize">Finalize</button>
-                    <button id="vip-btn-trash">Trash</button>
-                    <button id="vip-btn-remove">Remove From Folder</button>
-                </div>
-                <pre id="vip-result" aria-live="polite" aria-label="VIP API Result"></pre>
-            </section>
-            <div id="vip-toast" class="vip-toast" aria-live="polite"></div>
-
             <!-- Preparation Section -->
             <div class="preparation-section">
                 <h2 class="section-title">Session Preparation</h2>
@@ -746,150 +608,7 @@
     </div>
     
     <!-- JavaScript -->
-    <script src="/js/script.js?v=stg-s4"></script>
-    <script type="module">
-      import { vipHealth, vipFinalize, vipRestore, vipTrash, vipRemoveFromFolder } from '/js/vip-api.js?v=stg-s4';
-      document.addEventListener('DOMContentLoaded', async () => {
-        const pill = document.getElementById('vipStatus');
-        if (!pill) return;
-        try {
-          const data = await vipHealth();
-          if (data && (data.ok === true || data.status === 'ok')) {
-            pill.textContent = 'VIP API • Online';
-            pill.classList.remove('vip-status--offline');
-            pill.classList.add('vip-status--online');
-          } else {
-            throw new Error('Unexpected response');
-          }
-        } catch (e) {
-          console.warn('VIP API health failed:', e);
-          pill.textContent = 'VIP API • Offline';
-          pill.classList.remove('vip-status--online');
-          pill.classList.add('vip-status--offline');
-        }
-
-        // VIP Actions wiring
-        const $ = (id) => document.getElementById(id);
-        const toast = $('vip-toast');
-        const out = $('vip-result');
-        function parseAssets() {
-          return ($('vip-asset-ids').value || '')
-            .split(',')
-            .map(s => s.trim())
-            .filter(Boolean);
-        }
-        function showToast(msg) {
-          if (!toast) return;
-          toast.textContent = msg;
-          toast.classList.add('show');
-          setTimeout(() => toast.classList.remove('show'), 1800);
-        }
-        async function handle(btn, fn, successLabel) {
-          const galleryId = $('vip-gallery-id').value.trim();
-          const folderId = $('vip-folder-id').value.trim();
-          if (!galleryId) { showToast('Enter Gallery ID'); return; }
-          const assetIds = parseAssets();
-          btn.disabled = true; const original = btn.textContent; btn.textContent = 'Working…';
-          try {
-            let data;
-            if (fn === 'restore') data = await vipRestore(galleryId, { assetIds, folderId });
-            else if (fn === 'finalize') data = await vipFinalize(galleryId, { assetIds, folderId });
-            else if (fn === 'trash') data = await vipTrash(galleryId, { assetIds, folderId });
-            else if (fn === 'remove') {
-              if (!folderId) { showToast('Folder ID required'); return; }
-              data = await vipRemoveFromFolder(galleryId, folderId, { assetIds });
-            }
-            if (out) out.textContent = JSON.stringify(data, null, 2);
-            showToast(successLabel);
-          } catch (err) {
-            console.warn('VIP action error:', err);
-            showToast(err && err.status ? `Error ${err.status}` : 'Request failed');
-          } finally {
-            btn.disabled = false; btn.textContent = original;
-          }
-        }
-        $('vip-btn-restore')?.addEventListener('click', (e)=>{ e.preventDefault(); handle(e.currentTarget,'restore','Restored'); });
-        $('vip-btn-finalize')?.addEventListener('click', (e)=>{ e.preventDefault(); handle(e.currentTarget,'finalize','Finalized'); });
-        $('vip-btn-trash')?.addEventListener('click', (e)=>{ e.preventDefault(); handle(e.currentTarget,'trash','Trashed'); });
-        $('vip-btn-remove')?.addEventListener('click', (e)=>{ e.preventDefault(); handle(e.currentTarget,'remove','Removed'); });
-
-        // Mock data for Galleries
-        const mockFolders = [
-          { id: 'all', name: 'All' },
-          { id: 'favorites', name: 'Favorites' },
-          { id: 'bridal', name: 'Bridal' },
-          { id: 'headshots', name: 'Headshots' },
-          { id: 'creative', name: 'Creative' },
-        ];
-        const mockAssets = Array.from({length: 24}, (_, i) => ({
-          id: `img_${String(i+1).padStart(3,'0')}`,
-          thumbUrl: `https://via.placeholder.com/600x400?text=IMG+${i+1}`,
-          folderId: ['favorites','bridal','headshots','creative'][i % 4]
-        }));
-
-        // Render folders with counts
-        function renderFolders(active='all') {
-          const list = $('vip-folder-list');
-          list.innerHTML = '';
-          const counts = mockAssets.reduce((acc,a)=>{ acc[a.folderId]=(acc[a.folderId]||0)+1; return acc; },{});
-          const items = [{id:'all',name:'All',count:mockAssets.length}, ...mockFolders.filter(f=>f.id!=='all').map(f=>({...f, count: counts[f.id]||0}))];
-          items.forEach(f=>{
-            const li = document.createElement('li');
-            li.className = 'folder-item';
-            li.setAttribute('role','option');
-            li.setAttribute('tabindex','0');
-            li.setAttribute('aria-selected', String(f.id===active));
-            li.dataset.folderId = f.id;
-            li.innerHTML = `<span>${f.name}</span><span class="count">${f.count}</span>`;
-            li.addEventListener('click', ()=> selectFolder(f.id));
-            li.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); selectFolder(f.id);} });
-            list.appendChild(li);
-          });
-        }
-
-        let currentFolder = 'all';
-        let selected = new Set();
-        function filteredAssets() { return currentFolder==='all' ? mockAssets : mockAssets.filter(a=>a.folderId===currentFolder); }
-        function renderGrid() {
-          const grid = $('vip-thumb-grid'); grid.innerHTML='';
-          filteredAssets().forEach((a, idx)=>{
-            const tile = document.createElement('button');
-            tile.type='button'; tile.className='tile'; tile.setAttribute('role','gridcell'); tile.setAttribute('tabindex','0');
-            tile.setAttribute('aria-pressed', String(selected.has(a.id)));
-            tile.dataset.assetId = a.id; tile.dataset.index = String(idx);
-            tile.innerHTML = `
-              <div class="thumb" style="background-image:url('${a.thumbUrl}')"></div>
-              <div class="caption">${a.id}</div>
-              <div class="check">✓</div>
-            `;
-            tile.addEventListener('click', ()=> toggleSelect(a.id, tile));
-            tile.addEventListener('keydown', (e)=>{
-              const cols = getComputedStyle(grid).gridTemplateColumns.split(' ').length;
-              let i = Number(tile.dataset.index);
-              if(e.key==='ArrowRight') { e.preventDefault(); focusIndex(Math.min(i+1, grid.children.length-1)); }
-              if(e.key==='ArrowLeft') { e.preventDefault(); focusIndex(Math.max(i-1, 0)); }
-              if(e.key==='ArrowDown') { e.preventDefault(); focusIndex(Math.min(i+cols, grid.children.length-1)); }
-              if(e.key==='ArrowUp') { e.preventDefault(); focusIndex(Math.max(i-cols, 0)); }
-              if(e.key===' ' || e.key==='Enter') { e.preventDefault(); toggleSelect(a.id, tile); }
-            });
-            grid.appendChild(tile);
-          });
-          updateSelectionCounter();
-        }
-        function focusIndex(idx){ const grid=$('vip-thumb-grid'); const el=grid.children[idx]; if(el) el.focus(); }
-        function toggleSelect(id, el){
-          if(selected.has(id)) selected.delete(id); else selected.add(id);
-          el?.setAttribute('aria-pressed', String(selected.has(id)));
-          updateSelectionCounter();
-        }
-        function updateSelectionCounter(){ const c=$('vip-selection'); if(!c) return; const n=selected.size; c.textContent = n>0 ? `${n} selected` : ''; }
-        function selectFolder(fid){ currentFolder=fid; selected.clear(); renderFolders(fid); renderGrid(); }
-
-        // init
-        renderFolders();
-        renderGrid();
-      });
-    </script>
+    <script src="js/script.js"></script>
     
     <script>
         // ---- VIP Auth Config ----
@@ -1017,23 +736,17 @@
               galleryCode
             }));
 
-            // Show success message and redirect hard to VIP portal
-            showMessage('Authentication successful! Loading your VIP portal…', 'success');
-            console.log('[VIP] login success fired');
-            console.log('[VIP] redirect -> /vip.html (ts:', new Date().toISOString(), ')');
-            window.__vipLoginRedirect = 'attempted';
-            // Hard navigation + fallback in case something intercepts
-            window.location.replace('/vip.html');
+            // Show success message and redirect to gallery
+            showMessage('Authentication successful! Redirecting to your gallery...', 'success');
+            
+            // Small delay to show the success message, then redirect
             setTimeout(() => {
-              if (!/vip\.html$/i.test(location.pathname)) {
-                window.location.assign('/vip.html');
-              }
-            }, 600);
+              console.log('Redirecting to gallery.html...');
+              window.location.href = 'gallery.html';
+            }, 1500);
 
           } catch (err) {
             console.error('VIP auth error:', err);
-            const dbg = document.getElementById('vip-debug');
-            if (dbg) { dbg.textContent = (err && (err.message||err.status)) ? String(err.message||err.status) : 'auth_error'; }
             // Handle specific auth errors vs network errors
             if (err.message && err.message.includes('Auth 401')) {
               showMessage('Invalid credentials. Please check your gallery code and password.', 'error');

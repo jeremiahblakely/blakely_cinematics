@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIP Portal - Blakely Cinematics</title>
+    <meta name="description" content="VIP client portal dashboard for Blakely Cinematics - access your photos and session details">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/css/styles.css?v=20250828-1">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- AWS CloudWatch RUM Analytics -->
+    <script>
+      (function(n,i,v,r,s,c,x,z){x=window.AwsRumClient={q:[],n:i,i:i,v:v,r:r,c:c};window[n]=function(c,p){x.q.push({c:c,p:p});};z=document.createElement('script');z.async=true;z.src=s;document.head.insertBefore(z,document.head.getElementsByTagName('script')[0]);})(
+        'cwr',
+        '1a163e06-eb6a-4131-bdb1-6e27fbb0799c',
+        '1.0.0',
+        'us-east-1',
+        'https://client.rum.us-east-1.amazonaws.com/1.19.0/cwr.js',
+        {
+          sessionSampleRate: 1 ,
+          endpoint: "https://dataplane.rum.us-east-1.amazonaws.com" ,
+          telemetries: ["performance","errors","http"] ,
+          allowCookies: true ,
+          enableXRay: false ,
+          signing: true
+        }
+      );
+    </script>
+    
+    <style>
+        /* VIP Portal Specific Styles */
+        .vip-portal {
+            background: var(--dark);
+            min-height: 100vh;
+            display: block; /* Always visible on portal page */
+        }
+        
+        .portal-header {
+            background: rgba(0, 0, 0, 0.9);
+            border-bottom: 1px solid var(--primary);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 1rem 0;
+        }
+        
+        .portal-nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+        
+        .portal-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--primary);
+            font-size: 1.25rem;
+            font-weight: 300;
+            letter-spacing: 0.2rem;
+        }
+        
+        .portal-logo i {
+            font-size: 1.5rem;
+        }
+        
+        .portal-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .client-name {
+            color: var(--light);
+            font-weight: 300;
+            letter-spacing: 0.1rem;
+        }
+        
+        .logout-link {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .logout-link:hover {
+            color: var(--light);
+            border-color: var(--primary);
+            background: rgba(255, 107, 53, 0.1);
+        }
+        
+        .portal-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .portal-dashboard {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        @media (max-width: 1024px) {
+            .portal-dashboard {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+        
+        .main-content {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .status-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .status-card.upcoming {
+            border-color: rgba(255, 107, 53, 0.5);
+            background: rgba(255, 107, 53, 0.05);
+        }
+        
+        .status-card.completed {
+            border-color: rgba(34, 197, 94, 0.5);
+            background: rgba(34, 197, 94, 0.05);
+        }
+        
+        .status-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .status-title {
+            font-size: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 0.1rem;
+            margin: 0;
+        }
+        
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1rem;
+        }
+        
+        .status-badge.upcoming {
+            background: rgba(255, 107, 53, 0.2);
+            color: var(--primary);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+        }
+        
+        .status-badge.completed {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22C55E;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+        
+        .session-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .detail-label {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1rem;
+        }
+        
+        .detail-value {
+            color: var(--light);
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+        
+        .sidebar {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .quick-actions {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+        
+        .quick-actions h3 {
+            margin: 0 0 1.5rem 0;
+            font-size: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 0.1rem;
+        }
+        
+        .action-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--light);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .action-btn:hover {
+            background: rgba(255, 107, 53, 0.1);
+            border-color: rgba(255, 107, 53, 0.3);
+            color: var(--primary);
+        }
+        
+        .action-btn i {
+            font-size: 1rem;
+            width: 16px;
+            text-align: center;
+        }
+        
+        .photo-gallery {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+        
+        .photo-gallery h3 {
+            margin: 0 0 1.5rem 0;
+            font-size: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 0.1rem;
+        }
+        
+        .gallery-status {
+            text-align: center;
+            padding: 2rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-style: italic;
+        }
+        
+        .countdown-timer {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(255, 107, 53, 0.05));
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            margin-top: 1rem;
+        }
+        
+        .countdown-title {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1rem;
+        }
+        
+        .countdown-display {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--primary);
+            letter-spacing: 0.1rem;
+        }
+        
+        /* Folders styling */
+        .folders {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+        
+        .folders h3 {
+            margin: 0 0 1.5rem 0;
+            font-size: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 0.1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .folders-new {
+            font-size: 0.8rem;
+            color: var(--primary);
+            text-decoration: none;
+            padding: 0.25rem 0.75rem;
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .folders-new:hover {
+            background: rgba(255, 107, 53, 0.1);
+        }
+        
+        .folder-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .folder-item {
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            color: var(--light);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .folder-item:hover {
+            background: rgba(255, 107, 53, 0.05);
+            border-color: rgba(255, 107, 53, 0.2);
+        }
+        
+        .folder-item i {
+            margin-right: 0.5rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+    </style>
+</head>
+<body class="vip-portal">
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+    
+    <!-- VIP Portal -->
+    <div id="vip-portal" class="vip-portal">
+        <!-- Portal Header -->
+        <header class="portal-header">
+            <nav class="portal-nav">
+                <div class="portal-logo">
+                    <i class="fas fa-crown"></i>
+                    <span>BLAKELY VIP</span>
+                </div>
+                <div class="portal-actions">
+                    <span class="client-name" id="client-name-display">Welcome</span>
+                    <a href="#" class="logout-link" onclick="logout(); return false;">Sign Out</a>
+                </div>
+            </nav>
+        </header>
+        
+        <!-- Portal Content -->
+        <div class="portal-content">
+            <div style="opacity:.75;font-size:.85rem;margin:6px 0;">VIP • build:e94bea8 • staging/local</div>
+            <div class="portal-dashboard">
+                <!-- Main Content -->
+                <div class="main-content">
+                    <!-- Session Status -->
+                    <div class="status-card upcoming" id="session-status">
+                        <div class="status-header">
+                            <h2 class="status-title">Your Session</h2>
+                            <div class="status-badge upcoming" id="status-badge">Upcoming</div>
+                        </div>
+                        
+                        <div class="session-details" id="session-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Date & Time</span>
+                                <span class="detail-value" id="session-date">November 15, 2024 at 2:00 PM</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Location</span>
+                                <span class="detail-value" id="session-location">Downtown Studio</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Session Type</span>
+                                <span class="detail-value" id="session-type">Headshots</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Duration</span>
+                                <span class="detail-value" id="session-duration">60 minutes</span>
+                            </div>
+                        </div>
+                        
+                        <div class="countdown-timer" id="countdown-timer">
+                            <div class="countdown-title">Time Until Your Session</div>
+                            <div class="countdown-display" id="countdown-display">Loading...</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <!-- Quick Actions -->
+                    <div class="quick-actions">
+                        <h3>Quick Actions</h3>
+                        <div class="action-list">
+                            <a href="#" class="action-btn" onclick="downloadPreparationGuide()">
+                                <i class="fas fa-download"></i>
+                                Download Prep Guide
+                            </a>
+                            <a href="#" class="action-btn" onclick="showLocationDetails()">
+                                <i class="fas fa-map-marker-alt"></i>
+                                View Location Details
+                            </a>
+                            <a href="#" class="action-btn" onclick="showPackageDetails()">
+                                <i class="fas fa-info-circle"></i>
+                                Package Details
+                            </a>
+                            <a href="index.html#contact" class="action-btn">
+                                <i class="fas fa-phone"></i>
+                                Contact Support
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Photo Gallery -->
+                    <div class="photo-gallery">
+                        <h3>Your Photos</h3>
+                        <div class="gallery-status" id="gallery-status">
+                            <i class="fas fa-camera" style="font-size: 2rem; margin-bottom: 1rem; display: block; opacity: 0.5;"></i>
+                            <p>Your photos will be available here after your session is complete.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Folders -->
+                    <div class="folders">
+                        <h3>
+                            Folders
+                            <a class="folders-new" href="#" onclick="return false;">+ New</a>
+                        </h3>
+                        <div class="folder-list">
+                            <div class="folder-item">
+                                <i class="fas fa-folder"></i>
+                                Headshots - Professional
+                            </div>
+                            <div class="folder-item">
+                                <i class="fas fa-folder"></i>
+                                Casual Shots
+                            </div>
+                            <div class="folder-item">
+                                <i class="fas fa-folder"></i>
+                                Behind the Scenes
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JavaScript -->
+    <script src="/js/script.js?v=20250828-1"></script>
+    <script type="module">
+      import { vipHealth, vipFinalize, vipRestore, vipTrash, vipRemoveFromFolder } from '/js/vip-api.js?v=20250828-1';
+      
+      // Portal guard - check authentication on page load
+      document.addEventListener('DOMContentLoaded', function() {
+          console.log('VIP Portal loaded, checking authentication...');
+          
+          const isAuthenticated = sessionStorage.getItem('authenticated');
+          const galleryInfo = sessionStorage.getItem('galleryInfo');
+          
+          if (!isAuthenticated || isAuthenticated !== 'true' || !galleryInfo) {
+              console.log('No valid VIP authentication found, redirecting to login...');
+              window.location.replace('/vip');
+              return;
+          }
+          
+          try {
+              const gallery = JSON.parse(galleryInfo);
+              console.log('Valid authentication found for gallery:', gallery.galleryCode);
+              
+              // Initialize portal with gallery data
+              initializePortal(gallery);
+              
+          } catch (error) {
+              console.error('Error parsing gallery info:', error);
+              sessionStorage.removeItem('authenticated');
+              sessionStorage.removeItem('galleryInfo');
+              window.location.replace('/vip');
+              return;
+          }
+          
+          // VIP API health check
+          const pill = document.getElementById('vipStatus');
+          if (pill) {
+              vipHealth().then(data => {
+                  if (data && (data.ok === true || data.status === 'ok')) {
+                      pill.textContent = 'VIP API • Online';
+                      pill.classList.remove('vip-status--offline');
+                  }
+              }).catch(err => {
+                  console.warn('VIP health check failed:', err);
+              });
+          }
+      });
+      
+      let currentClient = null;
+      
+      function initializePortal(gallery) {
+          currentClient = gallery;
+          
+          // Update client name
+          const clientName = gallery.name || gallery.clientName || 'Valued Client';
+          document.getElementById('client-name-display').textContent = `Welcome, ${clientName}`;
+          
+          // Populate session details
+          populateSessionDetails(gallery);
+          
+          // Start countdown
+          const sessionDate = gallery.date ? (typeof gallery.date === 'string' ? new Date(gallery.date) : gallery.date) : null;
+          if (sessionDate && !isNaN(sessionDate.getTime())) {
+              startCountdown(sessionDate);
+          }
+      }
+      
+      function populateSessionDetails(clientData) {
+          const sessionDate = clientData.date ? new Date(clientData.date) : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+          const formattedDate = sessionDate.toLocaleDateString('en-US', {
+              weekday: 'long',
+              year: 'numeric', 
+              month: 'long',
+              day: 'numeric'
+          });
+          const formattedTime = sessionDate.toLocaleTimeString('en-US', {
+              hour: 'numeric',
+              minute: '2-digit',
+              hour12: true
+          });
+          
+          document.getElementById('session-date').textContent = `${formattedDate} at ${formattedTime}`;
+          document.getElementById('session-location').textContent = clientData.location || 'Downtown Studio';
+          document.getElementById('session-type').textContent = clientData.sessionType || 'Headshots';
+          document.getElementById('session-duration').textContent = clientData.duration || '60 minutes';
+      }
+      
+      function startCountdown(targetDate) {
+          function updateCountdown() {
+              const now = new Date().getTime();
+              const distance = targetDate.getTime() - now;
+              
+              if (distance < 0) {
+                  document.getElementById('countdown-display').textContent = 'Session Completed!';
+                  document.getElementById('status-badge').textContent = 'Completed';
+                  document.getElementById('status-badge').classList.remove('upcoming');
+                  document.getElementById('status-badge').classList.add('completed');
+                  document.getElementById('session-status').classList.remove('upcoming');
+                  document.getElementById('session-status').classList.add('completed');
+                  return;
+              }
+              
+              const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+              const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+              const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+              const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+              
+              if (days > 0) {
+                  document.getElementById('countdown-display').textContent = `${days}d ${hours}h ${minutes}m`;
+              } else if (hours > 0) {
+                  document.getElementById('countdown-display').textContent = `${hours}h ${minutes}m ${seconds}s`;
+              } else {
+                  document.getElementById('countdown-display').textContent = `${minutes}m ${seconds}s`;
+              }
+          }
+          
+          updateCountdown();
+          setInterval(updateCountdown, 1000);
+      }
+      
+      // Logout function
+      window.logout = function() {
+          console.log('VIP logout requested');
+          sessionStorage.removeItem('authenticated');
+          sessionStorage.removeItem('galleryInfo');
+          sessionStorage.removeItem('vipCredentials');
+          window.location.replace('/vip');
+      };
+      
+      // Quick action functions
+      window.downloadPreparationGuide = function() {
+          alert('Preparation guide download would start here');
+      };
+      
+      window.showLocationDetails = function() {
+          alert('Location details modal would open here');
+      };
+      
+      window.showPackageDetails = function() {
+          alert('Package details modal would open here');
+      };
+    </script>
+</body>
+</html>
